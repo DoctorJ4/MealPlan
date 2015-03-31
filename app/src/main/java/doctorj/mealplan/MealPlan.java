@@ -1,5 +1,4 @@
 package doctorj.mealplan;
-import java.util.Map;
 /**
  * Created by Jesse Dodson on 3/30/2015.
  */
@@ -7,8 +6,6 @@ public class MealPlan {
     private MealObjects collection [];
     private GroceryList gl;
     private int planLength;
-    private Map schedule; //TODO -> initialize in constructor to contain dates and names
-
 
     public MealPlan(int days)
     {
@@ -29,14 +26,16 @@ public class MealPlan {
 
         String list [];
         list = new String [planLength];
-        //TODO -> write loop to fill array with names
+        //loop to fill array with names
+        for(int i = 0; i < planLength; i++)
+            list[i] = collection[i].getName();
         return list;
     }
 
     public void sendIngredientsToGL()
     {
-        for(int i = 0; i < planLength; i ++)
-            gl.addGL(collection[i].getIngredients());
+        /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts)
+            gl.addGL(collection[i].getIngredients());*/
         return;
     }
 }

@@ -24,15 +24,14 @@ public class GroceryList {
         {
             if(name == foodNames.get(i))
             {
-                //TODO -> add to entry's amount
-                //amounts[i] += num;
+                //add to entry's amount
                 temp = amounts.get(i) + num;
                 amounts.set(i, temp);
                 return;
             }
 
         }
-        //TODO -> add entry ??? DONE ???
+        //add new entry
         foodNames.add(name);
         amounts.add(num);
         listLength++;
@@ -40,7 +39,7 @@ public class GroceryList {
         return;
     }
 
-    void addGL(Ingredient []obj)
+    /*void addGL(Ingredient []obj)//TODO -> FIX - A (two parts)
     {
         //while foodNames is not empty
         int i = 0;
@@ -62,7 +61,7 @@ public class GroceryList {
             }
         }
         return;
-    }
+    }*/
 
     void subGL()
     {

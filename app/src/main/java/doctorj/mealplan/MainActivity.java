@@ -5,16 +5,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.HeaderViewListAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import java.util.Map;
 
 
 public class MainActivity extends ActionBarActivity {
+    int planLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +21,14 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void populateListView(){
-        int planLength = 30;
+        this.planLength = 30;
         MealPlan plan = new MealPlan(planLength);
-
+        //String month = "April";
         String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti"};
-        //String[] mealNames = MealPlan.getNames;    //TODO -> once sql is set up do this
+        //String[] mealNames = MealPlan.getNames();    //TODO -> once sql is set up do this
 
         //TODO -> mealNames will be sub item and Date will be main item in listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items, mealNames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,mealNames);
         ListView mealTag = (ListView) findViewById(R.id.MealList);
         mealTag.setAdapter(adapter);
     }

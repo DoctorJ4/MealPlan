@@ -19,7 +19,7 @@ public class MealObjects
         this.name = title;
 
         this.ingList = new ArrayList<Ingredient>();
-        //TODO -> loop through ingredient string until Each name and amount field is initialized
+        //Are we going to setup ingredients in database as String? Or Table?//TODO -> loop through ingredient string until Each name and amount field is initialized
 
         this.directions = directions;
     }
