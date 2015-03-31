@@ -4,6 +4,9 @@ package doctorj.mealplan;
  * Created by Jesse Dodson on 3/30/2015.
  */
 public class Ingredient {
-    public String name;
-    public int amount;
+    private String name;
+    private int amount;
+
+    public int getAmount(){return amount;}
+    public String getName(){return name;}
 }

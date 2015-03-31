@@ -1,26 +1,24 @@
 package doctorj.mealplan;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Arrays;
-import java.util.Collections;
 /**
  * Created by Jesse Dodson on 3/30/2015.
  */
 public class GroceryList {
-    private Set amounts;
-    //private String []foodNames;
+    private ArrayList<Integer> amounts;
+    private List<String> foodNames;
     private int listLength;
-    private List foodNames;
-    private Map ing;
 
     //Constructor
-    public GroceryList() {listLength = 0;}
+    public GroceryList()
+    {
+        listLength = 0;
+        ArrayList<Integer> amounts = new ArrayList<Integer>();
+    }
 
     void addGL(String name, int num)// TODO -> MIGHT NOT NEED THIS ANYMORE because of next function
     {
+        int temp;
         //while foodNames is not empty
         for(int i = 0; i < listLength; i++)
         {
@@ -28,13 +26,15 @@ public class GroceryList {
             {
                 //TODO -> add to entry's amount
                 //amounts[i] += num;
+                temp = amounts.get(i) + num;
+                amounts.set(i, temp);
                 return;
             }
 
         }
-        //TODO -> add entry
-        //foodNames.add(name);
-        //amounts[i] = num;
+        //TODO -> add entry ??? DONE ???
+        foodNames.add(name);
+        amounts.add(num);
         listLength++;
 
         return;
@@ -44,26 +44,23 @@ public class GroceryList {
     {
         //while foodNames is not empty
         int i = 0;
-        for(i = 0; i < listLength; i++)
+        int temp;
+        for(i = 0; i < obj.length; i++)
         {
-            if(obj[i].name == foodNames.get(i))
+            if(obj[i].getName() == foodNames.get(i))
             {
-                //TODO -> add to entry's amount
-                amounts[i] += obj.num;
+                //add to entry's amount
+                temp = amounts.get(i) + obj[i].getAmount();
+                amounts.set(i, temp);
                 return;
             }
+            else //add entry
+            {
+                foodNames.add(obj[i].getName());
+                amounts.add(obj[i].getAmount());
+                listLength++;
+            }
         }
-        //TODO -> add entry
-        /*foodNames = Arrays.copyOf(foodNames, listLength + 1);
-        foodNames[listLength - 1] = obj.name;*/
-
-
-        //TODO -> after collection is made for foodNames and amounts
-        foodNames.add(obj.name);
-        amounts.add(obj.num);
-
-        listLength++;
-
         return;
     }
 
@@ -72,14 +69,15 @@ public class GroceryList {
         //find food name or return
         //if food name exists subtract amount
         //reload GL
+        return;
     }
 
-    String [] returnListNames()
+    List<String> returnListNames()
     {
         return foodNames;
     }
 
-    int [] returnAmounts()
+    ArrayList<Integer> returnAmounts()
     {
         return amounts;
     }

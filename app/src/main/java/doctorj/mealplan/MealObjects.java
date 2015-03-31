@@ -12,14 +12,15 @@ public class MealObjects
     //private String ingredients;
     private Ingredient ingredients[];
     private String directions;
+    private ArrayList<Ingredient> ingList;
 
     public MealObjects(String title, String ingredientString, String directions)
     {
         this.name = title;
-        //this.ingredients = ingredients;
-        //TODO 1 -> ingredients object[].name = String   object[].amount = int
-        //loop through ingredient string until Each
-        List<Ingredient> list = new ArrayList<Ingredient>(ingredients);//TODO -> create collection with the ingreients.name and ingredients.amount fields -> Also need to change getter
+
+        this.ingList = new ArrayList<Ingredient>();
+        //TODO -> loop through ingredient string until Each name and amount field is initialized
+
         this.directions = directions;
     }
 
