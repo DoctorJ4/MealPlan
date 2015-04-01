@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 public class MainActivity extends ActionBarActivity {
     int planLength;
+    MealPlan plan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
 
     private void populateListView(){
         this.planLength = 30;
-        MealPlan plan = new MealPlan(planLength);
+        this.plan = new MealPlan(planLength);
         //String month = "April";
         String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti"};
         //String[] mealNames = MealPlan.getNames();    //TODO -> once sql is set up do this

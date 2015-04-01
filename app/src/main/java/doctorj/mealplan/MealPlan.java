@@ -3,39 +3,39 @@ package doctorj.mealplan;
  * Created by Jesse Dodson on 3/30/2015.
  */
 public class MealPlan {
-    private MealObjects collection [];
+    private Recipe recipes [];
     private GroceryList gl;
     private int planLength;
 
     public MealPlan(int days)
     {
-        collection = new MealObjects [days];
-        planLength = days;
-        //TODO write sql to fill array meal_objects with all MealObjects fields
+        this.recipes = new Recipe [days];
+        this.planLength = days;
+        //TODO write sql to fill array meal_objects with all Recipe fields
 
         sendIngredientsToGL();
     }
 
     public String getMealName(int num)
     {
-        return collection[num].getName();
+        return recipes[num].getName();
     }
 
     public String [] getNames()
     {
 
         String list [];
-        list = new String [planLength];
+        list = new String [this.planLength];
         //loop to fill array with names
-        for(int i = 0; i < planLength; i++)
-            list[i] = collection[i].getName();
+        for(int i = 0; i < this.planLength; i++)
+            list[i] = this.recipes[i].getName();
         return list;
     }
 
     public void sendIngredientsToGL()
     {
         /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList
-            gl.addGL(collection[i].getIngredients());*/
+            this.gl.addGL(this.recipes[i].getIngredients());*/
         return;
     }
 }

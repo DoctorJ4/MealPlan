@@ -7,6 +7,6 @@ public class Ingredient {
     private String name;
     private int amount;
 
-    public int getAmount(){return amount;}
-    public String getName(){return name;}
+    public int getAmount(){return this.amount;}
+    public String getName(){return this.name;}
 }
