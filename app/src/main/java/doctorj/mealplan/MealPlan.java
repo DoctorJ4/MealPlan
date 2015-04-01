@@ -34,7 +34,7 @@ public class MealPlan {
 
     public void sendIngredientsToGL()
     {
-        /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts)
+        /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList
             gl.addGL(collection[i].getIngredients());*/
         return;
     }
