@@ -12,55 +12,33 @@ public class GroceryList {
     //Constructor
     public GroceryList()
     {
-        listLength = 0;
-        ArrayList<Integer> amounts = new ArrayList<Integer>();
+        this.listLength = 0;
+        //this.amounts = new ArrayList<Integer>();
     }
 
-    void addGL(String name, int num)// TODO -> MIGHT NOT NEED THIS ANYMORE because of next function
+    void addGL(String name, int num)
     {
-        int temp;
-        //while foodNames is not empty
-        for(int i = 0; i < listLength; i++)
+        int i = 0;
+        int temp = 0;
+        if(this.foodNames.contains(name))
         {
-            if(name == foodNames.get(i))
-            {
-                //add to entry's amount
-                temp = amounts.get(i) + num;
-                amounts.set(i, temp);
-                return;
-            }
-
+            i = this.foodNames.indexOf(name);
+            temp = this.amounts.get(i) + num;
+            this.amounts.set(i, temp);
+            return;
         }
         //add new entry
-        foodNames.add(name);
-        amounts.add(num);
-        listLength++;
-
+        this.foodNames.add(name);
+        this.amounts.add(num);
+        this.listLength++;
         return;
     }
 
-    /*void addGL(Ingredient []obj)//TODO -> FIX - A (two parts)
+    /*void addGL(Ingredient []obj)//TODO -> FIX - A (two parts) -> MealPlan
     {
-        //while foodNames is not empty
-        int i = 0;
-        int temp;
-        for(i = 0; i < obj.length; i++)
-        {
-            if(obj[i].getName() == foodNames.get(i))
-            {
-                //add to entry's amount
-                temp = amounts.get(i) + obj[i].getAmount();
-                amounts.set(i, temp);
-                return;
-            }
-            else //add entry
-            {
-                foodNames.add(obj[i].getName());
-                amounts.add(obj[i].getAmount());
-                listLength++;
-            }
-        }
-        return;
+        //send every object field into grocery list
+        //for(int i = 0; i < obj.length; i++)
+            addGL(obj[i].getName, obj[i].getAmount);
     }*/
 
     void subGL()
@@ -73,11 +51,11 @@ public class GroceryList {
 
     List<String> returnListNames()
     {
-        return foodNames;
+        return this.foodNames;
     }
 
     ArrayList<Integer> returnAmounts()
     {
-        return amounts;
+        return this.amounts;
     }
 }
