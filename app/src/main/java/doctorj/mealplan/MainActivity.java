@@ -1,7 +1,9 @@
 package doctorj.mealplan;
 
 
+import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.database.SQLException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,29 +12,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.content.Context;
+
+import java.io.IOException;
 
 
 public class MainActivity extends ActionBarActivity {
     int planLength;
     MealPlan plan;
 
-<<<<<<< HEAD
     String DB_PATH = "raw/";
 
     final Context context=this;
     public SQLiteDatabase db1;
     private static String DB_NAME ="mealplan.db"; // to change
 
-
-=======
->>>>>>> parent of 3ac23ea... fixed database
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         populateListView();
-<<<<<<< HEAD
 
         DBMain db;
         db = new DBMain(this);
@@ -69,8 +69,6 @@ public class MainActivity extends ActionBarActivity {
             c.moveToNext();
 
         }
-=======
->>>>>>> parent of 3ac23ea... fixed database
     }
 
     private void populateListView(){
