@@ -24,8 +24,9 @@ public class MealPlan {
 
     String DB_PATH = "raw/";
 
-    final MealPlan mealplan=this;
-    private SQLiteDatabase mDataBase;
+    //final MealPlan mealplan=this;
+    //private final Context context = this.context;
+    //private static SQLiteDatabase mDataBase;
     private static String DB_NAME ="mealplan.db";
 
     public MealPlan(int days)
@@ -34,10 +35,10 @@ public class MealPlan {
         this.planLength = days;
         //TODO write sql to fill array meal_objects with all Recipe fields
 
-        //copied code
+        /*copied code
         DBMain db;
 
-        db = new DBMain(this);
+        db = new DBMain(this.context);
 
         try {
 
@@ -72,7 +73,7 @@ public class MealPlan {
 
             c.moveToNext();
         }
-        //copied code
+        *///copied code
 
         sendIngredientsToGL();
     }
@@ -85,12 +86,12 @@ public class MealPlan {
     public String [] getNames()
     {
 
-        String list [];
-        list = new String [this.planLength];
+        String names [];
+        names = new String [this.planLength];
         //loop to fill array with names
         for(int i = 0; i < this.planLength; i++)
-            list[i] = this.recipes[i].getName();
-        return list;
+            names[i] = this.recipes[i].getName();
+        return names;
     }
 
     public void sendIngredientsToGL()

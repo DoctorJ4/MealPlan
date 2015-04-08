@@ -75,8 +75,8 @@ public class MainActivity extends ActionBarActivity {
         this.planLength = 30;
         this.plan = new MealPlan(planLength);
         //String month = "April";
-        String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti"};
-        //String[] mealNames = MealPlan.getNames();    //TODO -> once sql is set up do this
+        //String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti"};
+        String[] mealNames = plan.getNames();    //TODO -> once sql is set up do this
 
         //TODO -> mealNames will be sub item and Date will be main item in listview
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,mealNames);

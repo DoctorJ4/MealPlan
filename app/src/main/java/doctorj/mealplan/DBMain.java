@@ -22,19 +22,12 @@ import java.io.OutputStream;
 public class DBMain extends SQLiteOpenHelper {
 
     private static String DB_PATH= "raw/";
-
     private static String DB_NAME = "mealplan";
-
     private SQLiteDatabase dbObj;
-
     private final Context context;
 
-
-
     public DBMain(Context context) {
-
         super(context,  DB_NAME , null, 3);
-
         this. context  = context;
 
     }
