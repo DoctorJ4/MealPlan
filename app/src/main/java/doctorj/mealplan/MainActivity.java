@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
     String DB_PATH = "raw/";
 
     final Context context=this;
-    private SQLiteDatabase mDataBase;
+    public SQLiteDatabase db1;
     private static String DB_NAME ="mealplan.db"; // to change
 
 
@@ -60,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
             throw sqle;
         }
 
-        SQLiteDatabase db1;
+        //SQLiteDatabase db1;
         db1=openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);
         Cursor c= db1.rawQuery("SELECT * FROM bank",null); // TODO fix query
 
