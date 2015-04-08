@@ -11,23 +11,12 @@ import android.widget.ListView;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 
 public class MainActivity extends ActionBarActivity {
     int planLength;
     MealPlan plan;
 
+<<<<<<< HEAD
     String DB_PATH = "raw/";
 
     final Context context=this;
@@ -35,12 +24,15 @@ public class MainActivity extends ActionBarActivity {
     private static String DB_NAME ="mealplan.db"; // to change
 
 
+=======
+>>>>>>> parent of 3ac23ea... fixed database
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         populateListView();
+<<<<<<< HEAD
 
         DBMain db;
         db = new DBMain(this);
@@ -77,6 +69,8 @@ public class MainActivity extends ActionBarActivity {
             c.moveToNext();
 
         }
+=======
+>>>>>>> parent of 3ac23ea... fixed database
     }
 
     private void populateListView(){
