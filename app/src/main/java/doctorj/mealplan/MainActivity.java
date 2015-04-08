@@ -11,10 +11,29 @@ import android.widget.ListView;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 
 public class MainActivity extends ActionBarActivity {
     int planLength;
     MealPlan plan;
+
+    String DB_PATH = "raw/";
+
+    final Context context=this;
+    private SQLiteDatabase mDataBase;
+    private static String DB_NAME ="mealplan.db"; // to change
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +41,42 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         populateListView();
+
+        DBMain db;
+        db = new DBMain(this);
+
+        try {
+            db.createDB();
+        } catch (IOException ioe) {
+
+            throw new Error("Database not created....");
+        }
+
+        try {
+            db.openDB();
+
+        }catch(SQLException sqle){
+
+            throw sqle;
+        }
+
+        SQLiteDatabase db1;
+        db1=openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);
+        Cursor c= db1.rawQuery("SELECT * FROM bank",null); // TODO fix query
+
+        c.moveToFirst();
+        String temp="";
+
+        while(! c.isAfterLast())
+        {
+            String s2=c.getString(0);
+            String s3=c.getString(1);
+            String s4=c.getString(2);
+            temp=temp+"\n Id:"+s2+"\tType:"+s3+"\tBal:"+s4;
+
+            c.moveToNext();
+
+        }
     }
 
     private void populateListView(){
