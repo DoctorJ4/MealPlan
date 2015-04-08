@@ -35,9 +35,9 @@ public class MealPlan {
         //TODO write sql to fill array meal_objects with all Recipe fields
 
         //copied code
-        DBMain db;
-
-        db = new DBMain(this);
+        DBMain db;//-------------------------------CHANGED
+        //MyDBHandler db = new MyDBHandler();
+        db = new DBMain(this);//------------------------------CHANGED
 
         try {
 

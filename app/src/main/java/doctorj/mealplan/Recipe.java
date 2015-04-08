@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Recipe
 {
+    private int _id;
     private String name;
     private Ingredient ingredients[];
     private String directions;
