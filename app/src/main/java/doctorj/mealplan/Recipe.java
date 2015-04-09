@@ -13,25 +13,40 @@ public class Recipe
     private Ingredient ingredients[];
     private String directions;
 
-    public Recipe(String title, Ingredient []ings, String directs)
+    public Recipe()
     {
+        return;
+    }
+
+    public Recipe(int idNum, String title)
+    {
+        this._id = idNum;
+        this.name = title;
+
+    }
+
+    public Recipe(int idNum, String title, Ingredient []ings, String directs)
+    {
+        this._id = idNum;
         this.name = title;
         this.ingredients = ings;
         this.directions = directs;
     }
-
+    public void setName(String tempName){ this.name = tempName; }
     public String getName()
     {
         return this.name;
     }
 
-    public Ingredient [] getIngredients()
+    public Ingredient [] getIngredients(int idNum)
     {
+        //TODO -> SQL to get ingredients by recipe idNum
         return this.ingredients;
     }
 
-    public String getDirections()
+    public String getDirections(int idNum)
     {
+        //TODO -> SQL to get Directions by recipe idNum
         return this.directions;
     }
 

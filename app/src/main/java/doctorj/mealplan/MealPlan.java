@@ -1,18 +1,7 @@
 package doctorj.mealplan;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
 
 /**
  * Created by Jesse Dodson on 3/30/2015.
@@ -29,52 +18,25 @@ public class MealPlan {
     //private static SQLiteDatabase mDataBase;
     private static String DB_NAME ="mealplan.db";
 
-    public MealPlan(int days)
+    public MealPlan(int days, SQLiteDatabase dbInput)
     {
         this.recipes = new Recipe [days];
         this.planLength = days;
-        //TODO write sql to fill array meal_objects with all Recipe fields
-
-        /*copied code
-        DBMain db;
-
-        db = new DBMain(this.context);
-
-        try {
-
-            db.createDB();
-        } catch (IOException ioe) {
-
-            throw new Error("Database not created....");
-        }
-
-        try {
-
-            db.openDB();
-        }catch(SQLException sqle){
-
-            throw sqle;
-        }
-
-        SQLiteDatabase db1;
-        db1=openOrCreateDatabase(DB_PATH+DB_NAME,null);
-        Cursor c= db1.rawQuery("SELECT * FROM bank",null);
-
+        //TODO write sql to fill array of meal_objects with all Recipe fields
+        String[] whereArgs = new String[] { "Grilled Cheese" };
+        String queryString =
+                "SELECT meal_name, (SELECT max(meal_name) FROM meals) AS max FROM meals " +
+                        "WHERE * ORDER BY meal_name";
+        Cursor c = dbInput.rawQuery(queryString, whereArgs);
+        //Cursor c = dbInput.rawQuery("SELECT meal_names FROM meals", temp); // TODO fix query
         c.moveToFirst();
-
-        String temp="";
-
-        while(! c.isAfterLast())
+        String stringArray [] = new String [c.getCount()];
+        int i = 0;
+        for(i=0;i < c.getCount();i++)
         {
-            String s2=c.getString(0);
-            String s3=c.getString(1);
-            String s4=c.getString(2);
-            temp=temp+"\n Id:"+s2+"\tType:"+s3+"\tBal:"+s4;
-
+            this.recipes[i].setName(c.getString(0));
             c.moveToNext();
         }
-        *///copied code
-
         sendIngredientsToGL();
     }
 
@@ -93,7 +55,6 @@ public class MealPlan {
             names[i] = this.recipes[i].getName();
         return names;
     }
-
     public void sendIngredientsToGL()
     {
         /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList

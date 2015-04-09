@@ -13,7 +13,6 @@ import android.widget.ListView;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
-
 import java.io.IOException;
 
 
@@ -25,6 +24,7 @@ public class MainActivity extends ActionBarActivity {
 
     final Context context=this;
     public SQLiteDatabase db1;
+    //DBMain db;
     private static String DB_NAME ="mealplan.db"; // to change
 
     @Override
@@ -32,7 +32,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        populateListView();
 
         DBMain db;
         db = new DBMain(this);
@@ -53,29 +52,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         //SQLiteDatabase db1;
-        db1=openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);
-        Cursor c= db1.rawQuery("SELECT * FROM bank",null); // TODO fix query
-
-        c.moveToFirst();
-        String temp="";
-
-        while(! c.isAfterLast())
-        {
-            String s2=c.getString(0);
-            String s3=c.getString(1);
-            String s4=c.getString(2);
-            temp=temp+"\n Id:"+s2+"\tType:"+s3+"\tBal:"+s4;
-
-            c.moveToNext();
-
-        }
+        db1 = openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);
+        populateListView();
     }
 
     private void populateListView(){
         this.planLength = 30;
-        this.plan = new MealPlan(planLength);
+        this.plan = new MealPlan(planLength, db1);
         //String month = "April";
         //String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti"};
+
         String[] mealNames = plan.getNames();    //TODO -> once sql is set up do this
 
         //TODO -> mealNames will be sub item and Date will be main item in listview
