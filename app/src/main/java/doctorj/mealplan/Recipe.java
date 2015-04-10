@@ -15,6 +15,9 @@ public class Recipe
 
     public Recipe()
     {
+        this._id = 0;
+        this.name = "Not Set";
+        this.directions = "Not Set";
         return;
     }
 

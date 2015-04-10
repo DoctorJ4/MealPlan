@@ -23,7 +23,7 @@ public class MainActivity extends ActionBarActivity {
     String DB_PATH = "raw/";
 
     final Context context=this;
-    public SQLiteDatabase db1;
+    private SQLiteDatabase db1;
     //DBMain db;
     private static String DB_NAME ="mealplan.db"; // to change
 
@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        /*DBMain db;-------------------------------------------------------------------
+        /*DBMain db;
         db = new DBMain(this);
 
         try {
@@ -51,21 +51,22 @@ public class MainActivity extends ActionBarActivity {
             throw sqle;
         }
 
-        //SQLiteDatabase db1;
-        db1 = openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);-----------*/
+        this.db1 = openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);*/
         populateListView();
     }
 
     private void populateListView(){
+        String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti"};
+        String month = "April";
         this.planLength = 30;
-        this.plan = new MealPlan(planLength, db1);
-        //String month = "April";
-        String[] mealNames = {"April 1\nGrilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti"};
+        this.plan = new MealPlan(month, this.planLength, mealNames);
+        //this.plan = new MealPlan(planLength, db1);
 
         //String[] mealNames = plan.getNames();    //TODO -> once sql is set up do this
 
         //TODO -> mealNames will be sub item and Date will be main item in listview
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,mealNames);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getNames());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getSchedule());
         ListView mealTag = (ListView) findViewById(R.id.MealList);
         mealTag.setAdapter(adapter);
     }
