@@ -2,6 +2,7 @@ package doctorj.mealplan;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Created by Jesse Dodson on 3/30/2015.
@@ -23,12 +24,16 @@ public class MealPlan {
         this.recipes = new Recipe [days];
         this.planLength = days;
         //TODO write sql to fill array of meal_objects with all Recipe fields
+        /*String path = DB_PATH + DB_NAME;
+        //Log.i("myPath ......", path);
+        dbInput = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
+        //SQLiteDatabase.op
         String[] whereArgs = new String[] { "Grilled Cheese" };
         String queryString =
                 "SELECT meal_name, (SELECT max(meal_name) FROM meals) AS max FROM meals " +
                         "WHERE * ORDER BY meal_name";
         Cursor c = dbInput.rawQuery(queryString, whereArgs);
-        //Cursor c = dbInput.rawQuery("SELECT meal_names FROM meals", temp); // TODO fix query
+        //Cursor c = dbInput.query("SELECT meal_names FROM meals", temp); // TODO fix query
         c.moveToFirst();
         String stringArray [] = new String [c.getCount()];
         int i = 0;
@@ -36,7 +41,7 @@ public class MealPlan {
         {
             this.recipes[i].setName(c.getString(0));
             c.moveToNext();
-        }
+        }*/
         sendIngredientsToGL();
     }
 

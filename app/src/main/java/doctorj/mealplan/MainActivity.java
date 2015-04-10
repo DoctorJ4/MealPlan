@@ -33,7 +33,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        DBMain db;
+        /*DBMain db;-------------------------------------------------------------------
         db = new DBMain(this);
 
         try {
@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         //SQLiteDatabase db1;
-        db1 = openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);
+        db1 = openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);-----------*/
         populateListView();
     }
 
@@ -60,9 +60,9 @@ public class MainActivity extends ActionBarActivity {
         this.planLength = 30;
         this.plan = new MealPlan(planLength, db1);
         //String month = "April";
-        //String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti"};
+        String[] mealNames = {"April 1\nGrilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti"};
 
-        String[] mealNames = plan.getNames();    //TODO -> once sql is set up do this
+        //String[] mealNames = plan.getNames();    //TODO -> once sql is set up do this
 
         //TODO -> mealNames will be sub item and Date will be main item in listview
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,mealNames);
