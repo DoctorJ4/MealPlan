@@ -1,34 +1,18 @@
 package doctorj.mealplan;
 
-
-import android.database.Cursor;
-import android.database.DataSetObserver;
-import android.database.SQLException;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
 
 
 public class MainActivity extends ActionBarActivity {
     int planLength;
     MealPlan plan;
-    //String DB_PATH = "raw/";
     RecipeHelper db;
-
-    //final Context context=this;
-    //private SQLiteDatabase db1;
-    //DBMain db;
-    private static String DB_NAME ="mealplan.db"; // to change
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +25,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void populateListView(){
-       // List <String> mealNames = Arrays.asList("Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti");
         String month = "April";
         this.planLength = 30;
         this.plan = new MealPlan(month, this.planLength, db.getAllNames());//TODO WHEN db is good to go!!!!
-        //this.plan = new MealPlan(month, this.planLength, mealNames);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getSchedule());
         ListView mealTag = (ListView) findViewById(R.id.MealList);

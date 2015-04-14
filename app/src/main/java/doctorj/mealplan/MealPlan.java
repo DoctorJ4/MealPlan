@@ -1,10 +1,5 @@
 package doctorj.mealplan;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,16 +10,7 @@ public class MealPlan {
     private GroceryList gl;
     private int planLength;
     private String schedule [];
-    //private RecipeHelper rh;
 
-    String DB_PATH = "raw/";
-
-    //final MealPlan mealplan=this;
-    //private final Context context = this.context;
-    //private static SQLiteDatabase mDataBase;
-    private static String DB_NAME ="mealplan.db";
-
-    //public MealPlan(int days, SQLiteDatabase dbInput)
     public MealPlan(String month, int days, List <String> mealNames)
     {
 

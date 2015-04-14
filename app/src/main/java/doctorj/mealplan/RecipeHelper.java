@@ -1,6 +1,5 @@
 package doctorj.mealplan;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,6 +13,7 @@ import java.util.List;
  */
 public class RecipeHelper extends SQLiteOpenHelper {
     public static final String TABLE_RECIPES = "Recipes";
+    public static final String TABLE_INGREDIENTS = "Ingredients";
 
     public static final String ID = "ID";
     public static final String COLUMN_NAME = "Name";
@@ -28,14 +28,14 @@ public class RecipeHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        /*String CREATE_MEALS_TABLE = "CREATE TABLE " + TABLE_MEALS
-                + "(" + COLUMN_ID + " INTEGER PRIMARY KEY,"
-                + COLUMN_NAME + " TEXT" + ")";*/
         String CREATE_RECIPES_TABLE = "CREATE TABLE Recipes " +
                 "(ID INT (0) NOT NULL PRIMARY KEY UNIQUE, Name TEXT (1) NOT NULL, " +
                 "Portions number (1) DEFAULT (2), Directions STRING (0));";
+        String CREATE_INGREDIENTS_TABLE = "CREATE TABLE Ingredients " +
+                "(ID INTEGER (0) REFERENCES recipes (id), Name STRING (0), Amount REAL, MRule STRING)";
         db.execSQL(CREATE_RECIPES_TABLE);
-        fillRecipeTable(db);
+        db.execSQL(CREATE_INGREDIENTS_TABLE);
+        fillTables(db);
     }
 
     @Override
@@ -62,37 +62,23 @@ public class RecipeHelper extends SQLiteOpenHelper {
         {
             do
             {
-                //temp = new String();
                 array.add(c.getString(0));
             }while(c.moveToNext());
         }
         else
             array.add("did not work");
-        //array.add(temp);
+
         return array;
     }
 
-    public void fillRecipeTable(SQLiteDatabase db)
+    public void fillTables(SQLiteDatabase db)
     {
-        List<String> FTS = new ArrayList<>(); //FILL_TABLE_STATEMENTS
-        String insertRecipeSQL = "INSERT INTO Recipes (id, Name, Portions, Directions) VALUES (";
-        String endSQL = ");";
-        String insertFields [] = new String [] {
-                "1, 'Grilled Cheese Array', 2, 'Make cheese sandwich and grill.'",
-                "2, 'Alfredo', 2, 'Make alfredo sauce awesomely.'",
-                "3, 'Burgers', 2, 'Mix meat with Daddy Hinkel''s and grill!'",
-                "4, 'Test Food', 2, 'Make this food and eat it!'",
-                "5, 'More Fake Food', 2, 'Do not make this food.'",
-                "6, 'Last Test', 2, 'Why not make this the last test.'",
-                "7, 'Tricked You', 2, 'This should be the last last test.'",
-                "8, 'Confirmation', 2, 'This is how you really know it is working.'"
-        };
-
-        for(int i = 0; i < insertFields.length; i++)
-        {
-            FTS.add(insertRecipeSQL + insertFields[i] + endSQL);
-        }
-
+        List<String> FTS; //FILL_TABLE_STATEMENTS
+        MyRecipeList RL = new MyRecipeList();
+        FTS = RL.getMyList();
+        for(int i = 0; i < FTS.size(); i++)
+            db.execSQL(FTS.get(i));
+        FTS = RL.getMyIngredientsList();
         for(int i = 0; i < FTS.size(); i++)
             db.execSQL(FTS.get(i));
     }
