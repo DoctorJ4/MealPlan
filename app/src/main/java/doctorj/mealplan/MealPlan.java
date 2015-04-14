@@ -11,13 +11,13 @@ public class MealPlan {
     private int planLength;
     private String schedule [];
 
-    public MealPlan(String month, int days, List <String> mealNames)
+    public MealPlan(String month, int days, RecipeHelper db)
     {
-
+        List <String> mealNames = db.getAllNames();
         this.recipes = new Recipe [days];
         for(int j = 0; j < this.recipes.length; j++)
         {
-            this.recipes[j] = new Recipe();
+            this.recipes[j] = new Recipe();//TODO write sql to fill array of meal_objects with all Recipe fields
         }
         this.schedule = new String [days];
         for(int k = 0; k < schedule.length; k++)
@@ -25,7 +25,7 @@ public class MealPlan {
             this.schedule[k] = month + " " + (k+1) + "\n" + mealNames.get(k % mealNames.size());
         }
         this.planLength = days;
-        //TODO write sql to fill array of meal_objects with all Recipe fields
+
 
         for(int i = 0; i < this.planLength; i++)
         {

@@ -43,13 +43,13 @@ public class Recipe
 
     public Ingredient [] getIngredients(int idNum)
     {
-        //TODO -> SQL to get ingredients by recipe idNum
+        //TODO -> SQL in RecipeHelper to get ingredients by recipe idNum
         return this.ingredients;
     }
 
     public String getDirections(int idNum)
     {
-        //TODO -> SQL to get Directions by recipe idNum
+        //TODO -> SQL in RecipeHelper to get Directions by recipe idNum
         return this.directions;
     }
 

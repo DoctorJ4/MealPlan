@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
     private void populateListView(){
         String month = "April";
         this.planLength = 30;
-        this.plan = new MealPlan(month, this.planLength, db.getAllNames());//TODO WHEN db is good to go!!!!
+        this.plan = new MealPlan(month, this.planLength, db);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getSchedule());
         ListView mealTag = (ListView) findViewById(R.id.MealList);
