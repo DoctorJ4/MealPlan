@@ -14,16 +14,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
     int planLength;
     MealPlan plan;
+    //String DB_PATH = "raw/";
+    RecipeHelper db;
 
-    String DB_PATH = "raw/";
-
-    final Context context=this;
-    private SQLiteDatabase db1;
+    //final Context context=this;
+    //private SQLiteDatabase db1;
     //DBMain db;
     private static String DB_NAME ="mealplan.db"; // to change
 
@@ -32,40 +35,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        /*DBMain db;
-        db = new DBMain(this);
-
-        try {
-            db.createDB();
-        } catch (IOException ioe) {
-
-            throw new Error("Database not created....");
-        }
-
-        try {
-            db.openDB();
-
-        }catch(SQLException sqle){
-
-            throw sqle;
-        }
-
-        this.db1 = openOrCreateDatabase(DB_PATH+DB_NAME,SQLiteDatabase.CREATE_IF_NECESSARY,null);*/
+        db = new RecipeHelper(this);
+        //db.fillTables();
         populateListView();
     }
 
     private void populateListView(){
-        String[] mealNames = {"Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti","Grilled Cheese", "Alfredo", "Spaghetti"};
+       // List <String> mealNames = Arrays.asList("Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti", "Grilled Cheese", "Alfredo", "Spaghetti");
         String month = "April";
         this.planLength = 30;
-        this.plan = new MealPlan(month, this.planLength, mealNames);
-        //this.plan = new MealPlan(planLength, db1);
+        this.plan = new MealPlan(month, this.planLength, db.getAllNames());//TODO WHEN db is good to go!!!!
+        //this.plan = new MealPlan(month, this.planLength, mealNames);
 
-        //String[] mealNames = plan.getNames();    //TODO -> once sql is set up do this
-
-        //TODO -> mealNames will be sub item and Date will be main item in listview
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getNames());
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getSchedule());
         ListView mealTag = (ListView) findViewById(R.id.MealList);
         mealTag.setAdapter(adapter);

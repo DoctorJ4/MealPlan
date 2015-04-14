@@ -4,6 +4,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Jesse Dodson on 3/30/2015.
  */
@@ -12,6 +15,7 @@ public class MealPlan {
     private GroceryList gl;
     private int planLength;
     private String schedule [];
+    //private RecipeHelper rh;
 
     String DB_PATH = "raw/";
 
@@ -21,8 +25,32 @@ public class MealPlan {
     private static String DB_NAME ="mealplan.db";
 
     //public MealPlan(int days, SQLiteDatabase dbInput)
-    public MealPlan(String month, int days, String []mealNames)
+    public MealPlan(String month, int days, List <String> mealNames)
     {
+
+        this.recipes = new Recipe [days];
+        for(int j = 0; j < this.recipes.length; j++)
+        {
+            this.recipes[j] = new Recipe();
+        }
+        this.schedule = new String [days];
+        for(int k = 0; k < schedule.length; k++)
+        {
+            this.schedule[k] = month + " " + (k+1) + "\n" + mealNames.get(k % mealNames.size());
+        }
+        this.planLength = days;
+        //TODO write sql to fill array of meal_objects with all Recipe fields
+
+        for(int i = 0; i < this.planLength; i++)
+        {
+            this.recipes[i].setName(mealNames.get(i % mealNames.size()));
+        }
+        sendIngredientsToGL();
+    }
+
+    /*public MealPlan(String month, int days, String [] mealNames)
+    {
+
         this.recipes = new Recipe [days];
         for(int j = 0; j < this.recipes.length; j++)
         {
@@ -34,32 +62,14 @@ public class MealPlan {
             this.schedule[k] = month + " " + (k+1) + "\n" + mealNames[k];
         }
         this.planLength = days;
-        //TODO write sql to fill array of meal_objects with all Recipe fields
-        /*String path = DB_PATH + DB_NAME;
-        //Log.i("myPath ......", path);
-        //dbInput = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
-        //SQLiteDatabase.op
-        String[] whereArgs = new String[] { "Grilled Cheese" };
-        String queryString =
-                "SELECT meal_name, (SELECT max(meal_name) FROM meals) AS max FROM meals " +
-                        "WHERE * ORDER BY meal_name";
-        Cursor c = dbInput.rawQuery(queryString, whereArgs);
-        //Cursor c = dbInput.query("SELECT meal_names FROM meals", temp); // TODO fix query
-        c.moveToFirst();
-        String stringArray [] = new String [c.getCount()];
-        int i = 0;
-        for(i=0;i < c.getCount();i++)
-        {
-            this.recipes[i].setName(c.getString(0));
-            c.moveToNext();
-        }*/
+        //write sql to fill array of meal_objects with all Recipe fields
 
         for(int i = 0; i < this.planLength; i++)
         {
             this.recipes[i].setName(mealNames[i]);
         }
         sendIngredientsToGL();
-    }
+    }*/
 
     public String getMealName(int num)
     {
