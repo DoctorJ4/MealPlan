@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by DSU on 4/12/2015.
@@ -51,26 +52,6 @@ public class RecipeHelper extends SQLiteOpenHelper {
         //super.onDowngrade(db,newVersion,oldVersion);
     }
 
-    public List<String> getAllNames(){
-        List<String> array = new ArrayList<>();
-        String getNamesQuery = "SELECT " + COLUMN_NAME + " FROM " + TABLE_RECIPES;
-        String temp = "no Temp";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(getNamesQuery, null);
-
-        if(c.moveToFirst())
-        {
-            do
-            {
-                array.add(c.getString(0));
-            }while(c.moveToNext());
-        }
-        else
-            array.add("did not work");
-
-        return array;
-    }
-
     public void fillTables(SQLiteDatabase db)
     {
         List<String> FTS; //FILL_TABLE_STATEMENTS
@@ -97,4 +78,43 @@ public class RecipeHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    public List<String> getAllNames(){
+        List<String> array = new ArrayList<>();
+        String getNamesQuery = "SELECT " + COLUMN_NAME + " FROM " + TABLE_RECIPES;
+        String temp = "no Temp";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(getNamesQuery, null);
+
+        if(c.moveToFirst())
+        {
+            do
+            {
+                array.add(c.getString(0));
+            }while(c.moveToNext());
+        }
+        else
+            array.add("did not work");
+
+        return array;
+    }
+
+
+    public Recipe getRandomRecipe()
+    {
+        Recipe recipe = new Recipe();
+        Random rand = new Random();
+        String getNamesQuery = "SELECT * FROM " + TABLE_RECIPES;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(getNamesQuery, null);
+
+        if(c.moveToPosition(rand.nextInt(c.getCount())))
+        {
+            recipe.set_id(c.getInt(0));
+            recipe.setName(c.getString(1));
+            recipe.setDirections(c.getString(3));
+        }
+        return recipe;
+    }
+
 }

@@ -17,8 +17,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Display_Details"
-            android:label="@string/title_activity_display__details"
+            android:name=".RecipeViewActivity"
+            android:label="RecipeViewActivity"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

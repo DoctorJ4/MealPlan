@@ -1,12 +1,16 @@
 package doctorj.mealplan;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
-
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -32,6 +36,19 @@ public class MainActivity extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getSchedule());
         ListView mealTag = (ListView) findViewById(R.id.MealList);
         mealTag.setAdapter(adapter);
+
+        mealTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
+                //final TextView editName = (TextView) findViewById(R.id.Name);
+
+                act.putExtra("StringName", plan.getMealName(position));
+                act.putExtra("StringIngredients", plan.getMealIngredients(position));
+                act.putExtra("StringDirections", plan.getMealDirections(position));
+                startActivity(act);
+            }
+        });
     }
 
     @Override

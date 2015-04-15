@@ -35,11 +35,15 @@ public class Recipe
         this.ingredients = ings;
         this.directions = directs;
     }
+    public void set_id(int num) {this._id = num;}
     public void setName(String tempName){ this.name = tempName; }
+    public void setDirections(String direct) {this.directions = direct; }
+    public int get_id(){ return this._id; }
     public String getName()
     {
         return this.name;
     }
+    public String getDirections() { return this.directions; }
 
     public Ingredient [] getIngredients(int idNum)
     {
