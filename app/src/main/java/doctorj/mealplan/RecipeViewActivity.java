@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class RecipeViewActivity extends ActionBarActivity {
 
-    MealPlan selectd;
+    //MealPlan selectd;
     String RecipeName;
     String Ingredients;
     String Directions;
@@ -30,9 +30,9 @@ public class RecipeViewActivity extends ActionBarActivity {
         if (extras == null) {
             return;
         }
-        String name = extras.getString("StringName");
-        String ingredients = extras.getString("StringIngredients");
-        String directions = extras.getString("StringDirections");
+        this.RecipeName = extras.getString("StringName");
+        this.Ingredients = extras.getString("StringIngredients");
+        this.Directions = extras.getString("StringDirections");
 
         final TextView nameView = (TextView)
                 findViewById(R.id.Name);
@@ -40,9 +40,9 @@ public class RecipeViewActivity extends ActionBarActivity {
                 findViewById(R.id.Ingredients);
         final TextView directionsView = (TextView)
                 findViewById(R.id.Directions);
-        nameView.setText(name);
-        ingView.setText(ingredients);
-        directionsView.setText(directions);
+        nameView.setText(this.RecipeName);
+        ingView.setText(this.Ingredients);
+        directionsView.setText(this.Directions);
 
         //populateTextBoxes();
     }
@@ -69,7 +69,7 @@ public class RecipeViewActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_calendar) {
             return true;
         }
 

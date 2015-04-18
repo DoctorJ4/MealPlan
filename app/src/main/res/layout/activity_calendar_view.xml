@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/calendar_horizontal_margin"
+    android:paddingRight="@dimen/calendar_horizontal_margin"
+    android:paddingTop="@dimen/calendar_vertical_margin"
+    android:paddingBottom="@dimen/calendar_vertical_margin"
+    tools:context=".MainActivity">
+
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_margin="10dp"
+        android:background="@android:color/holo_blue_light"
+        android:columnWidth="0dip"
+        android:gravity="top"
+        android:horizontalSpacing="10dp"
+        android:numColumns="7"
+        android:verticalSpacing="10dp">
+
+     </GridView>
+
+</RelativeLayout>

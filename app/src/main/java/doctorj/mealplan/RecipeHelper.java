@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by DSU on 4/12/2015.
+ * Created by Jesse on 4/12/2015.
  */
 public class RecipeHelper extends SQLiteOpenHelper {
     public static final String TABLE_RECIPES = "Recipes";
@@ -33,7 +33,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
                 "(ID INT (0) NOT NULL PRIMARY KEY UNIQUE, Name TEXT (1) NOT NULL, " +
                 "Portions number (1) DEFAULT (2), Directions STRING (0));";
         String CREATE_INGREDIENTS_TABLE = "CREATE TABLE Ingredients " +
-                "(ID INTEGER (0) REFERENCES recipes (id), Name STRING (0), Amount REAL, MRule STRING)";
+                "(ID INTEGER (0) REFERENCES recipes (ID), Name TEXT (1) NOT NULL, Amount REAL, MRule TEXT)";
         db.execSQL(CREATE_RECIPES_TABLE);
         db.execSQL(CREATE_INGREDIENTS_TABLE);
         fillTables(db);
@@ -107,12 +107,27 @@ public class RecipeHelper extends SQLiteOpenHelper {
         String getNamesQuery = "SELECT * FROM " + TABLE_RECIPES;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(getNamesQuery, null);
+        List <Ingredient> ingredients = new ArrayList<>();
+        Ingredient tempIng = new Ingredient();
 
         if(c.moveToPosition(rand.nextInt(c.getCount())))
         {
-            recipe.set_id(c.getInt(0));
-            recipe.setName(c.getString(1));
-            recipe.setDirections(c.getString(3));
+            String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
+            Cursor i = db.rawQuery(getIngredientsQuery, null);
+            //ingredients = new ArrayList<>();
+            if(i.moveToFirst())
+            {
+                do {
+                    tempIng = new Ingredient();
+                    tempIng.setName(i.getString(1));
+                    tempIng.setAmount(i.getDouble(2));
+                    tempIng.setMeasurement(i.getString(3));
+                    ingredients.add(tempIng);
+                }while(i.moveToNext());
+            }
+
+            recipe = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
+
         }
         return recipe;
     }

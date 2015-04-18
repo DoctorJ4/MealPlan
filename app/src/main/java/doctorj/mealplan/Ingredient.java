@@ -5,13 +5,13 @@ package doctorj.mealplan;
  */
 public class Ingredient {
     private String name;
-    private int amount;
+    private double amount;
     private String measurement;
 
-    public int getAmount(){return this.amount;}
+    public double getAmount(){return this.amount;}
     public String getName(){return this.name;}
     public String getMeasurement(){return this.measurement;}
-    public void setAmount(int amt){this.amount = amt;}
+    public void setAmount(double amt){this.amount = amt;}
     public void setName(String nm){this.name = nm;}
     public void setMeasurement(String ms){this.measurement = ms;}
 }

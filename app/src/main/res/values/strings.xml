@@ -2,7 +2,8 @@
     <string name="app_name">MealPlan</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_calendar">Calendar</string>
     <string name="Meal_Plan">Meal Plan</string>
     <string name="title_activity_display__details">Display_Details</string>
+    <string name="title_activity_calendar_view">CalendarView</string>
 </resources>

@@ -19,10 +19,14 @@
         <activity
             android:name=".RecipeViewActivity"
             android:label="RecipeViewActivity"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="doctorj.mealplan.MainActivity" />
+            android:launchMode="singleTop"
+             >
+        </activity>
+        <activity
+            android:name=".CalendarView"
+            android:label="@string/title_activity_calendar_view"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
     </application>
 

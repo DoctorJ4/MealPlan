@@ -10,7 +10,8 @@ public class Recipe
 {
     private int _id;
     private String name;
-    private Ingredient ingredients[];
+    private List<Ingredient> ingredients;
+    private String ingString;
     private String directions;
 
     public Recipe()
@@ -18,43 +19,44 @@ public class Recipe
         this._id = 0;
         this.name = "Not Set";
         this.directions = "Not Set";
+        this.ingString = "Not Set";
+        this.ingredients = new ArrayList<>();
         return;
     }
 
-    public Recipe(int idNum, String title)
+    public Recipe(int idNum, String title, List<Ingredient> ings, String directs)
     {
         this._id = idNum;
         this.name = title;
-
-    }
-
-    public Recipe(int idNum, String title, Ingredient []ings, String directs)
-    {
-        this._id = idNum;
-        this.name = title;
-        this.ingredients = ings;
+        this.ingredients = new ArrayList<>();
+        this.ingredients.addAll(ings);// = new ArrayList<>(ings);
+        this.ingString = "";
         this.directions = directs;
     }
-    public void set_id(int num) {this._id = num;}
+
+    public void set_id(int idNum) {this._id = idNum;}
     public void setName(String tempName){ this.name = tempName; }
-    public void setDirections(String direct) {this.directions = direct; }
+    public void setIngredients(List<Ingredient> tempIngs){ this.ingredients = new ArrayList<>(tempIngs); }
+    public void setDirections(String direct) { this.directions = direct; }
+    public void setIngString(String is){ this.ingString = is; }
+
     public int get_id(){ return this._id; }
     public String getName()
     {
         return this.name;
     }
     public String getDirections() { return this.directions; }
+    public List<Ingredient> getIngredients() { return this.ingredients; }
 
-    public Ingredient [] getIngredients(int idNum)
+    public String getIngredientsString()
     {
-        //TODO -> SQL in RecipeHelper to get ingredients by recipe idNum
-        return this.ingredients;
+        if(this.ingString != "")
+            return ingString;
+        Ingredient tempIng = new Ingredient();
+        for(int i = 0; i < this.ingredients.size(); i++) {
+            tempIng = this.ingredients.get(i);
+            ingString = ingString + "\t- " + tempIng.getAmount() + " " + tempIng.getMeasurement() + " " + tempIng.getName() + "\n";
+        }
+        return this.ingString;
     }
-
-    public String getDirections(int idNum)
-    {
-        //TODO -> SQL in RecipeHelper to get Directions by recipe idNum
-        return this.directions;
-    }
-
 }

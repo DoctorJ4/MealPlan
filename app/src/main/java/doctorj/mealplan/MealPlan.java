@@ -1,5 +1,7 @@
 package doctorj.mealplan;
 
+import java.util.List;
+
 /**
  * Created by Jesse Dodson on 3/30/2015.
  */
@@ -24,6 +26,7 @@ public class MealPlan {
             tempRecipe = db.getRandomRecipe();
             this.recipes[i].set_id(tempRecipe.get_id());
             this.recipes[i].setName(tempRecipe.getName());
+            this.recipes[i].setIngString(tempRecipe.getIngredientsString());
             this.recipes[i].setDirections(tempRecipe.getDirections());
         }
 
@@ -40,8 +43,12 @@ public class MealPlan {
     {
         return recipes[num].getName();
     }
-    public String getMealIngredients(int num) {return "Function not DONE!!!"; }
     public String getMealDirections(int num) { return recipes[num].getDirections(); }
+    public String getMealIngredientsString(int num)
+    {
+        return recipes[num].getIngredientsString();
+    }
+
 
     public String [] getNames()
     {

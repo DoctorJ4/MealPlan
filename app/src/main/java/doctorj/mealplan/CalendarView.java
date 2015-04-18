@@ -1,40 +1,43 @@
 package doctorj.mealplan;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class MainActivity extends ActionBarActivity {
-    int planLength;
-    public static MealPlan plan;
-    RecipeHelper db;
+public class CalendarView extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        db = new RecipeHelper(this);
-
-        String month = "April";
-        this.planLength = 30;
-        plan = new MealPlan(month, planLength, db);
-
-        populateListView();
+        setContentView(R.layout.activity_calendar_view);
+        populateGridView();
     }
 
-    private void populateListView(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items,this.plan.getSchedule());
-        ListView mealTag = (ListView) findViewById(R.id.MealList);
+    private void populateGridView()
+    {
+        /*GridLayout mealTag = (GridLayout) findViewById(R.id.gridView);
+        TextView tv = (TextView) findViewById(R.id.meal_items);
+        tv.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+        tv.setText("TextView");
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+        tv.setLayoutParams(params);
+        mealTag.addView(tv);*/
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items, MainActivity.plan.getSchedule());
+        GridView mealTag = (GridView) findViewById(R.id.gridView);
         mealTag.setAdapter(adapter);
 
         mealTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -42,9 +45,9 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
 
-                act.putExtra("StringName", plan.getMealName(position));
-                act.putExtra("StringIngredients", plan.getMealIngredientsString(position));
-                act.putExtra("StringDirections", plan.getMealDirections(position));
+                act.putExtra("StringName", MainActivity.plan.getMealName(position));
+                act.putExtra("StringIngredients",MainActivity.plan.getMealIngredientsString(position));
+                act.putExtra("StringDirections", MainActivity.plan.getMealDirections(position));
                 startActivity(act);
             }
         });
@@ -53,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_calendar_view, menu);
         return true;
     }
 
@@ -63,12 +66,10 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        //startActivity(Display_Details);
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_calendar) {
-
-            Intent act = new Intent(getApplicationContext(), CalendarView.class);
-            startActivity(act);
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
