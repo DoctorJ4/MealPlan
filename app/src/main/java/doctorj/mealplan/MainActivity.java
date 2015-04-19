@@ -25,7 +25,7 @@ public class MainActivity extends ActionBarActivity {
 
         db = new RecipeHelper(this);
 
-        String month = "April";
+        int month = 4;  //April
         this.planLength = 30;
         plan = new MealPlan(month, planLength, db);
 

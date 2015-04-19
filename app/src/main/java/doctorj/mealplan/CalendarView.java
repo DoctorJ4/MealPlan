@@ -28,15 +28,7 @@ public class CalendarView extends Activity {
 
     private void populateGridView()
     {
-        /*GridLayout mealTag = (GridLayout) findViewById(R.id.gridView);
-        TextView tv = (TextView) findViewById(R.id.meal_items);
-        tv.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
-        tv.setText("TextView");
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-        tv.setLayoutParams(params);
-        mealTag.addView(tv);*/
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_items, MainActivity.plan.getSchedule());
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_items, MainActivity.plan.getCalendarSchedule());
         GridView mealTag = (GridView) findViewById(R.id.gridView);
         mealTag.setAdapter(adapter);
 
@@ -44,11 +36,15 @@ public class CalendarView extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
-
-                act.putExtra("StringName", MainActivity.plan.getMealName(position));
-                act.putExtra("StringIngredients",MainActivity.plan.getMealIngredientsString(position));
-                act.putExtra("StringDirections", MainActivity.plan.getMealDirections(position));
-                startActivity(act);
+                int oldPosition = position;
+                position = position - MainActivity.plan.getCalendarOffset();
+                if(MainActivity.plan.getCalendarOffset() <= oldPosition)
+                {
+                    act.putExtra("StringName", MainActivity.plan.getMealName(position));
+                    act.putExtra("StringIngredients", MainActivity.plan.getMealIngredientsString(position));
+                    act.putExtra("StringDirections", MainActivity.plan.getMealDirections(position));
+                    startActivity(act);
+                }
             }
         });
     }

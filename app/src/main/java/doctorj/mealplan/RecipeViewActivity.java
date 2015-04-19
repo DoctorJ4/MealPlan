@@ -1,5 +1,6 @@
 package doctorj.mealplan;
 
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
-public class RecipeViewActivity extends ActionBarActivity {
+public class RecipeViewActivity extends Activity {
 
     //MealPlan selectd;
     String RecipeName;

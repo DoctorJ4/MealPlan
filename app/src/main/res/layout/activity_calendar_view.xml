@@ -12,15 +12,21 @@
 
     <GridView
         android:id="@+id/gridView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="10dp"
-        android:background="@android:color/holo_blue_light"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="1dp"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:paddingBottom="1dp"
+        android:paddingTop="1dp"
+        android:background="@android:color/black"
         android:columnWidth="0dip"
-        android:gravity="top"
-        android:horizontalSpacing="10dp"
+        android:horizontalSpacing="1dp"
         android:numColumns="7"
-        android:verticalSpacing="10dp">
+        android:verticalSpacing="1dp"
+        android:layoutMode="opticalBounds"
+        tools:listitem="@android:layout/simple_list_item_2"
+        android:gravity="fill">
 
      </GridView>
 
