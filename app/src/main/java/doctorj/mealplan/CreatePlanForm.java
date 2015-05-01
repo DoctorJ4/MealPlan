@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -29,11 +30,11 @@ public class CreatePlanForm extends ActionBarActivity {
     private int endMonth;
     private int endDay;
     private int endYear;
+    private TextView startText;
+    private TextView endText;
+    MyCalendar myC;
     private String startDate;
     private String endDate;
-    /*private Spinner startMonth;
-    private Spinner startDay;
-    private Spinner startYear;*/
     String [] monthNames = new String [] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 
@@ -42,10 +43,17 @@ public class CreatePlanForm extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_plan_form);
         this.nameInput = (EditText)findViewById(R.id.EditTextView);
+        this.myC = new MyCalendar();
         final Calendar c = Calendar.getInstance();
         this.startYear = c.get(Calendar.YEAR);
-        this.startMonth = c.get(Calendar.MONTH);
+        this.startMonth = c.get(Calendar.MONTH) + 1;
         this.startDay = c.get(Calendar.DAY_OF_MONTH);
+        this.endYear = this.startYear;
+        this.endMonth = this.startMonth;
+        this.endDay = this.startDay;
+        this.startText = (TextView)findViewById(R.id.startDateText);
+        this.endText = (TextView)findViewById(R.id.endDateText);
+        setDateText();
     }
 
 
@@ -71,18 +79,26 @@ public class CreatePlanForm extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setDateText()
+    {
+        this.startDate = this.myC.getFullDateString(startMonth, startDay, startYear);
+        this.endDate = this.myC.getFullDateString(endMonth, endDay, endYear);;
+        this.startText.setText(this.startDate);
+        this.endText.setText(this.endDate);
+    }
+
     public void sendToList(View view) {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c1.set(startYear, startMonth, startDay);
         c2.set(endYear, endMonth, endDay);
-        MyCalendar myC = new MyCalendar();
-        int tempNum = myC.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
+
+        int tempNum = this.myC.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
         if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
             Intent act = new Intent(this, MainActivity.class);
             act.putExtra("PlanName", this.nameInput.getEditableText().toString());
             act.putExtra("startDay", startDay);
-            act.putExtra("startMonth", startMonth + 1);
+            act.putExtra("startMonth", startMonth);
             act.putExtra("startYear", startYear);
             act.putExtra("endDay", endDay);
             act.putExtra("endMonth", endMonth);
@@ -94,7 +110,7 @@ public class CreatePlanForm extends ActionBarActivity {
         else if(tempNum >= maxPlanSize)
             Toast.makeText(this, "Plan length is too long!\nMust be less than " + maxPlanSize, Toast.LENGTH_LONG).show();
         else {
-            Toast.makeText(this, "End date is before start date!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "End date is on or before start date!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -111,7 +127,7 @@ public class CreatePlanForm extends ActionBarActivity {
         if(id == START_DIALOG_ID)
             return new DatePickerDialog(this, startDateSetListener, startYear, startMonth, startDay);
         else if(id == END_DIALOG_ID)
-            return new DatePickerDialog(this, endDateSetListener, startYear, startMonth, startDay);
+            return new DatePickerDialog(this, endDateSetListener, endYear, endMonth, endDay);
         return null;
     }
 
@@ -121,8 +137,9 @@ public class CreatePlanForm extends ActionBarActivity {
                 public void onDateSet(DatePicker view, int year,
                                       int monthOfYear, int dayOfMonth) {
                     startYear = year;
-                    startMonth = monthOfYear;
+                    startMonth = monthOfYear + 1;
                     startDay = dayOfMonth;
+                    setDateText();
                 }
             };
 
@@ -134,6 +151,7 @@ public class CreatePlanForm extends ActionBarActivity {
                     endYear = year;
                     endMonth = monthOfYear + 1;
                     endDay = dayOfMonth;
+                    setDateText();
                 }
             };
 }

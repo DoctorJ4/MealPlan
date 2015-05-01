@@ -64,7 +64,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/textView2"
+        android:id="@+id/startDateText"
         android:layout_above="@+id/setStart"
         android:layout_alignLeft="@+id/setStart"
         android:layout_alignStart="@+id/setStart" />
@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
-        android:id="@+id/textView3"
+        android:id="@+id/endDateText"
         android:layout_above="@+id/setEnd"
         android:layout_alignLeft="@+id/setEnd"
         android:layout_alignStart="@+id/setEnd" />
