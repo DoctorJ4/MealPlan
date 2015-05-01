@@ -38,12 +38,12 @@ public class MainActivity extends ActionBarActivity {
     private int endYear;
     public static MealPlan plan;
     RecipeHelper db;
-<<<<<<< HEAD
+
     public boolean editflag = false;
     ArrayAdapter<String> spinnerAdapter;
-=======
+
     MealPlanHelper MPdb;
->>>>>>> 18d797c323fb423325b9e5dbc4d4fc7bda089051
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +132,7 @@ public class MainActivity extends ActionBarActivity {
                                 Log.d("postion: ", String.valueOf(position));
                                 Log.d("Item: ", String.valueOf(positionT));
                                 plan.changemeal(db, position, positionT);
+
                                 //refreshListView();
 
                                 return;
