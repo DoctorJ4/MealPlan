@@ -20,7 +20,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_DIRECTIONS = "Directions";
 
-    private static final String DATABASE_NAME = "MealPlan";
+    private static final String DATABASE_NAME = "Recipes";
     private static final int DATABASE_VERSION = 1;
 
     public RecipeHelper(Context context){
@@ -108,7 +108,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery(getNamesQuery, null);
         List <Ingredient> ingredients = new ArrayList<>();
-        Ingredient tempIng = new Ingredient();
+        Ingredient tempIng;
 
         if(c.moveToPosition(rand.nextInt(c.getCount())))
         {
@@ -118,10 +118,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
             if(i.moveToFirst())
             {
                 do {
-                    tempIng = new Ingredient();
-                    tempIng.setName(i.getString(1));
-                    tempIng.setAmount(i.getDouble(2));
-                    tempIng.setMeasurement(i.getString(3));
+                    tempIng = new Ingredient(i.getString(1), i.getDouble(2), i.getString(3));
                     ingredients.add(tempIng);
                 }while(i.moveToNext());
             }

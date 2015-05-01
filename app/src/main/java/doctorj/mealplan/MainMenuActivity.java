@@ -6,14 +6,34 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static doctorj.mealplan.GlobalPlan.globalPlan;
 
 
 public class MainMenuActivity extends ActionBarActivity {
-
+    private MealPlanHelper MPdb;
+    private GlobalPlan dummyPlan = new GlobalPlan();
+    private List<MealPlan> myPlans = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        MPdb = new MealPlanHelper(this);
+        /*List<Recipe> recs = new ArrayList<>();
+        Recipe tempRec = new Recipe();
+        for(int f = 0; f < 30; f++)
+            recs.add(tempRec);
+        MealPlan testPlan = new MealPlan(0, "TEST!!!!", "April 1, 1990", "April 30, 1990", 30, recs);
+        myPlans.add(testPlan);*/
+        myPlans.addAll(MPdb.getPlans());
+        createMPList();
     }
 
 
@@ -24,8 +44,20 @@ public class MainMenuActivity extends ActionBarActivity {
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myPlans.clear();
+        myPlans.addAll(MPdb.getPlans());
+        createMPList();
+    }
+
     public void sendMealList(View view) {
-        Intent act = new Intent(this, MainActivity.class);
+        /*Intent act = new Intent(this, MainActivity.class);
+        GlobalPlan.globalPlan = null;
+        startActivity(act);*/
+        Intent act = new Intent(this, CreatePlanForm.class);
+        GlobalPlan.globalPlan = null;
         startActivity(act);
     }
 
@@ -42,5 +74,30 @@ public class MainMenuActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createMPList(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.meal_plan_list, getPlanNames());
+        ListView planTag = (ListView) findViewById(R.id.MealPlanList);
+        planTag.setAdapter(adapter);
+
+        planTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent act = new Intent(getApplicationContext(), MainActivity.class);
+                //act.putExtra("planImport", myPlans.get(position));
+                globalPlan = myPlans.get(position);
+                startActivity(act);
+            }
+        });
+    }
+
+    private List<String> getPlanNames(){
+        List<String> names = new ArrayList<>();
+        for(int i = 0; i < myPlans.size(); i++)
+        {
+            names.add(myPlans.get(i).getPlanName());
+        }
+        return names;
     }
 }

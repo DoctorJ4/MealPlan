@@ -8,6 +8,15 @@ public class Ingredient {
     private double amount;
     private String measurement;
 
+    Ingredient(){}
+
+    Ingredient(String nm, double am, String mm)
+    {
+        this.name = nm;
+        this.amount = am;
+        this.measurement = mm;
+    }
+
     public double getAmount(){return this.amount;}
     public String getName(){return this.name;}
     public String getMeasurement(){return this.measurement;}

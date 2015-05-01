@@ -1,11 +1,17 @@
 <resources>
     <string name="app_name">MealPlan</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="newName">Enter Name of New Plan</string>
     <string name="action_calendar">Calendar</string>
     <string name="Meal_Plan">Meal List</string>
     <string name="title_activity_display__details">Display_Details</string>
     <string name="title_activity_calendar_view">CalendarView</string>
     <string name="title_activity_main_menu">MainMenuActivity</string>
     <string name="action_settings">Settings</string>
+
+    <string name="title_activity_activity__create_meal_plan">activity_CreateMealPlan</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_create_plan_form">CreatePlanForm</string>
+    <string name="Name_input">Plan Name</string>
 </resources>

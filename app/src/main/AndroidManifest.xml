@@ -31,6 +31,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity_CreateMealPlan"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_activity__create_meal_plan"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name=".CreatePlanForm"
+            android:label="@string/title_activity_create_plan_form" >
+        </activity>
     </application>
 
 </manifest>
