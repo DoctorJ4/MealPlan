@@ -12,6 +12,7 @@ public class Recipe
     private String name;
     private List<Ingredient> ingredients;
     private String ingString;
+    private int portions;
     private String directions;
 
     public Recipe()
@@ -20,6 +21,7 @@ public class Recipe
         this.name = "Not Set";
         this.directions = "Not Set";
         this.ingString = "Not Set";
+        this.portions = 2;
         this.ingredients = new ArrayList<>();
         return;
     }
@@ -31,6 +33,7 @@ public class Recipe
         this.ingredients = new ArrayList<>();
         this.ingredients.addAll(ings);// = new ArrayList<>(ings);
         this.ingString = "";
+        this.portions = 2;
         this.directions = directs;
     }
 
@@ -45,6 +48,7 @@ public class Recipe
     {
         return this.name;
     }
+    public int getPortions(){ return this.portions; }
     public String getDirections() { return this.directions; }
     public List<Ingredient> getIngredients() { return this.ingredients; }
 
@@ -52,7 +56,7 @@ public class Recipe
     {
         if(this.ingString != "")
             return ingString;
-        Ingredient tempIng = new Ingredient();
+        Ingredient tempIng;
         for(int i = 0; i < this.ingredients.size(); i++) {
             tempIng = this.ingredients.get(i);
             ingString = ingString + "\t- " + tempIng.getAmount() + " " + tempIng.getMeasurement() + " " + tempIng.getName() + "\n";

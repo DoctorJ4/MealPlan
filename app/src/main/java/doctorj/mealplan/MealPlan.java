@@ -1,5 +1,8 @@
 package doctorj.mealplan;
 
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,31 +12,117 @@ import android.util.Log;
 /**
  * Created by Jesse Dodson on 3/30/2015.
  */
-public class MealPlan {
-    private Recipe recipes [];
+public class MealPlan{
+    private MyCalendar CAL = new MyCalendar();
+    private int MP_ID;
+    private String planName;
+    private List<Recipe> recipes;
     private GroceryList gl;
     private int planLength;
     private String schedule [];
     private int year;
-    private int monthInt;
+    //private int monthInt;
     private String monthString;
     private int dayBegin;
     private int dayEnd;
+    private int monthBegin;
+    private int monthEnd;
+    private int yearStart;
+    private int yearEnd;
+    private String startDate;
+    private String endDate;
     private int calendarOffset;
     private String dayArray [] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
-    public MealPlan(int month, int days, RecipeHelper db)
+    // id - name - startDate - endDate - length
+    // obtain from database
+    public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear, int length, List<Recipe> recs)
+    {
+
+        /*******************TEST DATA *****************/
+        //this.year = startYear;
+        this.dayBegin = startDay;
+        this.dayEnd = endDay;
+        this.monthBegin = startMonth;
+        this.monthEnd = endMonth;
+        this.yearStart = startYear;
+        this.yearEnd = endYear;
+        this.startDate = "May 1, 1950";
+        this.endDate = "May 30, 1950";
+        /*******************TEST DATA *****************/
+        this.MP_ID = id;
+        this.planName = name;
+        this.monthString = getMonthString(this.monthBegin);
+        this.planLength = length;
+        this.recipes = recs;
+        //buildRandomPlan(db);
+        buildSchedule();
+        sendIngredientsToGL();
+    }
+
+    //CREATE PLAN FORM
+    public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear,  RecipeHelper db)
     {
         /*******************TEST DATA *****************/
         this.year = 2015;
         this.dayBegin = 1;
         this.dayEnd = 30;
+        this.monthBegin = 4;
+        this.dayBegin = startDay;
+        this.dayEnd = endDay;
+        this.monthBegin = startMonth;
+        this.monthEnd = endMonth;
+        this.yearStart = startYear;
+        this.yearEnd = endYear;
+        //this.startDate = "May 1, 1950";
+        //this.endDate = "May 30, 1950";
         /*******************TEST DATA *****************/
+        this.MP_ID = id;
+        this.planName = name;
+        this.monthString = getMonthString(this.monthBegin);
+        this.planLength = getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
+        this.recipes = new ArrayList<>();
+        buildRandomPlan(db);
+        buildSchedule();
+        sendIngredientsToGL();
+    }
 
-        this.monthInt = month;
+    //GENERATE RANDOM PLAN
+    public MealPlan(int id, String name, String startD, String endD, int length,  RecipeHelper db)
+    {
+        /*******************TEST DATA *****************/
+        this.year = 2015;
+        this.dayBegin = 1;
+        this.dayEnd = 30;
+        this.monthBegin = 4;
+        //this.startDate = "May 1, 1950";
+        //this.endDate = "May 30, 1950";
+        /*******************TEST DATA *****************/
+        this.MP_ID = id;
+        this.planName = name;
+        this.monthString = getMonthString(this.monthBegin);
+        this.planLength = length;
+        this.recipes = new ArrayList<>();
+        buildRandomPlan(db);
+        buildSchedule();
+        sendIngredientsToGL();
+    }
+    // Generate new mealplan
+    public MealPlan(String name, int month, int days, RecipeHelper db)
+    {
+        /*******************TEST DATA *****************/
+        this.year = 2015;
+        this.dayBegin = 1;
+        this.dayEnd = 30;
+        this.monthBegin = month;
+        this.startDate = "NEVER";
+        this.endDate = "ALWAYS";
+        /*******************TEST DATA *****************/
+        this.planName = name;
+        this.monthBegin = month;
         this.monthString = getMonthString(month);
         this.planLength = days;
-        this.recipes = new Recipe [days];
+        this.recipes = new ArrayList<>();
         buildRandomPlan(db);
         buildSchedule();
         sendIngredientsToGL();
@@ -41,19 +130,20 @@ public class MealPlan {
 
     private void buildRandomPlan(RecipeHelper db)
     {
-        for(int j = 0; j < this.recipes.length; j++)
+        /*for(int j = 0; j < this.recipes.size(); j++)
         {
             this.recipes[j] = new Recipe();
-        }
+        }*/
 
         Recipe tempRecipe;
         for(int i = 0; i < this.planLength; i++)
         {
             tempRecipe = db.getRandomRecipe();
-            this.recipes[i].set_id(tempRecipe.get_id());
-            this.recipes[i].setName(tempRecipe.getName());
-            this.recipes[i].setIngString(tempRecipe.getIngredientsString());
-            this.recipes[i].setDirections(tempRecipe.getDirections());
+            this.recipes.add(tempRecipe);
+            /*this.recipes.get(i).set_id(tempRecipe.get_id());
+            this.recipes.get(i).setName(tempRecipe.getName());
+            this.recipes.get(i).setIngString(tempRecipe.getIngredientsString());
+            this.recipes.get(i).setDirections(tempRecipe.getDirections());*/
         }
     }
 
@@ -61,16 +151,46 @@ public class MealPlan {
     {
         int dayNum = getDayNum();
         this.schedule = new String [this.planLength];
-        for(int k = 0; k < schedule.length; k++)
+        int num = 0;
+        int[] daysInMonths = new int []{31,28,31,30,31,30,31,31,30,31,30,31};
+        if((this.yearStart % 4) == 0)
+            daysInMonths[1] = 29;
+        int startMonth = this.monthBegin;
+        int startDay = this.dayBegin;
+        int startYear = this.yearStart;
+        int endMonth = this.monthEnd;
+        int endDay = this.dayEnd;
+        int endYear = this.yearEnd;
+        int monthCount = startMonth;
+        String monthName = this.monthString;
+        endMonth = endMonth + (12 * (endYear - startYear));
+
+        while(((monthCount < endMonth)||(startDay < endDay))&&(startYear <= endYear))
         {
-            this.schedule[k] = dayArray[(dayNum+k)%7] + ", " + this.monthString + " " + (dayBegin + k) + "\n" + recipes[k].getName();
+            this.schedule[num] = dayArray[(dayNum+num)%7] + ", " + monthName + " " + (startDay) + "\n" + recipes.get(num).getName();
+            num++;
+            startDay++;
+            if((daysInMonths[startMonth - 1] - (startDay-1)) <= 0)
+            {
+                startMonth = (startMonth % 12) + 1;
+                monthCount++;
+                monthName = getMonthString(startMonth);
+                startDay = 1;
+                if(startMonth == 1) {
+                    startYear++;
+                    if((startYear % 4) == 0)
+                        daysInMonths[1] = 29;
+                    else
+                        daysInMonths[1] = 28;
+                }
+            }
         }
     }
 
     private int getDayNum()
     {
         Calendar getDate = Calendar.getInstance();
-        getDate.set(this.year, (this.monthInt - 1), this.dayBegin);
+        getDate.set(this.yearStart, (this.monthBegin - 1), this.dayBegin);
         int dayNum = 0;
 
         switch(getDate.get(Calendar.DAY_OF_WEEK)){
@@ -125,16 +245,22 @@ public class MealPlan {
         return monthString;
     }
 
-
-    public String getMealName(int num)
-    {
-        return recipes[num].getName();
-    }
-    public String getMealDirections(int num) { return recipes[num].getDirections(); }
-    public String getMealIngredientsString(int num)
-    {
-        return recipes[num].getIngredientsString();
-    }
+    public int getMP_ID() { return this.MP_ID; }
+    public String getPlanName(){ return this.planName; }
+    public int getLength(){ return this.planLength; }
+    public int getStartDay(){ return this.dayBegin; }
+    public int getEndDay(){ return this.dayEnd; }
+    public int getStartMonth(){ return this.monthBegin; }
+    public int getEndMonth(){ return this.monthEnd; }
+    public int getStartYear(){ return this.yearStart; }
+    public int getEndYear(){ return this.yearEnd; }
+    public String getStartDate(){ return this.startDate; }
+    public String getEndDate(){ return this.endDate; }
+    public int getMealPortions(int num) { return recipes.get(num).getPortions(); }
+    public String getMealName(int num){  return recipes.get(num).getName(); }
+    public String getMealDirections(int num) { return recipes.get(num).getDirections(); }
+    public List<Ingredient> getMealIngredients(int num){ return recipes.get(num).getIngredients(); }
+    public String getMealIngredientsString(int num) { return recipes.get(num).getIngredientsString();}
     public int getCalendarOffset(){return this.calendarOffset;}
 
 
@@ -146,7 +272,7 @@ public class MealPlan {
         //loop to fill array with names
         for(int i = 0; i < this.planLength; i++)
         {
-            names[i] = this.recipes[i].getName();
+            names[i] = this.recipes.get(i).getName();
         }
         return names;
     }
@@ -180,6 +306,35 @@ public class MealPlan {
         return CS;
     }
 
+    public int getDaysBetweenDates(int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear)
+    {
+        int num = 0;
+        int[] daysInMonths = new int []{31,28,31,30,31,30,31,31,30,31,30,31};
+        if((startYear % 4) == 0)
+            daysInMonths[1] = 29;
+        endMonth = endMonth + (12 * (endYear - startYear));
+        int monthCount = startMonth;
+        while(((monthCount < endMonth)||(startDay < endDay))&&(startYear <= endYear))
+        {
+            num++;
+            startDay++;
+            if((daysInMonths[startMonth - 1] - (startDay-1)) <= 0)
+            {
+                startMonth = (startMonth % 12) + 1;
+                monthCount++;
+                startDay = 1;
+                if(startMonth == 1) {
+                    startYear++;
+                    if((startYear % 4) == 0)
+                        daysInMonths[1] = 29;
+                    else
+                        daysInMonths[1] = 28;
+                }
+            }
+
+        }
+        return num;
+    }
 
     public void sendIngredientsToGL()
     {
