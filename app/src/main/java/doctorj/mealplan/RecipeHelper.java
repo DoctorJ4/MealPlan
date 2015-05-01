@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,5 +132,66 @@ public class RecipeHelper extends SQLiteOpenHelper {
         }
         return recipe;
     }
+
+    //created by Reed
+    //grabs a single recipe
+    public Recipe getRecipe(int id)
+    {
+        Log.d("RecipeHelper: Started: ", String.valueOf(id));
+        Recipe recipe = new Recipe();
+        String getNamesQuery = "SELECT * FROM " + TABLE_RECIPES;// + " WHERE Name=\'" +item+"\'";
+        try {
+            SQLiteDatabase db = this.getReadableDatabase();
+            Cursor c = db.rawQuery(getNamesQuery, null);
+            List <Ingredient> ingredients = new ArrayList<>();
+            Ingredient tempIng = new Ingredient();
+
+            //Log.d("count: ", String.valueOf(c.getCount()));
+            //Log.d("SQ:: ", String.valueOf(id));
+            c.moveToFirst();
+            int p = 0;
+            int end = 0;
+                while(p < c.getCount() && end != 1)
+                {
+                    //Log.d("name: " , c.getString(1));
+                if(c.getInt(0) == id)
+                {
+                    //Log.d("count2: ", String.valueOf(c.getInt(0)));
+                    String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
+                    Cursor i = db.rawQuery(getIngredientsQuery, null);
+                    //ingredients = new ArrayList<>();
+                    if(i.moveToFirst())
+                    {
+                        do {
+                            tempIng = new Ingredient();
+                            tempIng.setName(i.getString(1));
+                            tempIng.setAmount(i.getDouble(2));
+                            tempIng.setMeasurement(i.getString(3));
+                            ingredients.add(tempIng);
+                        }while(i.moveToNext());
+                    }
+                    //Log.d("cursor0: ", c.getString(0));
+                    //Log.d("cursor1: ", c.getString(1));
+                    //Log.d("cursor3: ", c.getString(3));
+                    recipe = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
+                    end = 1;
+                }
+                else
+                {
+
+                }
+                c.moveToNext();
+                    p++;
+            }
+        }
+
+        catch(Exception ex)
+        {
+            Log.d("RecipeHelper: Broke", String.valueOf(ex));
+        }
+        return recipe;
+    }
+
+
 
 }

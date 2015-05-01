@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import android.util.Log;
 
 /**
  * Created by Jesse Dodson on 3/30/2015.
@@ -185,5 +186,20 @@ public class MealPlan {
         /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList
             this.gl.addGL(this.recipes[i].getIngredients());*/
         return;
+    }
+
+    //made by Reed
+    public void changemeal(RecipeHelper db,int loc_id,int item_id)
+    {
+        Log.d("Mealplan: ", String.valueOf(item_id));
+        Recipe tempRecipe;
+        tempRecipe = db.getRecipe(item_id);
+        Log.d("MP:finished temp: ", String.valueOf(item_id));
+        this.recipes[loc_id].setName(tempRecipe.getName());
+        this.recipes[loc_id].setIngString(tempRecipe.getIngredientsString());
+        this.recipes[loc_id].setDirections(tempRecipe.getDirections());
+        //Log.d("cursor0: ", this.recipes[loc_id].getName());
+        //Log.d("cursor1: ", this.recipes[loc_id].getIngredientsString());
+        //Log.d("cursor3: ", this.recipes[loc_id].getDirections());
     }
 }

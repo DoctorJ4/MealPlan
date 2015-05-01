@@ -3,4 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
     <item android:id="@+id/action_calendar" android:title="@string/action_calendar"
         android:orderInCategory="100" app:showAsAction="never" />
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/edit_items" android:title="edit items"
+            android:orderInCategory="100" app:showAsAction="never" />
+    </group>
+
+
 </menu>
