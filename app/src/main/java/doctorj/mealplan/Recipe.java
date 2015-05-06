@@ -79,9 +79,15 @@ public class Recipe
         {
             case "0": fraction = "";
                 break;
+            case "125": fraction = "1/8 ";
+                break;
             case "25": fraction = "1/4 ";
                 break;
-            case "50": fraction = "1/2 ";
+            case "33": fraction = "1/3 ";
+                break;
+            case "5": fraction = "1/2 ";
+                break;
+            case "66": fraction = "2/3 ";
                 break;
             case "75": fraction = "3/4 ";
                 break;

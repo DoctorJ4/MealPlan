@@ -31,7 +31,6 @@ public class CreatePlanForm extends ActionBarActivity {
     MyCalendar myC;
     private String startDate;
     private String endDate;
-    String [] monthNames = new String [] {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
 
     @Override
