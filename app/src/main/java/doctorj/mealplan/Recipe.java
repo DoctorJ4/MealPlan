@@ -59,8 +59,37 @@ public class Recipe
         Ingredient tempIng;
         for(int i = 0; i < this.ingredients.size(); i++) {
             tempIng = this.ingredients.get(i);
-            ingString = ingString + "\t- " + tempIng.getAmount() + " " + tempIng.getMeasurement() + " " + tempIng.getName() + "\n";
+            ingString = ingString + "\t " + formatAmount(tempIng.getAmount()) + " " + tempIng.getMeasurement() + " " + tempIng.getName() + "\n";
         }
         return this.ingString;
+    }
+
+    private String formatAmount(double amt)
+    {
+        String newAmt;
+        String delim = "[.]";
+        String fraction;
+        newAmt = Double.toString(amt);
+        String[] tokens = newAmt.split(delim);
+        if(!tokens[0].equals("0"))
+            newAmt = tokens[0] + " ";
+        else
+            newAmt = "";
+        switch (tokens[1])
+        {
+            case "0": fraction = "";
+                break;
+            case "25": fraction = "1/4 ";
+                break;
+            case "50": fraction = "1/2 ";
+                break;
+            case "75": fraction = "3/4 ";
+                break;
+            default: fraction = "";
+                break;
+        }
+
+        newAmt = newAmt + fraction;
+        return newAmt;
     }
 }

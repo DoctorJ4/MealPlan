@@ -47,13 +47,13 @@ public class MyCalendar {
             }
 
         }
-        return num;
+        return num + 1;
     }
 
     public int getDayOfWeek(int year, int monthBegin, int dayBegin)
     {
         Calendar getDate = Calendar.getInstance();
-        getDate.set(year, (monthBegin - 1), dayBegin);
+        getDate.set(year, monthBegin, dayBegin);
         int dayNum = 0;
 
         switch(getDate.get(Calendar.DAY_OF_WEEK)){
@@ -77,7 +77,7 @@ public class MyCalendar {
 
     public String getFullDateString(int month, int day, int year)
     {
-        return(getMonthString(month) + " " + day + ", " + year);
+        return(getMonthString(month + 1) + " " + day + ", " + year);
     }
 
     public String getMonthString(int mI){
