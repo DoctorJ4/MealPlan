@@ -177,13 +177,13 @@ public class MainActivity extends ActionBarActivity {
         if(id == R.id.edit_items)
         {
             if(item.isChecked() == false) {
-                item.setChecked(true);
+                //item.setChecked(true);
                 editflag = true;
                 Log.d("checked: ", String.valueOf(item.isChecked()));
 
             }
             else if(item.isChecked() == true){
-                item.setChecked(false);
+                //item.setChecked(false);
                 editflag = false;
                 Log.d("checked: ", String.valueOf(item.isChecked()));
 

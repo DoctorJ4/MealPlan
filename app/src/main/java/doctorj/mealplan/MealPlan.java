@@ -149,7 +149,7 @@ public class MealPlan{
         int monthCount = startMonth;
         String monthName = this.monthString;
         endMonth = endMonth + (12 * (endYear - startYear));
-
+        Log.d("MP:recipes length ", String.valueOf(recipes.size()));
         while (((monthCount < endMonth) || (startDay < endDay)) && (startYear <= endYear)) {
             this.schedule[num] = dayArray[(dayNum + num) % 7] + ", " + monthName + " " + (startDay) + "\n" + recipes.get(num).getName();
             num++;
