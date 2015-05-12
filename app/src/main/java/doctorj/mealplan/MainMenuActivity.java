@@ -18,20 +18,12 @@ import static doctorj.mealplan.GlobalPlan.globalPlan;
 
 public class MainMenuActivity extends ActionBarActivity {
     private MealPlanHelper MPdb;
-    private GlobalPlan dummyPlan = new GlobalPlan();
     private List<MealPlan> myPlans = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
         MPdb = new MealPlanHelper(this);
-        /*List<Recipe> recs = new ArrayList<>();
-        Recipe tempRec = new Recipe();
-        for(int f = 0; f < 30; f++)
-            recs.add(tempRec);
-        MealPlan testPlan = new MealPlan(0, "TEST!!!!", "April 1, 1990", "April 30, 1990", 30, recs);
-        myPlans.add(testPlan);*/
         myPlans.addAll(MPdb.getPlans());
         createMPList();
     }
@@ -53,9 +45,6 @@ public class MainMenuActivity extends ActionBarActivity {
     }
 
     public void sendMealList(View view) {
-        /*Intent act = new Intent(this, MainActivity.class);
-        GlobalPlan.globalPlan = null;
-        startActivity(act);*/
         Intent act = new Intent(this, CreatePlanForm.class);
         GlobalPlan.globalPlan = null;
         startActivity(act);

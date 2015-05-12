@@ -31,6 +31,8 @@ public class CreatePlanForm extends ActionBarActivity {
     MyCalendar myC;
     private String startDate;
     private String endDate;
+    private MealPlanHelper MPdb;
+    private int numPlans;
 
 
     @Override
@@ -40,6 +42,8 @@ public class CreatePlanForm extends ActionBarActivity {
         this.nameInput = (EditText)findViewById(R.id.EditTextView);
         this.myC = new MyCalendar();
         final Calendar c = Calendar.getInstance();
+        this.MPdb = new MealPlanHelper(this);
+        this.numPlans = MPdb.getNumPlans();
         this.startYear = c.get(Calendar.YEAR);
         this.startMonth = c.get(Calendar.MONTH);
         this.startDay = c.get(Calendar.DAY_OF_MONTH);
@@ -87,10 +91,13 @@ public class CreatePlanForm extends ActionBarActivity {
         Calendar c2 = Calendar.getInstance();
         c1.set(startYear, startMonth, startDay);
         c2.set(endYear, endMonth, endDay);
+        String name = nameInput.getEditableText().toString();
+        if(name.equals(""))
+            name = "Plan " + numPlans;
 
         int tempNum = this.myC.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
         if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
-            Intent act = new Intent(this, MainActivity.class);
+            /*Intent act = new Intent(this, MainActivity.class);
             act.putExtra("PlanName", this.nameInput.getEditableText().toString());
             act.putExtra("startDay", startDay);
             act.putExtra("startMonth", startMonth + 1);
@@ -99,7 +106,12 @@ public class CreatePlanForm extends ActionBarActivity {
             act.putExtra("endMonth", endMonth + 1);
             act.putExtra("endYear", endYear);
             GlobalPlan.globalPlan = null;
-            startActivity(act);
+            startActivity(act);*/
+            //MealPlan newPlan = new MealPlan(numPlans, nameInput.getEditableText().toString(), );
+            RecipeHelper db = new RecipeHelper(this);
+            MealPlan newPlan = new MealPlan(numPlans, name, startMonth + 1, startDay, startYear, endMonth + 1, endDay, endYear, db);
+            //GlobalPlan.globalPlan = newPlan;
+            MPdb.saveMealPlan(newPlan);
             finish();
         }
         else if(tempNum >= maxPlanSize)

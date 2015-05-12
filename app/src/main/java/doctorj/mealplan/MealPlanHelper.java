@@ -18,7 +18,6 @@ import java.util.Random;
  * Created by Jesse on 4/12/2015.
  */
 public class MealPlanHelper extends SQLiteOpenHelper {
-    private ContextWrapper context;
     private List<MealPlan> DEBUG_PLANS = new ArrayList<>();
     public static final String TABLE_MEALPLANS = "MealPlans";
     public static final String TABLE_MPRECIPES = "MPRecipes";
@@ -38,6 +37,8 @@ public class MealPlanHelper extends SQLiteOpenHelper {
     public static final String COLUMN_AMOUNT = "Amount";
     public static final String COLUMN_PORTION = "Portions";
     public static final String COLUMN_MRULE = "MRule";
+    public static final String COLUMN_CATEGORY = "Category";
+    public static final String COLUMN_FAVORITE = "Favorite";
 
     private static final String DATABASE_NAME = "MealPlansDatabase.db";
     private static final int DATABASE_VERSION = 1;
@@ -69,8 +70,9 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                     COLUMN_INDEX + "    INT    PRIMARY KEY," +
                     COLUMN_NAME + "       STRING," +
                     COLUMN_PORTION + "   INT," +
-                    COLUMN_DIRECTIONS + " STRING" +
-                    ");";
+                    COLUMN_DIRECTIONS + " STRING (0), " +
+                    COLUMN_CATEGORY + " STRING (0), "+
+                    COLUMN_FAVORITE + " INT DEFAULT (0));";
 
             String CREATE_MP_INGREDIENTS_TABLE = "CREATE TABLE " + TABLE_MPINGREDIENTS + " (" +
                     MP_ID + "      INT    REFERENCES "+ TABLE_MEALPLANS +" (" + MP_ID + ")," +
@@ -141,6 +143,75 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         return array;
     }
 
+    public void updateRecipe( int index, String name, List<Ingredient> ings, int portion, String directions){
+        //RecipeHelper rH = new RecipeHelper(context);
+        SQLiteDatabase db = this.getReadableDatabase();
+        String SQLgetMP_ID = "SELECT " + MP_ID + " FROM " + TABLE_MPRECIPES + " WHERE " + COLUMN_INDEX + "=" + index;
+        Cursor cID = db.rawQuery(SQLgetMP_ID, null);
+        cID.moveToFirst();
+        int mp_ID = cID.getInt(0);
+        db = this.getWritableDatabase();
+        String SQLremoveIngredients = "DELETE FROM " + TABLE_MPINGREDIENTS + " WHERE " + COLUMN_INDEX + "=" + index;
+        db.execSQL(SQLrecipeUpdate( index, name, portion, directions));
+        db.execSQL(SQLremoveIngredients);
+        //List<Ingredient> list = getIngredientsFromRecipe(recipeID);
+        for(int i = 0; i < ings.size(); i++) {
+            db.execSQL(SQLingredientsInsert(index, mp_ID, ings.get(i).getName(), ings.get(i).getAmount(), ings.get(i).getMeasurement()));
+        }
+        db.close();
+
+    }
+
+    public MealPlan getPlan(int id){
+        MealPlan tempPlan = new MealPlan();
+        List<Recipe> recs = new ArrayList<>();
+        List<Ingredient> ingredients;
+        Ingredient tempIng;
+        Recipe tempRec;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getMPQuery = "SELECT * FROM " + TABLE_MEALPLANS + " WHERE " + MP_ID + "=" + id;
+        Cursor i = db.rawQuery(getMPQuery, null);
+        Cursor c;
+        Cursor j;
+        if (i.getCount() > 0) {
+            i.moveToFirst();
+                String getRecipesQuery = "SELECT * FROM " + TABLE_MPRECIPES + " WHERE " + MP_ID + "=" + i.getInt(0);
+                c = db.rawQuery(getRecipesQuery, null);
+                //recs = new ArrayList<>();
+
+
+                if (c.moveToFirst()) {
+                    do {
+                        String getIngredientsQuery = "SELECT * FROM " + TABLE_MPINGREDIENTS +
+                                " WHERE "+ COLUMN_INDEX +"=" + c.getInt(1) + " AND " + MP_ID + "=" + c.getInt(0);
+                        j = db.rawQuery(getIngredientsQuery, null);
+                        ingredients = new ArrayList<>();
+
+                        if(j.moveToFirst())
+                        {
+                            do{
+                                //DEBUG_PLANS_TEST();
+                                tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
+                                ingredients.add(tempIng);
+                            }while(j.moveToNext());
+                        }
+                        tempRec = new Recipe(c.getInt(1), c.getString(2), ingredients, c.getString(4));
+                        //TODO -> make constructor for mealplan database index in recipe class
+                        recs.add(tempRec);
+                    } while (c.moveToNext());
+                }
+                //Log.d("getPlans recs size: ", String.valueOf(recs.size()));
+                //Log.d("getPlans Plan Length: ", String.valueOf(i.getInt(8)));
+                /*Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
+                Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
+                Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));*/
+                tempPlan = new MealPlan(i.getInt(0), i.getString(1), i.getInt(2), i.getInt(3), i.getInt(4), i.getInt(5), i.getInt(6), i.getInt(7), i.getInt(8), recs);
+
+        }
+        db.close();
+        return tempPlan;
+    }
+
     public List<MealPlan> getPlans() {
 
         ///&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -161,7 +232,7 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                 String getRecipesQuery = "SELECT * FROM " + TABLE_MPRECIPES + " WHERE " + MP_ID + "=" + i.getInt(0);
                 c = db.rawQuery(getRecipesQuery, null);
                 recs = new ArrayList<>();
-                Log.d("MPHelper:recipe num from database: ", String.valueOf(c.getCount()));
+
 
                 if (c.moveToFirst()) {
                     do {
@@ -179,11 +250,12 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                             }while(j.moveToNext());
                         }
                         tempRec = new Recipe(c.getInt(1), c.getString(2), ingredients, c.getString(4));
+                        //TODO -> make constructor for mealplan database index in recipe class
                         recs.add(tempRec);
                     } while (c.moveToNext());
                 }
-                Log.d("getPlans recs size: ", String.valueOf(recs.size()));
-                Log.d("getPlans Plan Length: ", String.valueOf(i.getInt(8)));
+                //Log.d("getPlans recs size: ", String.valueOf(recs.size()));
+                //Log.d("getPlans Plan Length: ", String.valueOf(i.getInt(8)));
                 /*Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
                 Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
                 Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));*/
@@ -220,6 +292,24 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         return insert;
     }
 
+    private String SQLrecipeUpdate( int index, String name, int portion, String directions) {
+        String insertRecipeSQL = "UPDATE " + TABLE_MPRECIPES + " SET " +
+                COLUMN_NAME + " = '" + name + "', " +
+                COLUMN_PORTION + " = " + portion + ", " +
+                COLUMN_DIRECTIONS + " = '" + directions + "' " +
+                " WHERE " + COLUMN_INDEX + " = " + index + ";";
+        return insertRecipeSQL;
+    }
+
+    /*private String SQLingredientsUpdate( int index, String name, double amount, String mRule) {
+        String insertRecipeSQL = "UPDATE " + TABLE_MPRECIPES + " SET " +
+                COLUMN_NAME + " = '" + name + "', " +
+                COLUMN_AMOUNT + " = " + amount + ", " +
+                COLUMN_MRULE + " = '" + mRule + "' " +
+                " WHERE " + COLUMN_INDEX + " = " + index + ";";
+        return insertRecipeSQL;
+    }*/
+
     private String SQLingredientsInsert(int index, int mp_id, String name, double amount, String mRule)
     {
         String insertRecipeSQL = "INSERT INTO " + TABLE_MPINGREDIENTS + " (" + COLUMN_INDEX + ", " + MP_ID + ", " +
@@ -237,6 +327,28 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         values.put(COLUMN_AMOUNT, 2);
         values.put(COLUMN_MRULE, "WHOLE");
         db.insert(TABLE_MPINGREDIENTS, null, values);*/
+    }
+
+    private List <Ingredient> getIngredientsFromRecipe(int index)
+    {
+        List<Ingredient> list = new ArrayList<>();
+        Ingredient tempIng;
+        Cursor j;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getIngredientsQuery = "SELECT * FROM " + TABLE_MPINGREDIENTS +
+                " WHERE "+ COLUMN_INDEX +"=" + index;
+        j = db.rawQuery(getIngredientsQuery, null);
+
+
+        if(j.moveToFirst())
+        {
+            do{
+                //DEBUG_PLANS_TEST();
+                tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
+                list.add(tempIng);
+            }while(j.moveToNext());
+        }
+        return list;
     }
 
     public void saveMealPlan(MealPlan mp)

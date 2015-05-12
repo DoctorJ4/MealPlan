@@ -29,6 +29,7 @@ public class MealPlan{
     private int calendarOffset;
     private String dayArray [] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
+    public MealPlan(){}
 
     // obtain from database
     public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear, int length, List<Recipe> recs)
@@ -77,6 +78,7 @@ public class MealPlan{
         this.monthString = CAL.getMonthString(this.monthBegin);
         this.planLength = CAL.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
         this.recipes = new ArrayList<>();
+        //RecipeHelper db = new RecipeHelper(this);
         buildRandomPlan(db);
         buildSchedule();
         sendIngredientsToGL();
@@ -183,6 +185,8 @@ public class MealPlan{
     public int getEndYear(){ return this.yearEnd; }
     public String getStartDate(){ return this.startDate; }
     public String getEndDate(){ return this.endDate; }
+    public int getMealID(int num){return recipes.get(num).get_id();}
+    public String getMealCategory(int num){return recipes.get(num).getCategory();}
     public int getMealPortions(int num) { return recipes.get(num).getPortions(); }
     public String getMealName(int num){  return recipes.get(num).getName(); }
     public String getMealDirections(int num) { return recipes.get(num).getDirections(); }

@@ -7,6 +7,21 @@ import java.util.List;
  * Created by Jesse Dodson on 4/14/2015.
  */
 public class MyRecipeList {
+    public static final String TABLE_RECIPES = "Recipes";
+    public static final String TABLE_INGREDIENTS = "Ingredients";
+    public static final String COLUMN_ID = "ID";
+    public static final String COLUMN_NAME = "Name";
+    public static final String COLUMN_DIRECTIONS = "Directions";
+    public static final String COLUMN_PORTIONS = "Portions";
+    public static final String COLUMN_AMOUNT = "Amount";
+    public static final String COLUMN_MRULE = "MRule";
+    public static final String COLUMN_CATEGORY = "Category";
+    public static final String COLUMN_FAVORITE = "Favorite";
+    //~~~~~~~~~~~~~~CATEGORIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private String Italian = "Italian";
+    private String American = "American";
+    private String Mexican = "Mexican";
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private List<String> MyList;
     private List<String> MyIngredientsList;
     private char ds = 0x00B0; //degree symbol -> °
@@ -87,7 +102,7 @@ public class MyRecipeList {
                 "Heat oven to 400" + ds + "F. Spray or grease 15x10-inch or larger dark or nonstick cookie sheet. Unroll dough" +
                         "on cookie sheet; starting at center, press dough into 15x10-inch rectangle. In 10-inch nonstick skillet, cook beef, onion and pepper over medium-high heat, stirring frequently, " +
                         "until cooked thoroughly; drain. Stir in pickles, ketchup and mustard. Spoon evenly over dough. " +
-                        "Sprinkle with bacon and cheese. Bake 14 to 19 minutes or until crust is golden brown and cheese is melted. Serve immediately."));
+                        "Sprinkle with bacon and cheese. Bake 14 to 19 minutes or until crust is golden brown and cheese is melted. Serve immediately.", American, 0));
         MyIngredientsList.add(SQLIngredientInsert(0, pillsPizzaCrust, 1, cans));
         MyIngredientsList.add(SQLIngredientInsert(0, groundBeef, 1, lb));
         MyIngredientsList.add(SQLIngredientInsert(0, choppedOnion, 0.5, cups));
@@ -104,7 +119,7 @@ public class MyRecipeList {
                         "While chicken is baking boil water in a medium saucepan for the spaghetti noodles (they take about 10 - 15 minutes to cook). " +
                         "With 10 minutes left on the chicken, begin heating spaghetti sauce in small or medium saucepan. When chicken is finished " +
                         "cover each chicken breast with a spoonful or two of sauce and place mozzarella on top. Turn off oven and let sit for about 5 minutes for cheese to melt. " +
-                        "Mix remaining sauce with noodles and enjoy!"));
+                        "Mix remaining sauce with noodles and enjoy!", Italian, 0));
         MyIngredientsList.add(SQLIngredientInsert(1, chickenB, 1, lb));
         MyIngredientsList.add(SQLIngredientInsert(1, S_parm, 0.5, cups));
         MyIngredientsList.add(SQLIngredientInsert(1, S_mozzarella, 0.5, cups));
@@ -120,7 +135,7 @@ public class MyRecipeList {
                         "in cubed Velveeta Cheese. Stir constantly while Cheese is " +
                         "melting. \n\nIt will stick if you fail to stir!\n" +
                         "Great with Tortilla Chips or Fritos\n" +
-                        "This is delicious soup for a cold day!"));
+                        "This is delicious soup for a cold day!", Mexican, 0));
         MyIngredientsList.add(SQLIngredientInsert(2, chickenB, 2, lb));
         MyIngredientsList.add(SQLIngredientInsert(2, chickenBroth, 3, cans));
         MyIngredientsList.add(SQLIngredientInsert(2, creamOfChicken, 3, cans));
@@ -137,7 +152,7 @@ public class MyRecipeList {
                         "then dip into egg mixture (being sure all the flour on the chicken is soaked with the egg mixture). Then place the chicken back into the flour covering the piece completely. " +
                         "Place the chicken in the oil and cook until browned all around. Place chicken in a bowl with paper towels to let cool.\n\n" +
                         "Gravy: Reduce heat to low to medium-low on oil. Mix just enough flour into oil until the mixture becomes a thick paste. Cook mixture for 5 minutes then add milk and mix constantly. " +
-                        "If mixture begins to clump use a wisk or fork to break up clumps and add more milk. Cook slowly until thickened."));
+                        "If mixture begins to clump use a wisk or fork to break up clumps and add more milk. Cook slowly until thickened.", American, 0));
         MyIngredientsList.add(SQLIngredientInsert(3, chickenB, 1, lb));
         MyIngredientsList.add(SQLIngredientInsert(3, flour, 2, cups));
         MyIngredientsList.add(SQLIngredientInsert(3, salt, 2, tsp));
@@ -153,7 +168,7 @@ public class MyRecipeList {
                 "BROWN meat in large skillet; drain. Return meat to skillet. " +
                         "ADD milk, ketchup, mustard and onion powder; mix well. Bring to boil. Stir in Shell Pasta, " +
                         "return to boil. Cover, simmer on medium-low heat 10 min. or until pasta is tender." +
-                        "STIR in Cheese Sauce and sour cream until blended. Add tomatoes and onions; mix well."));
+                        "STIR in Cheese Sauce and sour cream until blended. Add tomatoes and onions; mix well.", American, 0));
         MyIngredientsList.add(SQLIngredientInsert(4, groundBeef, 1, lb));
         MyIngredientsList.add(SQLIngredientInsert(4, milk, 2.5, cups));
         MyIngredientsList.add(SQLIngredientInsert(4, ketchup, 0.25, cups));
@@ -172,7 +187,7 @@ public class MyRecipeList {
                         "While meatballs are baking boil water in a medium saucepan for the spaghetti noodles (they take about 10 - 15 minutes to cook). " +
                         "With 10 minutes left on the meatballs, begin heating spaghetti sauce in medium saucepan. When meatballs are finished " +
                         "place meatballs in sauce to keep them warm and moist until noodles are cooked. " +
-                        "Mix sauce with noodles, sprinkle remaining parmesan cheese and enjoy!"));
+                        "Mix sauce with noodles, sprinkle remaining parmesan cheese and enjoy!", Italian, 0));
         MyIngredientsList.add(SQLIngredientInsert(5, groundSausage, 1, lb));
         MyIngredientsList.add(SQLIngredientInsert(5, bread, 2, slices));
         MyIngredientsList.add(SQLIngredientInsert(5, S_parm, 0.5, cups));
@@ -183,24 +198,40 @@ public class MyRecipeList {
         MyIngredientsList.add(SQLIngredientInsert(5, spagSauce, 24, oz));
     }
 
-    private String SQLRecipeInsert(int id, String name, int portion, String directions)
+    private String SQLRecipeInsert(int id, String name, int portion, String directions, String category, int favorite)
     {
-        String insertRecipeSQL = "INSERT INTO Recipes (id, Name, Portions, Directions) VALUES (";
+        String insertRecipeSQL = "INSERT INTO " + TABLE_RECIPES + " ("+
+                COLUMN_ID + ", " +
+                COLUMN_NAME + ", " +
+                COLUMN_PORTIONS + ", " +
+                COLUMN_DIRECTIONS + ", " +
+                COLUMN_CATEGORY + ", " +
+                COLUMN_FAVORITE + ") VALUES (";
         String endSQL = ");";
         String insert;
-        insert = new String (insertRecipeSQL + Integer.toString(id) + ", '" + name + "', "
-                + Integer.toString(portion) + ", '" + directions + "'" + endSQL);
+        insert = new String (
+                insertRecipeSQL +
+                Integer.toString(id) + ", '" +
+                name + "', " +
+                Integer.toString(portion) + ", '" +
+                directions + "', '" +
+                category + "', " +
+                favorite + endSQL);
 
         return insert;
     }
 
     private String SQLIngredientInsert(int id, String name, double amount, String mRule)
     {
-        String insertIngredientSQL = "INSERT INTO Ingredients (id, Name, Amount, MRule) VALUES (";
-        String endSQL = ");";
+        String insertIngredientSQL = "INSERT INTO " + TABLE_INGREDIENTS + " (" +
+                COLUMN_ID + ", " +
+                COLUMN_NAME + ", " +
+                COLUMN_AMOUNT + ", " +
+                COLUMN_MRULE + ") VALUES (";
+        String endSQL = "');";
         String insert;
         insert = new String (insertIngredientSQL + Integer.toString(id) + ", '" + name + "', "
-                + Double.toString(amount) + ", '" + mRule + "'" + endSQL);
+                + Double.toString(amount) + ", '" + mRule + endSQL);
 
         return insert;
     }

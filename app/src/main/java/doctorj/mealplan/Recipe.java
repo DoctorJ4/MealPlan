@@ -14,6 +14,8 @@ public class Recipe
     private String ingString;
     private int portions;
     private String directions;
+    private String category;
+    private boolean favorite;
 
     public Recipe()
     {
@@ -23,7 +25,7 @@ public class Recipe
         this.ingString = "Not Set";
         this.portions = 2;
         this.ingredients = new ArrayList<>();
-        return;
+        this.favorite = false;
     }
 
     public Recipe(int idNum, String title, List<Ingredient> ings, String directs)
@@ -35,6 +37,7 @@ public class Recipe
         this.ingString = "";
         this.portions = 2;
         this.directions = directs;
+        this.favorite = false;
     }
 
     public void set_id(int idNum) {this._id = idNum;}
@@ -42,6 +45,8 @@ public class Recipe
     public void setIngredients(List<Ingredient> tempIngs){ this.ingredients = new ArrayList<>(tempIngs); }
     public void setDirections(String direct) { this.directions = direct; }
     public void setIngString(String is){ this.ingString = is; }
+    public void setCategory(String c){ this.category = c; }
+    public void setFavorite(boolean fav){ this.favorite = fav; }
 
     public int get_id(){ return this._id; }
     public String getName()
@@ -51,6 +56,8 @@ public class Recipe
     public int getPortions(){ return this.portions; }
     public String getDirections() { return this.directions; }
     public List<Ingredient> getIngredients() { return this.ingredients; }
+    public String getCategory(){ return this.category; }
+    public boolean isFavorite(){ return this.favorite; }
 
     public String getIngredientsString()
     {

@@ -31,10 +31,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".CreatePlanForm"
             android:label="@string/title_activity_create_plan_form" >
+        </activity>
+        <activity
+            android:name=".MealPlanEditActivity"
+            android:label="Edit Plan" >
+        </activity>
+        <activity
+            android:name=".RecipeAddViewActivity"
+            android:label="RecipeAddViewActivity"
+            android:launchMode="singleTop" >
         </activity>
     </application>
 

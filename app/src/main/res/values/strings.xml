@@ -3,6 +3,7 @@
 
     <string name="newName">Enter Name of New Plan</string>
     <string name="action_calendar">Calendar</string>
+    <string name="recipe_search">Search</string>
     <string name="Meal_Plan">Meal List</string>
     <string name="title_activity_display__details">Display_Details</string>
     <string name="title_activity_calendar_view">CalendarView</string>
@@ -14,4 +15,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_create_plan_form">CreatePlanForm</string>
     <string name="Name_input">Plan Name</string>
+
+    <string name="title_activity_meal_plan_edit">MealPlanEditActivity</string>
 </resources>

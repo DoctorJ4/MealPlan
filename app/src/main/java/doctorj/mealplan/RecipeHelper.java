@@ -17,9 +17,14 @@ public class RecipeHelper extends SQLiteOpenHelper {
     public static final String TABLE_RECIPES = "Recipes";
     public static final String TABLE_INGREDIENTS = "Ingredients";
 
-    public static final String ID = "ID";
+    public static final String COLUMN_ID = "ID";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_DIRECTIONS = "Directions";
+    public static final String COLUMN_PORTIONS = "Portions";
+    public static final String COLUMN_AMOUNT = "Amount";
+    public static final String COLUMN_MRULE = "MRule";
+    public static final String COLUMN_CATEGORY = "Category";
+    public static final String COLUMN_FAVORITE = "Favorite";
 
     private static final String DATABASE_NAME = "Recipes";
     private static final int DATABASE_VERSION = 1;
@@ -30,11 +35,18 @@ public class RecipeHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_RECIPES_TABLE = "CREATE TABLE Recipes " +
-                "(ID INT (0) NOT NULL PRIMARY KEY UNIQUE, Name TEXT (1) NOT NULL, " +
-                "Portions number (1) DEFAULT (2), Directions STRING (0));";
-        String CREATE_INGREDIENTS_TABLE = "CREATE TABLE Ingredients " +
-                "(ID INTEGER (0) REFERENCES recipes (ID), Name TEXT (1) NOT NULL, Amount REAL, MRule TEXT)";
+        String CREATE_RECIPES_TABLE = "CREATE TABLE Recipes (" +
+                COLUMN_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
+                COLUMN_NAME + " TEXT (1) NOT NULL, " +
+                COLUMN_PORTIONS + " number (1) DEFAULT (2), " +
+                COLUMN_DIRECTIONS + " STRING (0), " +
+                COLUMN_CATEGORY + " STRING (0), "+
+                COLUMN_FAVORITE + " INT DEFAULT (0));";
+        String CREATE_INGREDIENTS_TABLE = "CREATE TABLE Ingredients ("+
+                COLUMN_ID + " INTEGER (0) REFERENCES recipes (ID), "+
+                COLUMN_NAME +" TEXT (1) NOT NULL, " +
+                COLUMN_AMOUNT + " REAL, " +
+                COLUMN_MRULE +" TEXT)";
         db.execSQL(CREATE_RECIPES_TABLE);
         db.execSQL(CREATE_INGREDIENTS_TABLE);
         fillTables(db);
@@ -189,6 +201,67 @@ public class RecipeHelper extends SQLiteOpenHelper {
         return recipe;
     }
 
+    public List <Ingredient> getrecipeIngredients (int id)
+    {
+        List<Ingredient> ings = new ArrayList<>();
+        Ingredient tempIng;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String getIngsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_ID + "=" + id;
+        Cursor i = db.rawQuery(getIngsQuery, null);
+        if(i.moveToFirst())
+        {
+            do {
+                tempIng = new Ingredient();
+                tempIng.setName(i.getString(1));
+                tempIng.setAmount(i.getDouble(2));
+                tempIng.setMeasurement(i.getString(3));
+                ings.add(tempIng);
+            }while(i.moveToNext());
+        }
+        return ings;
+    }
 
+    public List <Recipe> getRecipesCategory (String category)
+    {
+        List<Recipe> recs;
+        String getRecipesQuery;
+        if(category.equals(COLUMN_FAVORITE))
+            getRecipesQuery = "SELECT * FROM " + TABLE_RECIPES + " WHERE " + COLUMN_FAVORITE + "=1";
+        else
+            getRecipesQuery = "SELECT * FROM " + TABLE_RECIPES + " WHERE " + COLUMN_CATEGORY + "='" + category + "'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        //String getRecipesQuery = "SELECT * FROM " + TABLE_MPRECIPES + " WHERE " + MP_ID + "=" + i.getInt(0);
+        Cursor c = db.rawQuery(getRecipesQuery, null);
+        recs = new ArrayList<>();
+        Ingredient tempIng;
+        List <Ingredient> ingredients;
+        Recipe tempRec;
+        //Log.d("MPHelper:recipe num from database: ", String.valueOf(c.getCount()));
+
+        if (c.moveToFirst()) {
+            do {
+                String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
+                Cursor i = db.rawQuery(getIngredientsQuery, null);
+               //Log.d("RHelper recipe ID: ", String.valueOf(c.getInt(0)));
+                ingredients = new ArrayList<>();
+                if(i.moveToFirst())
+                {
+                    do {
+                        tempIng = new Ingredient();
+                        tempIng.setName(i.getString(1));
+                        //Log.d("RHelper ingName: ", i.getString(1));
+                        tempIng.setAmount(i.getDouble(2));
+                        tempIng.setMeasurement(i.getString(3));
+                        ingredients.add(tempIng);
+                    }while(i.moveToNext());
+                }
+                tempRec = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
+                Log.d("tempRec name: ", tempRec.getName());
+                recs.add(tempRec);
+            } while (c.moveToNext());
+        }
+        Log.d("RHelper recIngString: ", recs.get(1).getIngredientsString());;
+        return recs;
+    }
 
 }
