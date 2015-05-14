@@ -18,7 +18,7 @@ import java.util.List;
 
 public class RecipeAddViewActivity extends Activity {
     private int recipeID;
-    private int mpDBid;
+    private int recipeIndex;
     private String recipeName;
     private String ingredients;
     private int recipePortions;
@@ -44,7 +44,7 @@ public class RecipeAddViewActivity extends Activity {
         this.ingredients = extras.getString("StringIngredients");
         this.recipePortions = extras.getInt("Portions");
         this.directions = extras.getString("StringDirections");
-        this.mpDBid = extras.getInt("mpDBid");
+        this.recipeIndex = extras.getInt("recipeIndex");
 
         final TextView nameView = (TextView)
                 findViewById(R.id.Name);
@@ -70,8 +70,8 @@ public class RecipeAddViewActivity extends Activity {
         RecipeHelper rH = new RecipeHelper(context);
         MealPlanHelper mpH = new MealPlanHelper(context);
         List<Ingredient> ings = rH.getrecipeIngredients(recipeID);
-        mpH.updateRecipe( mpDBid, recipeName, ings, recipePortions, directions);
-        Log.d("addRecipeView: mpDBid: ", String.valueOf(mpDBid));
+        mpH.updateRecipe(recipeIndex, recipeName, ings, recipePortions, directions);
+        Log.d("addRecipeView: index: ", String.valueOf(recipeIndex));
         Log.d("addRecipeView: name: ", recipeName);
         Log.d("addRecipeView: inName: ", ings.get(0).getName());
         Log.d("addRecipeView: port: ", String.valueOf(recipePortions));

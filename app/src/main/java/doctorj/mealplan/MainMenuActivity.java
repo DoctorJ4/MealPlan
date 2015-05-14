@@ -3,6 +3,7 @@ package doctorj.mealplan;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,7 +45,7 @@ public class MainMenuActivity extends ActionBarActivity {
         createMPList();
     }
 
-    public void sendMealList(View view) {
+    public void createPlanForm(View view) {
         Intent act = new Intent(this, CreatePlanForm.class);
         GlobalPlan.globalPlan = null;
         startActivity(act);
@@ -74,7 +75,6 @@ public class MainMenuActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent act = new Intent(getApplicationContext(), MainActivity.class);
-                //act.putExtra("planImport", myPlans.get(position));
                 globalPlan = myPlans.get(position);
                 startActivity(act);
             }

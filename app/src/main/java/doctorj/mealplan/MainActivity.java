@@ -27,6 +27,8 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.util.List;
 
+import static doctorj.mealplan.GlobalPlan.globalPlan;
+
 
 public class MainActivity extends ActionBarActivity {
     private int planLength;
@@ -54,45 +56,18 @@ public class MainActivity extends ActionBarActivity {
         db = new RecipeHelper(this);
         MPdb = new MealPlanHelper(this);
         numPlans = MPdb.getNumPlans();
-        int month = 4;  //April
         this.planLength = 30;
-
-        Bundle extras = getIntent().getExtras();
-
-        if ((GlobalPlan.globalPlan == null) && (extras != null)) {
-            if(extras.getString("PlanName").isEmpty())
-                this.name = "Plan " + Integer.toString(numPlans);
-            else
-                this.name = extras.getString("PlanName");
-            this.startDay = extras.getInt("startDay");
-            this.startMonth = extras.getInt("startMonth");
-            this.startYear = extras.getInt("startYear");
-            this.endDay = extras.getInt("endDay");
-            this.endMonth = extras.getInt("endMonth");
-            this.endYear = extras.getInt("endYear");
-            plan = new MealPlan(numPlans, name, startMonth, startDay, startYear, endMonth, endDay, endYear, db);
-            //plan = new MealPlan(numPlans, name, 5, 30, 2015, 7, 30, 2015, db);
-            GlobalPlan.globalPlan = plan;
-            MPdb.saveMealPlan(plan);
-        }
-        else if (GlobalPlan.globalPlan == null){
-            plan = new MealPlan(numPlans, "Plan " + Integer.toString(numPlans), "January 1", "January 30", planLength, db);
-            GlobalPlan.globalPlan = plan;
-            MPdb.saveMealPlan(plan);
-        }
-        else
-        {
-            this.plan = GlobalPlan.globalPlan;
-        }
+        this.plan = globalPlan;
         this.setTitle(plan.getPlanName());
         populateListView();
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
         this.plan = MPdb.getPlan(this.plan.getMP_ID());
         populateListView();
+        //refreshListView();
+        super.onResume();
     }
 
     private void refreshListView(){
@@ -106,13 +81,11 @@ public class MainActivity extends ActionBarActivity {
         ListView mealTag = (ListView) findViewById(R.id.MealList);
         mealTag.setAdapter(adapter);
 
-
         mealTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
                 if(editflag == false) {
                     Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
-
                     act.putExtra("StringName", plan.getMealName(position));
                     act.putExtra("StringIngredients", plan.getMealIngredientsString(position));
                     act.putExtra("StringDirections", plan.getMealDirections(position));
@@ -121,10 +94,7 @@ public class MainActivity extends ActionBarActivity {
                 else {
                     Intent act = new Intent(getApplicationContext(), MealPlanEditActivity.class);
 
-                    act.putExtra("mpDBid", plan.getMealID(position));
-                    //act.putExtra("MP_ID", plan.getPlan)
-                    //act.putExtra("StringIngredients", plan.getMealIngredientsString(position));
-                    //act.putExtra("StringDirections", plan.getMealDirections(position));
+                    act.putExtra("recipeIndex", plan.getMealIndex(position));
                     startActivity(act);
                 }
             }
@@ -163,13 +133,11 @@ public class MainActivity extends ActionBarActivity {
             if(item.isChecked() == false) {
                 item.setChecked(true);
                 editflag = true;
-                Log.d("checked: ", String.valueOf(item.isChecked()));
 
             }
             else if(item.isChecked() == true){
                 item.setChecked(false);
                 editflag = false;
-                Log.d("false checked: ", String.valueOf(item.isChecked()));
             }
         }
         //return super.onOptionsItemSelected(item);

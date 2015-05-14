@@ -146,7 +146,6 @@ public class RecipeHelper extends SQLiteOpenHelper {
     //grabs a single recipe
     public Recipe getRecipe(int id)
     {
-        Log.d("RecipeHelper: Started: ", String.valueOf(id));
         Recipe recipe = new Recipe();
         String getNamesQuery = "SELECT * FROM " + TABLE_RECIPES;// + " WHERE Name=\'" +item+"\'";
         try {
@@ -155,20 +154,15 @@ public class RecipeHelper extends SQLiteOpenHelper {
             List <Ingredient> ingredients = new ArrayList<>();
             Ingredient tempIng = new Ingredient();
 
-            //Log.d("count: ", String.valueOf(c.getCount()));
-            //Log.d("SQ:: ", String.valueOf(id));
             c.moveToFirst();
             int p = 0;
             int end = 0;
                 while(p < c.getCount() && end != 1)
                 {
-                    //Log.d("name: " , c.getString(1));
                 if(c.getInt(0) == id)
                 {
-                    //Log.d("count2: ", String.valueOf(c.getInt(0)));
                     String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
                     Cursor i = db.rawQuery(getIngredientsQuery, null);
-                    //ingredients = new ArrayList<>();
                     if(i.moveToFirst())
                     {
                         do {
@@ -179,9 +173,6 @@ public class RecipeHelper extends SQLiteOpenHelper {
                             ingredients.add(tempIng);
                         }while(i.moveToNext());
                     }
-                    //Log.d("cursor0: ", c.getString(0));
-                    //Log.d("cursor1: ", c.getString(1));
-                    //Log.d("cursor3: ", c.getString(3));
                     recipe = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
                     end = 1;
                 }
@@ -236,31 +227,26 @@ public class RecipeHelper extends SQLiteOpenHelper {
         Ingredient tempIng;
         List <Ingredient> ingredients;
         Recipe tempRec;
-        //Log.d("MPHelper:recipe num from database: ", String.valueOf(c.getCount()));
 
         if (c.moveToFirst()) {
             do {
                 String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
                 Cursor i = db.rawQuery(getIngredientsQuery, null);
-               //Log.d("RHelper recipe ID: ", String.valueOf(c.getInt(0)));
                 ingredients = new ArrayList<>();
                 if(i.moveToFirst())
                 {
                     do {
                         tempIng = new Ingredient();
                         tempIng.setName(i.getString(1));
-                        //Log.d("RHelper ingName: ", i.getString(1));
                         tempIng.setAmount(i.getDouble(2));
                         tempIng.setMeasurement(i.getString(3));
                         ingredients.add(tempIng);
                     }while(i.moveToNext());
                 }
                 tempRec = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
-                Log.d("tempRec name: ", tempRec.getName());
                 recs.add(tempRec);
             } while (c.moveToNext());
         }
-        Log.d("RHelper recIngString: ", recs.get(1).getIngredientsString());;
         return recs;
     }
 

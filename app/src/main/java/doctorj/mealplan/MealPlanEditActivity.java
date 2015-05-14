@@ -36,7 +36,7 @@ public class MealPlanEditActivity extends ActionBarActivity {
     int editLevel = 0;
     private String [] categories = {"Italian", "American", "Mexican"};
     private List<String> listFields = new ArrayList<>();
-    private int mpDBid;
+    private int recipeIndex;
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     @Override
@@ -48,7 +48,7 @@ public class MealPlanEditActivity extends ActionBarActivity {
         recipes = new ArrayList<>();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            this.mpDBid = extras.getInt("mpDBid");
+            this.recipeIndex = extras.getInt("recipeIndex");
         }
         populateListView();
     }
@@ -87,7 +87,7 @@ public class MealPlanEditActivity extends ActionBarActivity {
                     act.putExtra("StringDirections", recipes.get(position).getDirections());
                     act.putExtra("Portions", recipes.get(position).getPortions());
                     act.putExtra("RecipeCategory", recipes.get(position).getCategory());
-                    act.putExtra("mpDBid", mpDBid);
+                    act.putExtra("recipeIndex", recipeIndex);
                     startActivityForResult(act, 1);
                 }
             }

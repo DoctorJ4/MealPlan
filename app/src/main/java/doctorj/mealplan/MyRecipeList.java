@@ -24,7 +24,7 @@ public class MyRecipeList {
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     private List<String> MyList;
     private List<String> MyIngredientsList;
-    private char ds = 0x00B0; //degree symbol -> °
+    private char ds = 0x00B0; //degree symbol
     //measurement types--------------------------------------------------
     String slices = "Slice(s)";
     String cups = "Cup(s)";

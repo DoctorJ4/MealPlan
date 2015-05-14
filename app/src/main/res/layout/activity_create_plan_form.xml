@@ -4,14 +4,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="doctorj.mealplan.CreatePlanForm">
+    tools:context="doctorj.mealplan.CreatePlanForm"
+    android:id="@+id/createPlanForm">
 
     <TextView
         android:text="@string/newName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_marginTop="85dp"
+        android:layout_marginTop="45dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
@@ -24,10 +25,10 @@
         android:background="@android:color/white"
         android:textColor="@color/black_overlay"
         android:hint="Plan Name"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
         android:textAlignment="center"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -44,10 +45,11 @@
         android:layout_height="wrap_content"
         android:text="Set Start"
         android:id="@+id/setStart"
-        android:layout_centerVertical="true"
         android:onClick="setStartDate"
+        android:layout_below="@+id/EditTextView"
         android:layout_toLeftOf="@+id/createButton"
-        android:layout_toStartOf="@+id/createButton" />
+        android:layout_toStartOf="@+id/createButton"
+        android:layout_marginTop="43dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -63,21 +65,95 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="22sp Text"
         android:id="@+id/startDateText"
-        android:layout_above="@+id/setStart"
+        android:layout_alignTop="@+id/endDateText"
         android:layout_alignLeft="@+id/setStart"
-        android:layout_alignStart="@+id/setStart" />
+        android:layout_alignStart="@+id/setStart"
+        android:textIsSelectable="false"
+        android:textSize="22sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
+        android:text="22sp Text"
         android:id="@+id/endDateText"
         android:layout_above="@+id/setEnd"
         android:layout_alignLeft="@+id/setEnd"
-        android:layout_alignStart="@+id/setEnd" />
+        android:layout_alignStart="@+id/setEnd"
+        android:textSize="22sp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Italian"
+        android:id="@+id/Italian"
+        android:layout_below="@+id/American"
+        android:layout_alignLeft="@+id/American"
+        android:layout_alignStart="@+id/American" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mexican"
+        android:id="@+id/Mexican"
+        android:layout_below="@+id/Italian"
+        android:layout_alignLeft="@+id/Italian" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/American"
+        android:id="@+id/American"
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/setStart"
+        android:layout_alignStart="@+id/setStart" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Favorites"
+        android:id="@+id/Favorites"
+        android:layout_above="@+id/American"
+        android:layout_alignLeft="@+id/setStart"
+        android:layout_alignStart="@+id/setStart" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New CheckBox"
+        android:id="@+id/checkBox2"
+        android:layout_alignTop="@+id/Favorites"
+        android:layout_alignRight="@+id/endDateText"
+        android:layout_alignEnd="@+id/endDateText" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New CheckBox"
+        android:id="@+id/checkBox3"
+        android:layout_below="@+id/checkBox2"
+        android:layout_alignRight="@+id/checkBox2"
+        android:layout_alignEnd="@+id/checkBox2" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New CheckBox"
+        android:id="@+id/checkBox4"
+        android:layout_below="@+id/checkBox3"
+        android:layout_alignRight="@+id/checkBox3"
+        android:layout_alignEnd="@+id/checkBox3" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New CheckBox"
+        android:id="@+id/checkBox5"
+        android:layout_below="@+id/checkBox4"
+        android:layout_alignRight="@+id/checkBox4"
+        android:layout_alignEnd="@+id/checkBox4" />
 
 
 </RelativeLayout>

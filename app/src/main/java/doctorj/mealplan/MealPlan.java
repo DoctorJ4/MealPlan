@@ -151,7 +151,7 @@ public class MealPlan{
         int monthCount = startMonth;
         String monthName = this.monthString;
         endMonth = endMonth + (12 * (endYear - startYear));
-        Log.d("MP:recipes length ", String.valueOf(recipes.size()));
+
         while (((monthCount < endMonth) || (startDay < endDay)) && (startYear <= endYear)) {
             this.schedule[num] = dayArray[(dayNum + num) % 7] + ", " + monthName + " " + (startDay) + "\n" + recipes.get(num).getName();
             num++;
@@ -186,6 +186,7 @@ public class MealPlan{
     public String getStartDate(){ return this.startDate; }
     public String getEndDate(){ return this.endDate; }
     public int getMealID(int num){return recipes.get(num).get_id();}
+    public int getMealIndex(int num) {return recipes.get(num).getIndex();}
     public String getMealCategory(int num){return recipes.get(num).getCategory();}
     public int getMealPortions(int num) { return recipes.get(num).getPortions(); }
     public String getMealName(int num){  return recipes.get(num).getName(); }
@@ -248,17 +249,11 @@ public class MealPlan{
     //made by Reed
     public void changemeal(RecipeHelper db,int loc_id,int item_id)
     {
-        Log.d("Mealplan: ", String.valueOf(item_id));
         Recipe tempRecipe;
         tempRecipe = db.getRecipe(item_id);
-        Log.d("MP:finished temp: ", String.valueOf(item_id));
         this.recipes.get(loc_id).setName(tempRecipe.getName());
         this.recipes.get(loc_id).setIngString(tempRecipe.getIngredientsString());
         this.recipes.get(loc_id).setDirections(tempRecipe.getDirections());
-       // this.schedule = null;
-        //buildSchedule();
-        //Log.d("cursor0: ", this.recipes[loc_id].getName());
-        //Log.d("cursor1: ", this.recipes[loc_id].getIngredientsString());
-        //Log.d("cursor3: ", this.recipes[loc_id].getDirections());
+
     }
 }

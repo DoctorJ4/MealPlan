@@ -40,6 +40,6 @@
         android:layout_alignRight="@+id/MealPlanList"
         android:layout_alignEnd="@+id/MealPlanList"
         android:clickable="true"
-        android:onClick="sendMealList"
+        android:onClick="createPlanForm"
         android:singleLine="false" />
 </RelativeLayout>

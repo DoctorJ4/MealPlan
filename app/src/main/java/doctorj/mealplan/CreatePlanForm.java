@@ -2,22 +2,24 @@ package doctorj.mealplan;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class CreatePlanForm extends ActionBarActivity {
     private final int maxPlanSize = 100;
-    private EditText nameInput;
     static final int START_DIALOG_ID = 0;
     static final int END_DIALOG_ID = 1;
     private int startMonth;
@@ -26,14 +28,20 @@ public class CreatePlanForm extends ActionBarActivity {
     private int endMonth;
     private int endDay;
     private int endYear;
-    private TextView startText;
-    private TextView endText;
-    MyCalendar myC;
+    private MyCalendar myC;
     private String startDate;
     private String endDate;
     private MealPlanHelper MPdb;
     private int numPlans;
-
+    private List<String> categories;
+    //GUI COMPONENTS~~~~~~~~~~~~~~~~~~~~~~~~~~
+    private TextView startText;
+    private TextView endText;
+    private EditText nameInput;
+    private CheckBox Favorites;
+    private CheckBox American;
+    private CheckBox Italian;
+    private CheckBox Mexican;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,7 @@ public class CreatePlanForm extends ActionBarActivity {
         final Calendar c = Calendar.getInstance();
         this.MPdb = new MealPlanHelper(this);
         this.numPlans = MPdb.getNumPlans();
+        this.categories = new ArrayList<>();
         this.startYear = c.get(Calendar.YEAR);
         this.startMonth = c.get(Calendar.MONTH);
         this.startDay = c.get(Calendar.DAY_OF_MONTH);
@@ -52,7 +61,49 @@ public class CreatePlanForm extends ActionBarActivity {
         this.endDay = this.startDay;
         this.startText = (TextView)findViewById(R.id.startDateText);
         this.endText = (TextView)findViewById(R.id.endDateText);
+        this.Favorites = (CheckBox)findViewById(R.id.Favorites);
+        this.American = (CheckBox)findViewById(R.id.American);
+        this.Italian = (CheckBox)findViewById(R.id.Italian);
+        this.Mexican = (CheckBox)findViewById(R.id.Mexican);
         setDateText();
+    }
+
+    public void sendToList(View view) {
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.set(startYear, startMonth, startDay);
+        c2.set(endYear, endMonth, endDay);
+        int tempNum = this.myC.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
+        String name = nameInput.getEditableText().toString();
+        List<String> categories = new ArrayList<>(getCategories());
+
+        if(name.equals(""))
+            name = "Plan " + numPlans;
+
+        if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
+
+            RecipeHelper db = new RecipeHelper(this);
+            MealPlan newPlan = new MealPlan(numPlans, name, startMonth + 1, startDay, startYear, endMonth + 1, endDay, endYear, db);
+            MPdb.saveMealPlan(newPlan);
+            finish();
+        }
+        else if(tempNum >= maxPlanSize)
+            Toast.makeText(this, "Plan length is too long!\nMust be less than " + maxPlanSize, Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(this, "End date is on or before start date!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private List<String> getCategories(){
+        if(Favorites.isChecked() == true)
+            categories.add("Favorites");
+        if(American.isChecked() == true)
+            categories.add("American");
+        if(Italian.isChecked() == true)
+            categories.add("Italian");
+        if(Mexican.isChecked() == true)
+            categories.add("Mexican");
+        return categories;
     }
 
 
@@ -84,41 +135,6 @@ public class CreatePlanForm extends ActionBarActivity {
         this.endDate = this.myC.getFullDateString(endMonth, endDay, endYear);;
         this.startText.setText(this.startDate);
         this.endText.setText(this.endDate);
-    }
-
-    public void sendToList(View view) {
-        Calendar c1 = Calendar.getInstance();
-        Calendar c2 = Calendar.getInstance();
-        c1.set(startYear, startMonth, startDay);
-        c2.set(endYear, endMonth, endDay);
-        String name = nameInput.getEditableText().toString();
-        if(name.equals(""))
-            name = "Plan " + numPlans;
-
-        int tempNum = this.myC.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
-        if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
-            /*Intent act = new Intent(this, MainActivity.class);
-            act.putExtra("PlanName", this.nameInput.getEditableText().toString());
-            act.putExtra("startDay", startDay);
-            act.putExtra("startMonth", startMonth + 1);
-            act.putExtra("startYear", startYear);
-            act.putExtra("endDay", endDay);
-            act.putExtra("endMonth", endMonth + 1);
-            act.putExtra("endYear", endYear);
-            GlobalPlan.globalPlan = null;
-            startActivity(act);*/
-            //MealPlan newPlan = new MealPlan(numPlans, nameInput.getEditableText().toString(), );
-            RecipeHelper db = new RecipeHelper(this);
-            MealPlan newPlan = new MealPlan(numPlans, name, startMonth + 1, startDay, startYear, endMonth + 1, endDay, endYear, db);
-            //GlobalPlan.globalPlan = newPlan;
-            MPdb.saveMealPlan(newPlan);
-            finish();
-        }
-        else if(tempNum >= maxPlanSize)
-            Toast.makeText(this, "Plan length is too long!\nMust be less than " + maxPlanSize, Toast.LENGTH_LONG).show();
-        else {
-            Toast.makeText(this, "End date is on or before start date!", Toast.LENGTH_LONG).show();
-        }
     }
 
     public void setStartDate(View view){

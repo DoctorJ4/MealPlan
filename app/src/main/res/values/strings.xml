@@ -17,4 +17,7 @@
     <string name="Name_input">Plan Name</string>
 
     <string name="title_activity_meal_plan_edit">MealPlanEditActivity</string>
+    <string name="Italian">Italian</string>
+    <string name="Favorites">Favorites</string>
+    <string name="American">American</string>
 </resources>

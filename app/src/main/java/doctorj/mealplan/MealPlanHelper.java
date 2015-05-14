@@ -24,6 +24,7 @@ public class MealPlanHelper extends SQLiteOpenHelper {
     public static final String TABLE_MPINGREDIENTS = "MPIngredients";
 
     public static final String MP_ID = "MP_ID";
+    public static final String COLUMN_RECIPEID = "Recipe_ID";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_INDEX = "Ing_ID";
     public static final String COLUMN_STARTMONTH = "StartDate";
@@ -68,6 +69,7 @@ public class MealPlanHelper extends SQLiteOpenHelper {
             String CREATE_MP_RECIPES_TABLE = "CREATE TABLE " + TABLE_MPRECIPES + " (" +
                     MP_ID + "      INT    REFERENCES "+ TABLE_MEALPLANS +" (" + MP_ID + ")," +
                     COLUMN_INDEX + "    INT    PRIMARY KEY," +
+                    COLUMN_RECIPEID + " INT NOT NULL, " +
                     COLUMN_NAME + "       STRING," +
                     COLUMN_PORTION + "   INT," +
                     COLUMN_DIRECTIONS + " STRING (0), " +
@@ -144,7 +146,7 @@ public class MealPlanHelper extends SQLiteOpenHelper {
     }
 
     public void updateRecipe( int index, String name, List<Ingredient> ings, int portion, String directions){
-        //RecipeHelper rH = new RecipeHelper(context);
+        Log.d("update index: ", String.valueOf(index));//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         SQLiteDatabase db = this.getReadableDatabase();
         String SQLgetMP_ID = "SELECT " + MP_ID + " FROM " + TABLE_MPRECIPES + " WHERE " + COLUMN_INDEX + "=" + index;
         Cursor cID = db.rawQuery(SQLgetMP_ID, null);
@@ -173,6 +175,7 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         Cursor i = db.rawQuery(getMPQuery, null);
         Cursor c;
         Cursor j;
+
         if (i.getCount() > 0) {
             i.moveToFirst();
                 String getRecipesQuery = "SELECT * FROM " + TABLE_MPRECIPES + " WHERE " + MP_ID + "=" + i.getInt(0);
@@ -190,21 +193,16 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                         if(j.moveToFirst())
                         {
                             do{
-                                //DEBUG_PLANS_TEST();
                                 tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
                                 ingredients.add(tempIng);
                             }while(j.moveToNext());
                         }
-                        tempRec = new Recipe(c.getInt(1), c.getString(2), ingredients, c.getString(4));
+                        tempRec = new Recipe(c.getInt(2), c.getInt(1), c.getString(3), ingredients, c.getString(5));
                         //TODO -> make constructor for mealplan database index in recipe class
                         recs.add(tempRec);
                     } while (c.moveToNext());
                 }
-                //Log.d("getPlans recs size: ", String.valueOf(recs.size()));
-                //Log.d("getPlans Plan Length: ", String.valueOf(i.getInt(8)));
-                /*Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
-                Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
-                Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));*/
+
                 tempPlan = new MealPlan(i.getInt(0), i.getString(1), i.getInt(2), i.getInt(3), i.getInt(4), i.getInt(5), i.getInt(6), i.getInt(7), i.getInt(8), recs);
 
         }
@@ -244,28 +242,19 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                         if(j.moveToFirst())
                         {
                             do{
-                                //DEBUG_PLANS_TEST();
                                 tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
                                 ingredients.add(tempIng);
                             }while(j.moveToNext());
                         }
-                        tempRec = new Recipe(c.getInt(1), c.getString(2), ingredients, c.getString(4));
-                        //TODO -> make constructor for mealplan database index in recipe class
+                        tempRec = new Recipe(c.getInt(2),c.getInt(1), c.getString(3), ingredients, c.getString(5));
                         recs.add(tempRec);
                     } while (c.moveToNext());
                 }
-                //Log.d("getPlans recs size: ", String.valueOf(recs.size()));
-                //Log.d("getPlans Plan Length: ", String.valueOf(i.getInt(8)));
-                /*Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
-                Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));
-                Log.d("Save Meal Plan ID: ", String.valueOf(numPlans + 1));*/
                 temp = new MealPlan(i.getInt(0), i.getString(1), i.getInt(2), i.getInt(3), i.getInt(4), i.getInt(5), i.getInt(6), i.getInt(7), i.getInt(8), recs);
                 plans.add(temp);
             } while (i.moveToNext());
         }
         db.close();
-
-        //return this.DEBUG_PLANS;//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~TEST~~~~~~~~~~~~~
         return plans;
     }
 
@@ -281,13 +270,13 @@ public class MealPlanHelper extends SQLiteOpenHelper {
 
         return insert;
     }
-    private String SQLrecipesInsert(int id, int index, String name, int portion, String directions) {
+    private String SQLrecipesInsert(int id, int index, int recipe_ID, String name, int portion, String directions) {
         String insertRecipeSQL = "INSERT INTO " + TABLE_MPRECIPES + " (" + MP_ID + ", " + COLUMN_INDEX + ", " +
-                COLUMN_NAME + ", " + COLUMN_PORTION + ", " + COLUMN_DIRECTIONS + ") VALUES (";
+                COLUMN_RECIPEID + ", " + COLUMN_NAME + ", " + COLUMN_PORTION + ", " + COLUMN_DIRECTIONS + ") VALUES (";
         String endSQL = "');";
         String insert;
-        insert = new String(insertRecipeSQL + Integer.toString(id) + ", " + Integer.toString(index) + ", '" + name + "', "
-                + Integer.toString(portion) + ", '" + directions + endSQL);
+        insert = new String(insertRecipeSQL + Integer.toString(id) + ", " + Integer.toString(index) + ", " +
+                Integer.toString(recipe_ID) + ", '" + name + "', " + Integer.toString(portion) + ", '" + directions + endSQL);
 
         return insert;
     }
@@ -301,15 +290,6 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         return insertRecipeSQL;
     }
 
-    /*private String SQLingredientsUpdate( int index, String name, double amount, String mRule) {
-        String insertRecipeSQL = "UPDATE " + TABLE_MPRECIPES + " SET " +
-                COLUMN_NAME + " = '" + name + "', " +
-                COLUMN_AMOUNT + " = " + amount + ", " +
-                COLUMN_MRULE + " = '" + mRule + "' " +
-                " WHERE " + COLUMN_INDEX + " = " + index + ";";
-        return insertRecipeSQL;
-    }*/
-
     private String SQLingredientsInsert(int index, int mp_id, String name, double amount, String mRule)
     {
         String insertRecipeSQL = "INSERT INTO " + TABLE_MPINGREDIENTS + " (" + COLUMN_INDEX + ", " + MP_ID + ", " +
@@ -320,13 +300,6 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                 + Double.toString(amount) + ", '" + mRule + endSQL);
 
         return insert;
-        /*values = new ContentValues();
-        values.put(MP_ID, 0);
-        values.put(COLUMN_INDEX, 0);
-        values.put(COLUMN_NAME, "CUPCAKES");
-        values.put(COLUMN_AMOUNT, 2);
-        values.put(COLUMN_MRULE, "WHOLE");
-        db.insert(TABLE_MPINGREDIENTS, null, values);*/
     }
 
     private List <Ingredient> getIngredientsFromRecipe(int index)
@@ -343,7 +316,6 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         if(j.moveToFirst())
         {
             do{
-                //DEBUG_PLANS_TEST();
                 tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
                 list.add(tempIng);
             }while(j.moveToNext());
@@ -357,21 +329,15 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         int numRecipes = getNumRecipes();
 
         SQLiteDatabase db = this.getWritableDatabase();
-        //TODO -> add mealpan to mealplanTable
-        //add recipes to mealPlanRecipes
-        //add ingredients to mealplanRecipes---------int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear, int length)
         db.execSQL(SQLPlanInsert(numPlans , mp.getPlanName(), mp.getStartMonth(), mp.getStartDay(), mp.getStartYear(), mp.getEndMonth(), mp.getEndDay(), mp.getEndYear(), mp.getLength()));
         for(int i = 0; i < mp.getLength(); i++) {
-            db.execSQL(SQLrecipesInsert(numPlans , numRecipes, mp.getMealName(i), mp.getMealPortions(i), mp.getMealDirections(i)));
+            db.execSQL(SQLrecipesInsert(numPlans , numRecipes, mp.getMealID(i), mp.getMealName(i), mp.getMealPortions(i), mp.getMealDirections(i)));
             List<Ingredient> ings = mp.getMealIngredients(i);
             for(int j = 0; j < ings.size(); j++) {
-                db.execSQL(SQLingredientsInsert(i, numPlans , ings.get(j).getName(), ings.get(j).getAmount(), ings.get(j).getMeasurement()));
+                db.execSQL(SQLingredientsInsert(numRecipes, numPlans , ings.get(j).getName(), ings.get(j).getAmount(), ings.get(j).getMeasurement()));
             }
             numRecipes++;
         }
-        //Log.d("Save Meal Plan Name: ", mp.getPlanName());
-        //Log.d("Save Meal Plan ID: ", String.valueOf(numPlans ));
-        //Log.d("Save Meal Plan numRecipes: ", String.valueOf(numRecipes));
         db.close();
     }
 
@@ -379,7 +345,6 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String getMPQuery = "SELECT * FROM " + TABLE_MEALPLANS;
         Cursor i = db.rawQuery(getMPQuery, null);
-        //Log.d("getNumPlans i.getCount(): ", String.valueOf(i.getCount()));
         return i.getCount();
     }
 
@@ -387,7 +352,6 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String getMPQuery = "SELECT * FROM " + TABLE_MPRECIPES;
         Cursor i = db.rawQuery(getMPQuery, null);
-        //db.close();
         return i.getCount();
     }
 

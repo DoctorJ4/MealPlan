@@ -9,6 +9,7 @@ import java.util.List;
 public class Recipe
 {
     private int _id;
+    private int index;
     private String name;
     private List<Ingredient> ingredients;
     private String ingString;
@@ -31,6 +32,20 @@ public class Recipe
     public Recipe(int idNum, String title, List<Ingredient> ings, String directs)
     {
         this._id = idNum;
+        this.index = 0;
+        this.name = title;
+        this.ingredients = new ArrayList<>();
+        this.ingredients.addAll(ings);// = new ArrayList<>(ings);
+        this.ingString = "";
+        this.portions = 2;
+        this.directions = directs;
+        this.favorite = false;
+    }
+
+    public Recipe(int idNum, int newIndex, String title, List<Ingredient> ings, String directs)
+    {
+        this._id = idNum;
+        this.index = newIndex;
         this.name = title;
         this.ingredients = new ArrayList<>();
         this.ingredients.addAll(ings);// = new ArrayList<>(ings);
@@ -41,6 +56,7 @@ public class Recipe
     }
 
     public void set_id(int idNum) {this._id = idNum;}
+    public void setIndex(int index) {this.index = index;}
     public void setName(String tempName){ this.name = tempName; }
     public void setIngredients(List<Ingredient> tempIngs){ this.ingredients = new ArrayList<>(tempIngs); }
     public void setDirections(String direct) { this.directions = direct; }
@@ -49,6 +65,7 @@ public class Recipe
     public void setFavorite(boolean fav){ this.favorite = fav; }
 
     public int get_id(){ return this._id; }
+    public int getIndex() {return index;}
     public String getName()
     {
         return this.name;
