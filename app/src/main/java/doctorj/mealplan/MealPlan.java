@@ -57,7 +57,7 @@ public class MealPlan{
     }
 
     //CREATE PLAN FORM
-    public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear,  RecipeHelper db)
+    public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear,  RecipeHelper db, List<String> categories)
     {
         /*******************TEST DATA *****************/
         //this.year = 2015;
@@ -79,22 +79,22 @@ public class MealPlan{
         this.planLength = CAL.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
         this.recipes = new ArrayList<>();
         //RecipeHelper db = new RecipeHelper(this);
-        buildRandomPlan(db);
+        buildRandomPlan(db, categories);
         buildSchedule();
         sendIngredientsToGL();
     }
 
-    //GENERATE RANDOM PLAN
+    /*GENERATE RANDOM PLAN
     public MealPlan(int id, String name, String startD, String endD, int length,  RecipeHelper db)
     {
-        /*******************TEST DATA *****************/
+        //*******************TEST DATA *****************
         //this.year = 2015;
         this.dayBegin = 1;
         this.dayEnd = 30;
         this.monthBegin = 4;
         //this.startDate = "May 1, 1950";
         //this.endDate = "May 30, 1950";
-        /*******************TEST DATA *****************/
+        //*******************TEST DATA *****************
         this.MP_ID = id;
         this.planName = name;
         this.monthString = CAL.getMonthString(this.monthBegin);
@@ -103,18 +103,18 @@ public class MealPlan{
         buildRandomPlan(db);
         buildSchedule();
         sendIngredientsToGL();
-    }
-    // Generate new mealplan
+    }*/
+    /* Generate new mealplan
     public MealPlan(String name, int month, int days, RecipeHelper db)
     {
-        /*******************TEST DATA *****************/
+        //*******************TEST DATA *****************
         //this.year = 2015;
         this.dayBegin = 1;
         this.dayEnd = 30;
         this.monthBegin = month;
         this.startDate = "NEVER";
         this.endDate = "ALWAYS";
-        /*******************TEST DATA *****************/
+        //*******************TEST DATA *****************
         this.planName = name;
         this.monthBegin = month;
         this.monthString = CAL.getMonthString(month);
@@ -123,14 +123,14 @@ public class MealPlan{
         buildRandomPlan(db);
         buildSchedule();
         sendIngredientsToGL();
-    }
+    }*/
 
-    private void buildRandomPlan(RecipeHelper db)
+    private void buildRandomPlan(RecipeHelper db, List<String> categories)
     {
         Recipe tempRecipe;
         for(int i = 0; i < this.planLength; i++)
         {
-            tempRecipe = db.getRandomRecipe();
+            tempRecipe = db.getRandomRecipe(categories);
             this.recipes.add(tempRecipe);
         }
     }

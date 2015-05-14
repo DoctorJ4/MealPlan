@@ -83,7 +83,7 @@ public class CreatePlanForm extends ActionBarActivity {
         if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
 
             RecipeHelper db = new RecipeHelper(this);
-            MealPlan newPlan = new MealPlan(numPlans, name, startMonth + 1, startDay, startYear, endMonth + 1, endDay, endYear, db);
+            MealPlan newPlan = new MealPlan(numPlans, name, startMonth + 1, startDay, startYear, endMonth + 1, endDay, endYear, db, categories);
             MPdb.saveMealPlan(newPlan);
             finish();
         }

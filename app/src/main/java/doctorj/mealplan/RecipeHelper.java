@@ -113,15 +113,23 @@ public class RecipeHelper extends SQLiteOpenHelper {
     }
 
 
-    public Recipe getRandomRecipe()
+    public Recipe getRandomRecipe(List<String> categories)
     {
         Recipe recipe = new Recipe();
         Random rand = new Random();
-        String getNamesQuery = "SELECT * FROM " + TABLE_RECIPES;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(getNamesQuery, null);
         List <Ingredient> ingredients = new ArrayList<>();
         Ingredient tempIng;
+        String getNamesQuery = "SELECT * FROM " + TABLE_RECIPES;
+        String getCategories = "";
+        if(categories.size() > 0) {
+            getCategories = " WHERE " + COLUMN_CATEGORY + "='" + categories.get(0) + "'";
+            for (int num = 1; num < categories.size(); num++) {
+                getCategories = getCategories + " OR " + COLUMN_CATEGORY + "='" + categories.get(num) + "'";
+            }
+        }
+        getNamesQuery = getNamesQuery + getCategories + ";";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(getNamesQuery, null);
 
         if(c.moveToPosition(rand.nextInt(c.getCount())))
         {
