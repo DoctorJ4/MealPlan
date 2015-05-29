@@ -44,6 +44,10 @@
             android:label="RecipeAddViewActivity"
             android:launchMode="singleTop" >
         </activity>
+        <activity
+            android:name=".viewRecipesActivity"
+            android:label="@string/title_activity_view_recipes" >
+        </activity>
     </application>
 
 </manifest>

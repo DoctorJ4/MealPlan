@@ -20,4 +20,8 @@
     <string name="Italian">Italian</string>
     <string name="Favorites">Favorites</string>
     <string name="American">American</string>
+    <string name="viewRecipesButton">View Recipes</string>
+    <string name="CreatePlanButton">Create Plan</string>
+
+    <string name="title_activity_view_recipes">viewRecipesActivity</string>
 </resources>

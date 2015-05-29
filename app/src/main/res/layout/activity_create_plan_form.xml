@@ -65,24 +65,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="22sp Text"
+        android:text="22dp Text"
         android:id="@+id/startDateText"
         android:layout_alignTop="@+id/endDateText"
         android:layout_alignLeft="@+id/setStart"
         android:layout_alignStart="@+id/setStart"
         android:textIsSelectable="false"
-        android:textSize="22sp" />
+        android:textSize="22dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="22sp Text"
+        android:text="22dp Text"
         android:id="@+id/endDateText"
         android:layout_above="@+id/setEnd"
         android:layout_alignLeft="@+id/setEnd"
         android:layout_alignStart="@+id/setEnd"
-        android:textSize="22sp" />
+        android:textSize="22dp" />
 
     <CheckBox
         android:layout_width="wrap_content"

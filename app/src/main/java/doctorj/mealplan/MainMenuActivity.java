@@ -1,5 +1,6 @@
 package doctorj.mealplan;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import java.util.List;
 import static doctorj.mealplan.GlobalPlan.globalPlan;
 
 
-public class MainMenuActivity extends ActionBarActivity {
+public class MainMenuActivity extends Activity {
     private MealPlanHelper MPdb;
     private List<MealPlan> myPlans = new ArrayList<>();
     @Override
@@ -48,6 +49,11 @@ public class MainMenuActivity extends ActionBarActivity {
     public void createPlanForm(View view) {
         Intent act = new Intent(this, CreatePlanForm.class);
         GlobalPlan.globalPlan = null;
+        startActivity(act);
+    }
+
+    public void viewRecipes(View view) {
+        Intent act = new Intent(this, viewRecipesActivity.class);
         startActivity(act);
     }
 

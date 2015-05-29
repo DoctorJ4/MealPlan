@@ -7,39 +7,70 @@
     tools:context="doctorj.mealplan.MainMenuActivity"
     android:background="#d71a1923">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/MealPlanList"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:choiceMode="singleChoice"
-        android:clickable="true"
-        android:contentDescription="@string/Meal_Plan"
-        android:scrollingCache="true"
-        android:smoothScrollbar="true"
-        android:layout_below="@+id/buttonList" />
 
-    <Button
-        android:layout_width="174dp"
-        android:layout_height="wrap_content"
-        android:text="Meal List"
-        android:id="@+id/buttonList"
-        android:clickable="false"
-        android:layout_row="0"
-        android:layout_column="0" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="141dp"
+        android:rowCount="11"
+        android:columnCount="52"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/frameLayout">
 
-    <Button
-        android:layout_width="174dp"
-        android:layout_height="wrap_content"
-        android:text="Create Plan"
-        android:id="@+id/CreatePlan"
-        android:layout_row="0"
-        android:layout_column="2"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/MealPlanList"
-        android:layout_alignEnd="@+id/MealPlanList"
-        android:clickable="true"
-        android:onClick="createPlanForm"
-        android:singleLine="false" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/CreatePlanButton"
+            android:id="@+id/button2"
+            android:clickable="true"
+            android:textColor="@android:color/white"
+            android:onClick="createPlanForm"
+            android:singleLine="false"
+            android:layout_gravity="right|center_vertical" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            android:textColor="@android:color/white"
+            android:text="@string/viewRecipesButton"
+            android:clickable="true"
+            android:onClick="viewRecipes"
+            android:singleLine="false"
+
+            android:gravity="center"
+            android:layout_gravity="left|center_vertical" />
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="345dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/frameLayout"
+        android:layout_margin="0dp">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/MealPlanList"
+            android:choiceMode="singleChoice"
+            android:clickable="true"
+            android:contentDescription="@string/Meal_Plan"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            tools:listitem="@android:layout/simple_list_item_2"
+            android:paddingRight="0dp"
+            android:paddingLeft="0dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_alignWithParentIfMissing="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+
 </RelativeLayout>
