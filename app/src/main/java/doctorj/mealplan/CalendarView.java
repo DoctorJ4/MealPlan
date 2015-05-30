@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -18,11 +19,14 @@ import android.widget.TextView;
 
 
 public class CalendarView extends Activity {
-
+    MealPlan plan;
+    CheckBox editModeBox;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar_view);
+        plan = GlobalPlan.globalPlan;
+        editModeBox = (CheckBox) findViewById(R.id.edit_mode);
         populateGridView();
     }
 
@@ -35,15 +39,23 @@ public class CalendarView extends Activity {
         mealTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
+                //Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
                 int oldPosition = position;
                 position = position - MainActivity.plan.getCalendarOffset();
                 if(MainActivity.plan.getCalendarOffset() <= oldPosition)
                 {
-                    act.putExtra("StringName", MainActivity.plan.getMealName(position));
-                    act.putExtra("StringIngredients", MainActivity.plan.getMealIngredientsString(position));
-                    act.putExtra("StringDirections", MainActivity.plan.getMealDirections(position));
-                    startActivity(act);
+                    if (!editModeBox.isChecked()) {
+                        Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
+                        act.putExtra("StringName", plan.getMealName(position));
+                        act.putExtra("StringIngredients", plan.getMealIngredientsString(position));
+                        act.putExtra("StringDirections", plan.getMealDirections(position));
+                        startActivity(act);
+                    } else {
+                        Intent act = new Intent(getApplicationContext(), MealPlanEditActivity.class);
+
+                        act.putExtra("recipeIndex", plan.getMealIndex(position));
+                        startActivity(act);
+                    }
                 }
             }
         });

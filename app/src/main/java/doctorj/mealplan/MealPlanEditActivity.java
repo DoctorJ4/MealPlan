@@ -42,7 +42,7 @@ public class MealPlanEditActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_sparse);
         db = new RecipeHelper(this);
         MPdb = new MealPlanHelper(this);
         recipes = new ArrayList<>();

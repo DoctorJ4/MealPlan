@@ -5,21 +5,20 @@ import java.util.List;
  * Created by Jesse Dodson on 3/30/2015.
  */
 public class GroceryList {
-    private ArrayList<Double> amounts = new ArrayList<>();
-    private List<String> foodNames = new ArrayList<>();
-    private int listLength;
+    private ArrayList<Double> amounts;
+    private List<String> foodNames;
 
     //Constructor
     public GroceryList()
     {
-        this.listLength = 0;
-        //this.amounts = new ArrayList<Integer>();
+        amounts = new ArrayList<>();
+        foodNames = new ArrayList<>();
     }
 
-    void addGL(String name, double num)
+    void addGL(String name, double num)// TODO -> consider measurements
     {
-        int i = 0;
-        double temp = 0;
+        int i;
+        double temp;
         if(this.foodNames.contains(name))
         {
             i = this.foodNames.indexOf(name);
@@ -30,13 +29,10 @@ public class GroceryList {
         //add new entry
         this.foodNames.add(name);
         this.amounts.add(num);
-        this.listLength++;
-        return;
     }
 
-    void addGL(List<Ingredient> ings)//TODO -> FIX - A (two parts) -> MealPlan
+    void addGL(List<Ingredient> ings)
     {
-        //send every object field into grocery list
         for(int i = 0; i < ings.size(); i++)
             addGL(ings.get(i).getName(), ings.get(i).getAmount());
     }

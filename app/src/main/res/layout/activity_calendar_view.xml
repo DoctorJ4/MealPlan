@@ -10,24 +10,66 @@
     tools:context=".MainActivity">
 
 
-    <GridView
-        android:id="@+id/gridView"
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Mode"
+        android:id="@+id/edit_mode"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/white"
+        android:textStyle="bold|italic"
+        android:textSize="20dp"
+        android:layout_above="@+id/relativeLayout2" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List View"
+        android:id="@+id/listview_Button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="calendarView"
+        android:layout_above="@+id/MealList" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GroceryList"
+        android:id="@+id/grocery_list_Button"
+        android:onClick="groceryList"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="1dp"
-        android:paddingLeft="1dp"
-        android:paddingRight="1dp"
-        android:paddingBottom="1dp"
-        android:paddingTop="1dp"
-        android:background="@android:color/black"
-        android:columnWidth="0dip"
-        android:horizontalSpacing="1dp"
-        android:numColumns="7"
-        android:verticalSpacing="1dp"
-        android:layoutMode="opticalBounds"
-        tools:listitem="@android:layout/simple_list_item_2"
-        android:gravity="fill">
+        android:id="@+id/relativeLayout2"
+        android:layout_below="@+id/listview_Button">
 
-     </GridView>
+        <GridView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp"
+            android:background="@android:color/black"
+            android:columnWidth="0dip"
+            android:horizontalSpacing="1dp"
+            android:numColumns="7"
+            android:verticalSpacing="1dp"
+            android:layoutMode="opticalBounds"
+            tools:listitem="@android:layout/simple_list_item_2"
+            android:gravity="fill">
+
+         </GridView>
+    </RelativeLayout>
 
 </RelativeLayout>
