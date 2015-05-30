@@ -5,8 +5,8 @@ import java.util.List;
  * Created by Jesse Dodson on 3/30/2015.
  */
 public class GroceryList {
-    private ArrayList<Integer> amounts;
-    private List<String> foodNames;
+    private ArrayList<Double> amounts = new ArrayList<>();
+    private List<String> foodNames = new ArrayList<>();
     private int listLength;
 
     //Constructor
@@ -16,10 +16,10 @@ public class GroceryList {
         //this.amounts = new ArrayList<Integer>();
     }
 
-    void addGL(String name, int num)
+    void addGL(String name, double num)
     {
         int i = 0;
-        int temp = 0;
+        double temp = 0;
         if(this.foodNames.contains(name))
         {
             i = this.foodNames.indexOf(name);
@@ -34,12 +34,12 @@ public class GroceryList {
         return;
     }
 
-    /*void addGL(Ingredient []obj)//TODO -> FIX - A (two parts) -> MealPlan
+    void addGL(List<Ingredient> ings)//TODO -> FIX - A (two parts) -> MealPlan
     {
         //send every object field into grocery list
-        //for(int i = 0; i < obj.length; i++)
-            addGL(obj[i].getName, obj[i].getAmount);
-    }*/
+        for(int i = 0; i < ings.size(); i++)
+            addGL(ings.get(i).getName(), ings.get(i).getAmount());
+    }
 
     void subGL()
     {
@@ -54,8 +54,20 @@ public class GroceryList {
         return this.foodNames;
     }
 
-    ArrayList<Integer> returnAmounts()
+    ArrayList<Double> returnAmounts()
     {
         return this.amounts;
+    }
+
+    public String getListString(){
+        String GLstring = "";
+        if(foodNames.isEmpty())
+            GLstring = "Error in Grocery List";
+
+        for (int i = 0; i < foodNames.size(); i++) {
+            GLstring = GLstring + amounts.get(i) + " " + foodNames.get(i) + "\n";
+        }
+
+        return GLstring;
     }
 }

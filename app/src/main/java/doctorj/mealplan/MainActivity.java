@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -84,14 +86,13 @@ public class MainActivity extends ActionBarActivity {
         mealTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                if(editflag == false) {
+                if (editflag == false) {
                     Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
                     act.putExtra("StringName", plan.getMealName(position));
                     act.putExtra("StringIngredients", plan.getMealIngredientsString(position));
                     act.putExtra("StringDirections", plan.getMealDirections(position));
                     startActivity(act);
-                }
-                else {
+                } else {
                     Intent act = new Intent(getApplicationContext(), MealPlanEditActivity.class);
 
                     act.putExtra("recipeIndex", plan.getMealIndex(position));
@@ -128,7 +129,7 @@ public class MainActivity extends ActionBarActivity {
             startActivity(act);
             return super.onOptionsItemSelected(item);
         }
-        else if(id == R.id.edit_items)
+        else if(id == R.id.edit_mode)
         {
             if(item.isChecked() == false) {
                 item.setChecked(true);
@@ -142,5 +143,31 @@ public class MainActivity extends ActionBarActivity {
         }
         //return super.onOptionsItemSelected(item);
         return false;
+    }
+
+    public void editMode(View view) {
+
+        CheckBox item = (CheckBox) findViewById(R.id.edit_mode);
+        if (item.isChecked() == false)
+
+        {
+            item.setChecked(true);
+            editflag = true;
+        } else if (item.isChecked() == true)
+
+        {
+            item.setChecked(false);
+            editflag = false;
+        }
+    }
+
+    public void calendarView(View view){
+        Intent act = new Intent(getApplicationContext(), CalendarView.class);
+        startActivity(act);
+    }
+
+    public void groceryList(View view){
+        Intent act = new Intent(getApplicationContext(), GroceryListActivity.class);
+        startActivity(act);
     }
 }

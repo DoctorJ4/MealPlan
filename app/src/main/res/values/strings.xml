@@ -24,4 +24,6 @@
     <string name="CreatePlanButton">Create Plan</string>
 
     <string name="title_activity_view_recipes">viewRecipesActivity</string>
+
+    <string name="title_activity_grocery_list">GroceryListActivity</string>
 </resources>

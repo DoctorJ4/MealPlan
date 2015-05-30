@@ -48,6 +48,11 @@
             android:name=".viewRecipesActivity"
             android:label="@string/title_activity_view_recipes" >
         </activity>
+        <activity
+            android:name=".GroceryListActivity"
+            android:label="@string/title_activity_grocery_list"
+            android:launchMode="singleTop" >
+        </activity>
     </application>
 
 </manifest>
