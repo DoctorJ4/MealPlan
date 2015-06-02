@@ -143,14 +143,14 @@ public class RecipeHelper extends SQLiteOpenHelper {
                     ingredients.add(tempIng);
                 }while(i.moveToNext());
             }
-
+            i.close();
             recipe = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
 
         }
+        c.close();
         return recipe;
     }
 
-    //created by Reed
     //grabs a single recipe
     public Recipe getRecipe(int id)
     {
@@ -160,37 +160,26 @@ public class RecipeHelper extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getReadableDatabase();
             Cursor c = db.rawQuery(getNamesQuery, null);
             List <Ingredient> ingredients = new ArrayList<>();
-            Ingredient tempIng = new Ingredient();
+            Ingredient tempIng;
 
-            c.moveToFirst();
-            int p = 0;
-            int end = 0;
-                while(p < c.getCount() && end != 1)
-                {
-                if(c.getInt(0) == id)
-                {
-                    String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
-                    Cursor i = db.rawQuery(getIngredientsQuery, null);
-                    if(i.moveToFirst())
-                    {
-                        do {
-                            tempIng = new Ingredient();
-                            tempIng.setName(i.getString(1));
-                            tempIng.setAmount(i.getDouble(2));
-                            tempIng.setMeasurement(i.getString(3));
-                            ingredients.add(tempIng);
-                        }while(i.moveToNext());
-                    }
-                    recipe = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
-                    end = 1;
+            if(c.moveToFirst()) {
+                    if (c.getInt(0) == id) {
+                        String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
+                        Cursor i = db.rawQuery(getIngredientsQuery, null);
+                        if (i.moveToFirst()) {
+                            do {
+                                tempIng = new Ingredient();
+                                tempIng.setName(i.getString(1));
+                                tempIng.setAmount(i.getDouble(2));
+                                tempIng.setMeasurement(i.getString(3));
+                                ingredients.add(tempIng);
+                            } while (i.moveToNext());
+                        }
+                        i.close();
+                        recipe = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
                 }
-                else
-                {
-
-                }
-                c.moveToNext();
-                    p++;
             }
+            c.close();
         }
 
         catch(Exception ex)
@@ -217,6 +206,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
                 ings.add(tempIng);
             }while(i.moveToNext());
         }
+        i.close();
         return ings;
     }
 
@@ -250,10 +240,12 @@ public class RecipeHelper extends SQLiteOpenHelper {
                         tempIng.setMeasurement(i.getString(3));
                         ingredients.add(tempIng);
                     }while(i.moveToNext());
+                    i.close();
                 }
                 tempRec = new Recipe(c.getInt(0), c.getString(1), ingredients, c.getString(3));
                 recs.add(tempRec);
             } while (c.moveToNext());
+            c.close();
         }
         return recs;
     }

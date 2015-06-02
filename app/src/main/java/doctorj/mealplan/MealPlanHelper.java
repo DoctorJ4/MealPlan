@@ -137,6 +137,7 @@ public class MealPlanHelper extends SQLiteOpenHelper {
             {
                 array.add(c.getString(0));
             }while(c.moveToNext());
+            c.close();
         }
         else
             array.add("did not work");
@@ -152,6 +153,8 @@ public class MealPlanHelper extends SQLiteOpenHelper {
         Cursor cID = db.rawQuery(SQLgetMP_ID, null);
         cID.moveToFirst();
         int mp_ID = cID.getInt(0);
+        cID.close();
+
         db = this.getWritableDatabase();
         String SQLremoveIngredients = "DELETE FROM " + TABLE_MPINGREDIENTS + " WHERE " + COLUMN_INDEX + "=" + index;
         db.execSQL(SQLrecipeUpdate( index, name, portion, directions));
@@ -178,33 +181,35 @@ public class MealPlanHelper extends SQLiteOpenHelper {
 
         if (i.getCount() > 0) {
             i.moveToFirst();
-                String getRecipesQuery = "SELECT * FROM " + TABLE_MPRECIPES + " WHERE " + MP_ID + "=" + i.getInt(0);
-                c = db.rawQuery(getRecipesQuery, null);
-                //recs = new ArrayList<>();
+            String getRecipesQuery = "SELECT * FROM " + TABLE_MPRECIPES + " WHERE " + MP_ID + "=" + i.getInt(0);
+            c = db.rawQuery(getRecipesQuery, null);
+            //recs = new ArrayList<>();
 
 
-                if (c.moveToFirst()) {
-                    do {
-                        String getIngredientsQuery = "SELECT * FROM " + TABLE_MPINGREDIENTS +
-                                " WHERE "+ COLUMN_INDEX +"=" + c.getInt(1) + " AND " + MP_ID + "=" + c.getInt(0);
-                        j = db.rawQuery(getIngredientsQuery, null);
-                        ingredients = new ArrayList<>();
+            if (c.moveToFirst()) {
+                do {
+                    String getIngredientsQuery = "SELECT * FROM " + TABLE_MPINGREDIENTS +
+                            " WHERE "+ COLUMN_INDEX +"=" + c.getInt(1) + " AND " + MP_ID + "=" + c.getInt(0);
+                    j = db.rawQuery(getIngredientsQuery, null);
+                    ingredients = new ArrayList<>();
 
-                        if(j.moveToFirst())
-                        {
-                            do{
-                                tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
-                                ingredients.add(tempIng);
-                            }while(j.moveToNext());
-                        }
-                        tempRec = new Recipe(c.getInt(2), c.getInt(1), c.getString(3), ingredients, c.getString(5));
-                        //TODO -> make constructor for mealplan database index in recipe class
-                        recs.add(tempRec);
-                    } while (c.moveToNext());
-                }
+                    if(j.moveToFirst())
+                    {
+                        do{
+                            tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
+                            ingredients.add(tempIng);
+                        }while(j.moveToNext());
+                        j.close();
+                    }
+                    tempRec = new Recipe(c.getInt(2), c.getInt(1), c.getString(3), ingredients, c.getString(5));
+                    //TODO -> make constructor for mealplan database index in recipe class
+                    recs.add(tempRec);
+                } while (c.moveToNext());
+                c.close();
+            }
 
-                tempPlan = new MealPlan(i.getInt(0), i.getString(1), i.getInt(2), i.getInt(3), i.getInt(4), i.getInt(5), i.getInt(6), i.getInt(7), i.getInt(8), recs);
-
+            tempPlan = new MealPlan(i.getInt(0), i.getString(1), i.getInt(2), i.getInt(3), i.getInt(4), i.getInt(5), i.getInt(6), i.getInt(7), i.getInt(8), recs);
+            i.close();
         }
         db.close();
         return tempPlan;
@@ -245,14 +250,17 @@ public class MealPlanHelper extends SQLiteOpenHelper {
                                 tempIng = new Ingredient(j.getString(2), j.getDouble(3), j.getString(4));
                                 ingredients.add(tempIng);
                             }while(j.moveToNext());
+                            j.close();
                         }
                         tempRec = new Recipe(c.getInt(2),c.getInt(1), c.getString(3), ingredients, c.getString(5));
                         recs.add(tempRec);
                     } while (c.moveToNext());
+                    c.close();
                 }
                 temp = new MealPlan(i.getInt(0), i.getString(1), i.getInt(2), i.getInt(3), i.getInt(4), i.getInt(5), i.getInt(6), i.getInt(7), i.getInt(8), recs);
                 plans.add(temp);
             } while (i.moveToNext());
+            i.close();
         }
         db.close();
         return plans;
