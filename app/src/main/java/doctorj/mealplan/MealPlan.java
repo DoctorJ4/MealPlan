@@ -136,11 +136,11 @@ public class MealPlan{
     }
 
     private void buildSchedule() {
-        int dayNum = CAL.getDayOfWeek(this.yearStart, (this.monthBegin - 1), this.dayBegin);
+        int dayNum = CAL.getDayOfWeek(this.yearStart, (this.monthBegin), this.dayBegin);
         this.schedule = new String[this.planLength];
         int num = 0;
         int[] daysInMonths = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        if ((this.yearStart % 4) == 0)
+        if ((this.yearEnd % 4) == 0)
             daysInMonths[1] = 29;
         int startMonth = this.monthBegin;
         int startDay = this.dayBegin;
@@ -151,22 +151,20 @@ public class MealPlan{
         int monthCount = startMonth;
         String monthName = this.monthString;
         endMonth = endMonth + (12 * (endYear - startYear));
+        boolean yearCheck = false;
 
         while (((monthCount < endMonth) || (startDay < endDay)) && (startYear <= endYear)) {
             this.schedule[num] = dayArray[(dayNum + num) % 7] + ", " + monthName + " " + (startDay) + "\n" + recipes.get(num).getName();
             num++;
             startDay++;
-            if ((daysInMonths[startMonth - 1] - (startDay - 1)) <= 0) {
-                startMonth = (startMonth % 12) + 1;
+            if ((daysInMonths[monthCount % 12] - (startDay - 1)) <= 0) {
+                //startMonth = (startMonth % 12);
                 monthCount++;
-                monthName = CAL.getMonthString(startMonth);
+                monthName = CAL.getMonthString(monthCount % 12);
                 startDay = 1;
-                if (startMonth == 1) {
+                if ((!yearCheck)&&((monthCount % 12) == 0)) {
+                    yearCheck = true;
                     startYear++;
-                    if ((startYear % 4) == 0)
-                        daysInMonths[1] = 29;
-                    else
-                        daysInMonths[1] = 28;
                 }
             }
         }
@@ -241,19 +239,9 @@ public class MealPlan{
 
     public void sendIngredientsToGL()
     {
-        /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList
+        /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList ??USELESS??
             this.gl.addGL(this.recipes[i].getIngredients());*/
         return;
     }
 
-    //made by Reed
-    public void changemeal(RecipeHelper db,int loc_id,int item_id)
-    {
-        Recipe tempRecipe;
-        tempRecipe = db.getRecipe(item_id);
-        this.recipes.get(loc_id).setName(tempRecipe.getName());
-        this.recipes.get(loc_id).setIngString(tempRecipe.getIngredientsString());
-        this.recipes.get(loc_id).setDirections(tempRecipe.getDirections());
-
-    }
 }

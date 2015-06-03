@@ -24,25 +24,23 @@ public class MyCalendar {
     {
         int num = 0;
         int[] daysInMonths = new int []{31,28,31,30,31,30,31,31,30,31,30,31};
-        if((startYear % 4) == 0)
+        if((endYear % 4) == 0)
             daysInMonths[1] = 29;
         endMonth = endMonth + (12 * (endYear - startYear));
         int monthCount = startMonth;
+        boolean yearCheck = false;
         while(((monthCount < endMonth)||(startDay < endDay))&&(startYear <= endYear))
         {
             num++;
             startDay++;
-            if((daysInMonths[startMonth - 1] - (startDay-1)) <= 0)
+            if((daysInMonths[monthCount % 12] - (startDay-1)) <= 0)
             {
-                startMonth = (startMonth % 12) + 1;
+                //startMonth = (startMonth % 12);
                 monthCount++;
                 startDay = 1;
-                if(startMonth == 1) {
+                if((!yearCheck) && ((monthCount % 12) == 0)) {
+                    yearCheck = true;
                     startYear++;
-                    if((startYear % 4) == 0)
-                        daysInMonths[1] = 29;
-                    else
-                        daysInMonths[1] = 28;
                 }
             }
 
@@ -77,35 +75,35 @@ public class MyCalendar {
 
     public String getFullDateString(int month, int day, int year)
     {
-        return(getMonthString(month + 1) + " " + day + ", " + year);
+        return(getMonthString(month) + " " + day + ", " + year);
     }
 
     public String getMonthString(int mI){
         String monthString;
         switch (mI) {
-            case 1:  monthString = "January";
+            case 0:  monthString = "January";
                 break;
-            case 2:  monthString = "February";
+            case 1:  monthString = "February";
                 break;
-            case 3:  monthString = "March";
+            case 2:  monthString = "March";
                 break;
-            case 4:  monthString = "April";
+            case 3:  monthString = "April";
                 break;
-            case 5:  monthString = "May";
+            case 4:  monthString = "May";
                 break;
-            case 6:  monthString = "June";
+            case 5:  monthString = "June";
                 break;
-            case 7:  monthString = "July";
+            case 6:  monthString = "July";
                 break;
-            case 8:  monthString = "August";
+            case 7:  monthString = "August";
                 break;
-            case 9:  monthString = "September";
+            case 8:  monthString = "September";
                 break;
-            case 10: monthString = "October";
+            case 9: monthString = "October";
                 break;
-            case 11: monthString = "November";
+            case 10: monthString = "November";
                 break;
-            case 12: monthString = "December";
+            case 11: monthString = "December";
                 break;
             default: monthString = "Invalid month";
                 break;

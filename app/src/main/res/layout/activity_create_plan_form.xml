@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:text="Create Plan"
         android:id="@+id/createButton"
-        android:onClick="sendToList"
+        android:onClick="createPlan"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="85dp" />

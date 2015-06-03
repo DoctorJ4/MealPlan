@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +69,7 @@ public class CreatePlanForm extends ActionBarActivity {
         setDateText();
     }
 
-    public void sendToList(View view) {
+    public void createPlan(View view) {
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c1.set(startYear, startMonth, startDay);
@@ -83,7 +84,7 @@ public class CreatePlanForm extends ActionBarActivity {
         if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
 
             RecipeHelper db = new RecipeHelper(this);
-            MealPlan newPlan = new MealPlan(numPlans, name, startMonth + 1, startDay, startYear, endMonth + 1, endDay, endYear, db, categories);
+            MealPlan newPlan = new MealPlan(numPlans, name, startMonth, startDay, startYear, endMonth, endDay, endYear, db, categories);
             MPdb.saveMealPlan(newPlan);
             finish();
         }

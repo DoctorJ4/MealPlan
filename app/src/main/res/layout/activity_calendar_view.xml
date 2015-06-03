@@ -32,7 +32,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="calendarView"
+        android:onClick="listViewButton"
         android:layout_above="@+id/MealList" />
 
     <Button
