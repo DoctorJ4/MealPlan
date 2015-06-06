@@ -72,7 +72,7 @@ public class Recipe
     }
     public int getPortions(){ return this.portions; }
     public String getDirections() { return this.directions; }
-    public List<Ingredient> getIngredients() { return this.ingredients; }
+    public List<Ingredient> getIngredients() { return ingredients; }
     public String getCategory(){ return this.category; }
     public boolean isFavorite(){ return this.favorite; }
 

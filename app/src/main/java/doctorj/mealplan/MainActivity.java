@@ -16,7 +16,6 @@ public class MainActivity extends Activity {
     CheckBox editModeBox;
     public static MealPlan plan;
     RecipeHelper db;
-
     MealPlanHelper MPdb;
 
 

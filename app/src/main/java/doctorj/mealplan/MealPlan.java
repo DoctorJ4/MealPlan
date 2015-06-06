@@ -2,7 +2,6 @@ package doctorj.mealplan;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.util.Log;
 
 /**
  * Created by Jesse Dodson on 3/30/2015.
@@ -12,7 +11,6 @@ public class MealPlan{
     private int MP_ID;
     private String planName;
     private List<Recipe> recipes;
-    private GroceryList gl;
     private int planLength;
     private String schedule [];
     //private int year;
@@ -53,7 +51,6 @@ public class MealPlan{
         this.recipes = recs;
         //buildRandomPlan(db);
         buildSchedule();
-        sendIngredientsToGL();
     }
 
     //CREATE PLAN FORM
@@ -81,7 +78,6 @@ public class MealPlan{
         //RecipeHelper db = new RecipeHelper(this);
         buildRandomPlan(db, categories);
         buildSchedule();
-        sendIngredientsToGL();
     }
 
     /*GENERATE RANDOM PLAN
@@ -237,11 +233,6 @@ public class MealPlan{
     }
 
 
-    public void sendIngredientsToGL()
-    {
-        /*for(int i = 0; i < planLength; i ++) //TODO -> FIX - A (two parts) -> GroceryList ??USELESS??
-            this.gl.addGL(this.recipes[i].getIngredients());*/
-        return;
-    }
+
 
 }

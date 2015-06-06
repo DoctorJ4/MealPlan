@@ -1,69 +1,61 @@
 package doctorj.mealplan;
+import android.util.Log;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 /**
  * Created by Jesse Dodson on 3/30/2015.
  */
 public class GroceryList {
-    private ArrayList<Double> amounts;
-    private List<String> foodNames;
+    private List<Ingredient> ingredients;
 
-    //Constructor
     public GroceryList()
     {
-        amounts = new ArrayList<>();
-        foodNames = new ArrayList<>();
+        ingredients = new ArrayList<>();
     }
 
-    void addGL(String name, double num)// TODO -> consider measurements
+    void addGL(Ingredient ing)// TODO -> consider measurements
     {
         int i;
-        double temp;
-        if(this.foodNames.contains(name))
-        {
-            i = this.foodNames.indexOf(name);
-            temp = this.amounts.get(i) + num;
-            this.amounts.set(i, temp);
-            return;
+        for(Ingredient tempIng : ingredients) {
+            if (tempIng.getName().equals(ing.getName())) {
+                i = this.ingredients.indexOf(tempIng);
+                this.ingredients.get(i).setAmount(this.ingredients.get(i).getAmount() + ing.getAmount());
+
+                return;
+            }
         }
-        //add new entry
-        this.foodNames.add(name);
-        this.amounts.add(num);
+
+        this.ingredients.add(ing);
     }
 
     void addGL(List<Ingredient> ings)
     {
+
         for(int i = 0; i < ings.size(); i++)
-            addGL(ings.get(i).getName(), ings.get(i).getAmount());
+            addGL(ings.get(i));
     }
 
-    void subGL()
+    void sort()
     {
-        //find food name or return
-        //if food name exists subtract amount
-        //reload GL
-        return;
+        IngredientByNamesComparer comp = new IngredientByNamesComparer();
+        Collections.sort(ingredients, comp);
     }
 
-    List<String> returnListNames()
-    {
-        return this.foodNames;
-    }
-
-    ArrayList<Double> returnAmounts()
-    {
-        return this.amounts;
-    }
 
     public String getListString(){
         String GLstring = "";
-        if(foodNames.isEmpty())
+        if(ingredients.isEmpty())
             GLstring = "Error in Grocery List";
 
-        for (int i = 0; i < foodNames.size(); i++) {
-            GLstring = GLstring + amounts.get(i) + " " + foodNames.get(i) + "\n";
+        for (int i = 0; i < ingredients.size(); i++) {
+            GLstring = GLstring + ingredients.get(i).getAmount() + " " + ingredients.get(i).getName() + "\n";
         }
 
         return GLstring;
     }
+
 }
+
