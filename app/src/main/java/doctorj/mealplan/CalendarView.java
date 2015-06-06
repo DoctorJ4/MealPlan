@@ -2,21 +2,14 @@ package doctorj.mealplan;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
-
 
 public class CalendarView extends Activity {
     MealPlan plan;
@@ -32,14 +25,13 @@ public class CalendarView extends Activity {
 
     private void populateGridView()
     {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_items, MainActivity.plan.getCalendarSchedule());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.calendar_items, MainActivity.plan.getCalendarSchedule());
         GridView mealTag = (GridView) findViewById(R.id.gridView);
         mealTag.setAdapter(adapter);
 
         mealTag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Intent act = new Intent(getApplicationContext(), RecipeViewActivity.class);
                 int oldPosition = position;
                 position = position - MainActivity.plan.getCalendarOffset();
                 if(MainActivity.plan.getCalendarOffset() <= oldPosition)
@@ -86,5 +78,10 @@ public class CalendarView extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void groceryList(View view) {
+        Intent act = new Intent(getApplicationContext(), GroceryListActivity.class);
+        startActivity(act);
     }
 }
