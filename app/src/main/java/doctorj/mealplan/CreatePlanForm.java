@@ -1,5 +1,6 @@
 package doctorj.mealplan;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.support.v7.app.ActionBarActivity;
@@ -19,7 +20,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class CreatePlanForm extends ActionBarActivity {
+public class CreatePlanForm extends Activity {
     private final int maxPlanSize = 100;
     static final int START_DIALOG_ID = 0;
     static final int END_DIALOG_ID = 1;

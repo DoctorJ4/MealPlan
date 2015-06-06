@@ -33,7 +33,8 @@
         </activity>
         <activity
             android:name=".CreatePlanForm"
-            android:label="@string/title_activity_create_plan_form" >
+            android:label="@string/title_activity_create_plan_form"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".MealPlanEditActivity"
