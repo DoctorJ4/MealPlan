@@ -35,8 +35,12 @@ public class MyRecipeList {
     String box = "Box";
     String block = "Block";
     String cans = "Can(s)";
+	String small = "Small";
+	String medium = "Medium";
     String large = "Large";
     String whole = "Whole";
+	String pinch = "Pinch";
+    String cloves = "Cloves";
     //ingredient names----------------------------------------------------
     //boxes and jars~~~~~~~~~~~~~~~~~~~~~~~~~
     String velveetaShells = "Velveeta Shells";
@@ -47,17 +51,26 @@ public class MyRecipeList {
     String chickenB = "Chicken Breast";
     String groundBeef = "Ground Beef";
     String groundSausage = "Ground Sausage";
+	String porkRoast = "Pork Roast";
     String bacon = "Bacon";
     String eggs = "Egg(s)";
+	//Fruits~~~~~~~~~~~~~~~~~~~~~~~~~
+	String lime = "Lime(s)";
+	String avocado = "Avacado(es)";
+	String orange = "Orange(s)";
+	String orangeZest = "Orange Zest";
     //Vegetables~~~~~~~~~~~~~~~~~~~~~
     String tomatoes = "Tomato(es)";
     String potatoes = "Potato(es)";
     String greenOnions = "Green Onion(s)";
-    String choppedOnion = "Choped Onion";
+    String choppedOnion = "Chopped Onion";
     String choppedPickles = "Chopped pickles";
     String frozenCorn = "Frozen Corn";
+	String blackBeans = "Black Beans";
+	String jalapeno = "Jalapeño(es)";
     //bread~~~~~~~~~~~~~~~~~~~~~~~~~~
     String bread = "Bread";
+	String whiteRice = "White Rice";
     //cheese~~~~~~~~~~~~~~~~~~~~~~~~~
     String Acheese = "American Cheese";
     String S_parm = "Shredded Parmesan";
@@ -67,6 +80,7 @@ public class MyRecipeList {
     //butter/oils~~~~~~~~~~~~~~~~~~~~
     String butter = "Butter";
     String vegetableOil = "Vegetable Oil";
+	String oliveOil = "Olive Oil";
     //dairy~~~~~~~~~~~~~~~~~~~~~~~~~~
     String HCream = "Heavy Cream";
     String milk = "Milk";
@@ -83,6 +97,9 @@ public class MyRecipeList {
     String lemonPepper = "Lemon Pepper";
     String pepper = "Pepper";
     String salt = "Salt";
+	String cilantro = "Cilantro";
+	String cumin = "Cumin";
+	String oregano = "Oregano";
     //Pasta~~~~~~~~~~~~~~~~~~~~~~~~~~
     String spagNoodles = "Spaghetti Noodles";
     //Cans or Soup~~~~~~~~~~~~~~~~~~~
@@ -92,6 +109,7 @@ public class MyRecipeList {
     String rotel = "Rotel";
     //Baking supplies
     String flour = "Flour";
+    String sugar = "Sugar";
 
 
     MyRecipeList(){
@@ -196,7 +214,47 @@ public class MyRecipeList {
         MyIngredientsList.add(SQLIngredientInsert(5, mincedGarlic, 1, tsp));
         MyIngredientsList.add(SQLIngredientInsert(5, spagNoodles, 8, oz));
         MyIngredientsList.add(SQLIngredientInsert(5, spagSauce, 24, oz));
-    }
+    /********************************************************************************************************************/
+        MyList.add(SQLRecipeInsert(6, "Burrito Bowls", 4,
+                "In a medium bowl, toss the rice with the cilantro and the orange zest. Divide the rice evenly among 4 individual serving bowls. " +
+                        "Top with the black beans and half of the pico de gallo. Add warm carnitas and top with the rest of the pico de gallo. " +
+                        "Sprinkle on the cheese, and spoon a dollop of the sour cream on top. Finish with the chopped green onions.\n\n" +
+                        "Easy Pico de Gallo:\n " +
+                        "In a small bowl, mix 1 teaspoon salt with the pinch of sugar. In a medium bowl, toss the tomatoes gently with the salt mixture. " +
+                        "Add onion and jalapeno and combine. Place the avocado on top of the tomato mixture and squeeze with lime juice to coat the avocado. " +
+                        "Sprinkle on the cilantro, and stir to combine. Serve.\n\n" +
+                        "Pork Carnitas:\n" +
+                        "Rinse and dry the pork shoulder. Salt and pepper liberally. Mix the oregano and the cumin with olive oil and rub all over pork. " +
+                        "Place the pork in a slow cooker and top with the onion, garlic, and jalapeno. Squeeze over the juice of the orange and add the two halves. " +
+                        "Cover and cook on low for 8 to 10 hours or on high 4 hours. Once the meat is tender, remove from slow cooker and let cool slightly " +
+                        "before pulling apart with a fork. In a large saute pan, heat the vegetable oil over high heat. " +
+                        "Press the carnitas into the oil and fry until crusty on one side. Serve.", Mexican, 0));
+        MyIngredientsList.add(SQLIngredientInsert(6, whiteRice, 3, cups));
+        MyIngredientsList.add(SQLIngredientInsert(6, cilantro, 2, tbsp));
+        MyIngredientsList.add(SQLIngredientInsert(6, orangeZest, 1, tbsp));
+        MyIngredientsList.add(SQLIngredientInsert(6, blackBeans, 2, cups));
+        MyIngredientsList.add(SQLIngredientInsert(6, S_cheddar, 1, cups));
+        MyIngredientsList.add(SQLIngredientInsert(6, sourCream, 0.5, cups));
+        MyIngredientsList.add(SQLIngredientInsert(6, greenOnions, 2, whole));
+        MyIngredientsList.add(SQLIngredientInsert(6, salt, 1, pinch));
+		MyIngredientsList.add(SQLIngredientInsert(6, sugar, 1, pinch));
+        MyIngredientsList.add(SQLIngredientInsert(6, tomatoes, 2, medium));
+        MyIngredientsList.add(SQLIngredientInsert(6, choppedOnion, 0.5, cups));
+        MyIngredientsList.add(SQLIngredientInsert(6, jalapeno, 1, ""));
+        MyIngredientsList.add(SQLIngredientInsert(6, avocado, 1, ""));
+        MyIngredientsList.add(SQLIngredientInsert(6, lime, 1, ""));
+        MyIngredientsList.add(SQLIngredientInsert(6, cilantro, 3, tbsp));
+        MyIngredientsList.add(SQLIngredientInsert(6, porkRoast, 2, lb));
+		MyIngredientsList.add(SQLIngredientInsert(6, salt, 1, pinch));
+		MyIngredientsList.add(SQLIngredientInsert(6, oregano, 2, tsp));
+        MyIngredientsList.add(SQLIngredientInsert(6, cumin, 1, tsp));
+        MyIngredientsList.add(SQLIngredientInsert(6, oliveOil, 1, tbsp));
+        MyIngredientsList.add(SQLIngredientInsert(6, choppedOnion, 1, small));
+        MyIngredientsList.add(SQLIngredientInsert(6, mincedGarlic, 4, cloves));
+        MyIngredientsList.add(SQLIngredientInsert(6, jalapeno, 1, ""));
+        MyIngredientsList.add(SQLIngredientInsert(6, orange, 1, ""));
+        MyIngredientsList.add(SQLIngredientInsert(6, vegetableOil, 3, tbsp));
+	}
 
     private String SQLRecipeInsert(int id, String name, int portion, String directions, String category, int favorite)
     {
