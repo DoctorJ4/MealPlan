@@ -3,9 +3,7 @@ package doctorj.mealplan;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +19,7 @@ import java.util.List;
 
 
 public class CreatePlanForm extends Activity {
-    private final int maxPlanSize = 100;
+    private final int maxPlanSize = 365;
     static final int START_DIALOG_ID = 0;
     static final int END_DIALOG_ID = 1;
     private int startMonth;
@@ -84,7 +82,7 @@ public class CreatePlanForm extends Activity {
 
         if((c1.compareTo(c2) < 0 )&&(tempNum < maxPlanSize)) {
 
-            RecipeHelper db = new RecipeHelper(this);
+            DatabaseRecipeHelper db = new DatabaseRecipeHelper(this);
             MealPlan newPlan = new MealPlan(numPlans, name, startMonth, startDay, startYear, endMonth, endDay, endYear, db, categories);
             MPdb.saveMealPlan(newPlan);
             finish();

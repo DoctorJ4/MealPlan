@@ -13,43 +13,50 @@ import java.util.Random;
 /**
  * Created by Jesse on 4/12/2015.
  */
-public class RecipeHelper extends SQLiteOpenHelper {
-    public static final String TABLE_RECIPES = "Recipes";
-    public static final String TABLE_INGREDIENTS = "Ingredients";
+public class DatabaseRecipeHelper extends SQLiteOpenHelper {
+    private final String TABLE_RECIPE_BOOKS = DatabaseDefines.TABLE_RECIPE_BOOKS;
+    private final String TABLE_RECIPES = DatabaseDefines.TABLE_RECIPES;
+    private final String TABLE_INGREDIENTS = DatabaseDefines.TABLE_INGREDIENTS;
+    private final String COLUMN_BOOK_ID = DatabaseDefines.COLUMN_BOOK_ID;
+    private final String COLUMN_RECIPE_ID = DatabaseDefines.COLUMN_RECIPE_ID;
+    private final String COLUMN_NAME = DatabaseDefines.COLUMN_NAME;
+    private final String COLUMN_DIRECTIONS = DatabaseDefines.COLUMN_DIRECTIONS;
+    private final String COLUMN_PORTIONS = DatabaseDefines.COLUMN_PORTIONS;
+    private final String COLUMN_AMOUNT = DatabaseDefines.COLUMN_AMOUNT;
+    private final String COLUMN_MRULE = DatabaseDefines.COLUMN_MRULE;
+    private final String COLUMN_CATEGORY = DatabaseDefines.COLUMN_CATEGORY;
+    private final String COLUMN_FAVORITE = DatabaseDefines.COLUMN_FAVORITE;
 
-    public static final String COLUMN_ID = "ID";
-    public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_DIRECTIONS = "Directions";
-    public static final String COLUMN_PORTIONS = "Portions";
-    public static final String COLUMN_AMOUNT = "Amount";
-    public static final String COLUMN_MRULE = "MRule";
-    public static final String COLUMN_CATEGORY = "Category";
-    public static final String COLUMN_FAVORITE = "Favorite";
+    private static final String DATABASE_NAME = DatabaseDefines.DATABASE_NAME;
+    private static final int DATABASE_VERSION = DatabaseDefines.DATABASE_VERSION;
 
-    private static final String DATABASE_NAME = "Recipes";
-    private static final int DATABASE_VERSION = 1;
-
-    public RecipeHelper(Context context){
+    public DatabaseRecipeHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_RECIPES_TABLE = "CREATE TABLE Recipes (" +
-                COLUMN_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
+        String CREATE_BOOK_DETAILS_TABLE = "CREATE TABLE " + TABLE_RECIPE_BOOKS + " (" +
+                COLUMN_BOOK_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
+                COLUMN_NAME + " TEXT (1) NOT NULL;";
+        String CREATE_RECIPES_TABLE = "CREATE TABLE " + TABLE_RECIPES + " (" +
+                COLUMN_RECIPE_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
+                COLUMN_BOOK_ID + " INTEGER (0) REFERENCES " + TABLE_RECIPE_BOOKS + " (" + COLUMN_BOOK_ID + "), "+
                 COLUMN_NAME + " TEXT (1) NOT NULL, " +
                 COLUMN_PORTIONS + " number (1) DEFAULT (2), " +
                 COLUMN_DIRECTIONS + " STRING (0), " +
                 COLUMN_CATEGORY + " STRING (0), "+
                 COLUMN_FAVORITE + " INT DEFAULT (0));";
-        String CREATE_INGREDIENTS_TABLE = "CREATE TABLE Ingredients ("+
-                COLUMN_ID + " INTEGER (0) REFERENCES recipes (ID), "+
+        String CREATE_INGREDIENTS_TABLE = "CREATE TABLE " + TABLE_INGREDIENTS + " ("+
+                COLUMN_RECIPE_ID + " INTEGER (0) REFERENCES recipes (ID), "+
                 COLUMN_NAME +" TEXT (1) NOT NULL, " +
                 COLUMN_AMOUNT + " REAL, " +
                 COLUMN_MRULE +" TEXT)";
+        db.execSQL(CREATE_BOOK_DETAILS_TABLE);
         db.execSQL(CREATE_RECIPES_TABLE);
         db.execSQL(CREATE_INGREDIENTS_TABLE);
         fillTables(db);
+
     }
 
     @Override
@@ -184,7 +191,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
 
         catch(Exception ex)
         {
-            Log.d("RecipeHelper: Broke", String.valueOf(ex));
+            Log.d("DatabaseRecipeHelper: Broke", String.valueOf(ex));
         }
         return recipe;
     }
@@ -194,7 +201,7 @@ public class RecipeHelper extends SQLiteOpenHelper {
         List<Ingredient> ings = new ArrayList<>();
         Ingredient tempIng;
         SQLiteDatabase db = this.getReadableDatabase();
-        String getIngsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_ID + "=" + id;
+        String getIngsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_RECIPE_ID + "=" + id;
         Cursor i = db.rawQuery(getIngsQuery, null);
         if(i.moveToFirst())
         {

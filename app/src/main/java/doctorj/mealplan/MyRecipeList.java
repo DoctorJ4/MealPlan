@@ -1,117 +1,11 @@
 package doctorj.mealplan;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Jesse Dodson on 4/14/2015.
  */
-public class MyRecipeList {
-    public static final String TABLE_RECIPES = "Recipes";
-    public static final String TABLE_INGREDIENTS = "Ingredients";
-    public static final String COLUMN_ID = "ID";
-    public static final String COLUMN_NAME = "Name";
-    public static final String COLUMN_DIRECTIONS = "Directions";
-    public static final String COLUMN_PORTIONS = "Portions";
-    public static final String COLUMN_AMOUNT = "Amount";
-    public static final String COLUMN_MRULE = "MRule";
-    public static final String COLUMN_CATEGORY = "Category";
-    public static final String COLUMN_FAVORITE = "Favorite";
-    //~~~~~~~~~~~~~~CATEGORIES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    private String Italian = "Italian";
-    private String American = "American";
-    private String Mexican = "Mexican";
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    private List<String> MyList;
-    private List<String> MyIngredientsList;
-    private char ds = 0x00B0; //degree symbol
-    //measurement types--------------------------------------------------
-    String slices = "Slice(s)";
-    String cups = "Cup(s)";
-    String tsp = "tsp.";
-    String tbsp = "Tbsp";
-    String oz = "oz.";
-    String lb = "lb.";
-    String box = "Box";
-    String block = "Block";
-    String cans = "Can(s)";
-	String small = "Small";
-	String medium = "Medium";
-    String large = "Large";
-    String whole = "Whole";
-	String pinch = "Pinch";
-    String cloves = "Cloves";
-    //ingredient names----------------------------------------------------
-    //boxes and jars~~~~~~~~~~~~~~~~~~~~~~~~~
-    String velveetaShells = "Velveeta Shells";
-    String marinaraSpagSauce = "Marinara Spaghetti Sauce";
-    String spagSauce = "Spaghetti Sauce";
-    String pillsPizzaCrust = "Pillsbury Pizza Crust";
-    //meats~~~~~~~~~~~~~~~~~~~~~~~~~
-    String chickenB = "Chicken Breast";
-    String groundBeef = "Ground Beef";
-    String groundSausage = "Ground Sausage";
-	String porkRoast = "Pork Roast";
-    String bacon = "Bacon";
-    String eggs = "Egg(s)";
-	//Fruits~~~~~~~~~~~~~~~~~~~~~~~~~
-	String lime = "Lime(s)";
-	String avocado = "Avacado(es)";
-	String orange = "Orange(s)";
-	String orangeZest = "Orange Zest";
-    //Vegetables~~~~~~~~~~~~~~~~~~~~~
-    String tomatoes = "Tomato(es)";
-    String potatoes = "Potato(es)";
-    String greenOnions = "Green Onion(s)";
-    String choppedOnion = "Chopped Onion";
-    String choppedPickles = "Chopped pickles";
-    String frozenCorn = "Frozen Corn";
-	String blackBeans = "Black Beans";
-	String jalapeno = "Jalapeño(es)";
-    //bread~~~~~~~~~~~~~~~~~~~~~~~~~~
-    String bread = "Bread";
-	String whiteRice = "White Rice";
-    //cheese~~~~~~~~~~~~~~~~~~~~~~~~~
-    String Acheese = "American Cheese";
-    String S_parm = "Shredded Parmesan";
-    String S_mozzarella = "Shredded Mozzarella";
-    String S_cheddar = "Shredded Cheddar";
-    String velveeta = "Velveeta";
-    //butter/oils~~~~~~~~~~~~~~~~~~~~
-    String butter = "Butter";
-    String vegetableOil = "Vegetable Oil";
-	String oliveOil = "Olive Oil";
-    //dairy~~~~~~~~~~~~~~~~~~~~~~~~~~
-    String HCream = "Heavy Cream";
-    String milk = "Milk";
-    String sourCream = "Sour Cream";
-    //condiments~~~~~~~~~~~~~~~~~~~~~
-    String ketchup = "Ketchup";
-    String mustard = "Mustard";
-    //seasoning~~~~~~~~~~~~~~~~~~~~~~
-    String onionPowder = "Onion Powder";
-    String italianSeasoning = "Italian Seasoning";
-    String mincedGarlic = "Minced Garlic";
-    String garlicSalt = "Garlic Salt";
-    String garlicPowder = "Garlic Powder";
-    String lemonPepper = "Lemon Pepper";
-    String pepper = "Pepper";
-    String salt = "Salt";
-	String cilantro = "Cilantro";
-	String cumin = "Cumin";
-	String oregano = "Oregano";
-    //Pasta~~~~~~~~~~~~~~~~~~~~~~~~~~
-    String spagNoodles = "Spaghetti Noodles";
-    //Cans or Soup~~~~~~~~~~~~~~~~~~~
-    String creamOfChicken = "Cream of Chicken";
-    String creamOfCorn = "Cream of Corn";
-    String chickenBroth = "Chicken Broth";
-    String rotel = "Rotel";
-    //Baking supplies
-    String flour = "Flour";
-    String sugar = "Sugar";
-
-
+public class MyRecipeList extends DatabaseRecipeBookDefines {
     MyRecipeList(){
         MyList = new ArrayList<>();
         MyIngredientsList = new ArrayList<>();
@@ -139,7 +33,7 @@ public class MyRecipeList {
                         "cover each chicken breast with a spoonful or two of sauce and place mozzarella on top. Turn off oven and let sit for about 5 minutes for cheese to melt. " +
                         "Mix remaining sauce with noodles and enjoy!", Italian, 0));
         MyIngredientsList.add(SQLIngredientInsert(1, chickenB, 1, lb));
-        MyIngredientsList.add(SQLIngredientInsert(1, S_parm, 0.5, cups));
+        MyIngredientsList.add(SQLIngredientInsert(1, ShreddedParmesean, 0.5, cups));
         MyIngredientsList.add(SQLIngredientInsert(1, S_mozzarella, 0.5, cups));
         MyIngredientsList.add(SQLIngredientInsert(1, bread, 2, slices));
         MyIngredientsList.add(SQLIngredientInsert(1, mincedGarlic, 2, tsp));
@@ -208,7 +102,7 @@ public class MyRecipeList {
                         "Mix sauce with noodles, sprinkle remaining parmesan cheese and enjoy!", Italian, 0));
         MyIngredientsList.add(SQLIngredientInsert(5, groundSausage, 1, lb));
         MyIngredientsList.add(SQLIngredientInsert(5, bread, 2, slices));
-        MyIngredientsList.add(SQLIngredientInsert(5, S_parm, 0.5, cups));
+        MyIngredientsList.add(SQLIngredientInsert(5, ShreddedParmesean, 0.5, cups));
         MyIngredientsList.add(SQLIngredientInsert(5, onionPowder, 1.5, tsp));
         MyIngredientsList.add(SQLIngredientInsert(5, italianSeasoning, 0.5, tsp));
         MyIngredientsList.add(SQLIngredientInsert(5, mincedGarlic, 1, tsp));
@@ -256,45 +150,5 @@ public class MyRecipeList {
         MyIngredientsList.add(SQLIngredientInsert(6, vegetableOil, 3, tbsp));
 	}
 
-    private String SQLRecipeInsert(int id, String name, int portion, String directions, String category, int favorite)
-    {
-        String insertRecipeSQL = "INSERT INTO " + TABLE_RECIPES + " ("+
-                COLUMN_ID + ", " +
-                COLUMN_NAME + ", " +
-                COLUMN_PORTIONS + ", " +
-                COLUMN_DIRECTIONS + ", " +
-                COLUMN_CATEGORY + ", " +
-                COLUMN_FAVORITE + ") VALUES (";
-        String endSQL = ");";
-        String insert;
-        insert = new String (
-                insertRecipeSQL +
-                Integer.toString(id) + ", '" +
-                name + "', " +
-                Integer.toString(portion) + ", '" +
-                directions + "', '" +
-                category + "', " +
-                favorite + endSQL);
-
-        return insert;
-    }
-
-    private String SQLIngredientInsert(int id, String name, double amount, String mRule)
-    {
-        String insertIngredientSQL = "INSERT INTO " + TABLE_INGREDIENTS + " (" +
-                COLUMN_ID + ", " +
-                COLUMN_NAME + ", " +
-                COLUMN_AMOUNT + ", " +
-                COLUMN_MRULE + ") VALUES (";
-        String endSQL = "');";
-        String insert;
-        insert = new String (insertIngredientSQL + Integer.toString(id) + ", '" + name + "', "
-                + Double.toString(amount) + ", '" + mRule + endSQL);
-
-        return insert;
-    }
-
-    List <String> getMyIngredientsList(){return this.MyIngredientsList;}
-    List <String> getMyList(){return this.MyList;}
 
 }

@@ -15,7 +15,7 @@ import static doctorj.mealplan.GlobalPlan.globalPlan;
 public class MainActivity extends Activity {
     CheckBox editModeBox;
     public static MealPlan plan;
-    RecipeHelper db;
+    DatabaseRecipeHelper db;
     MealPlanHelper MPdb;
 
 
@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        db = new RecipeHelper(this);
+        db = new DatabaseRecipeHelper(this);
         MPdb = new MealPlanHelper(this);
         plan = globalPlan;
         this.setTitle(plan.getPlanName());

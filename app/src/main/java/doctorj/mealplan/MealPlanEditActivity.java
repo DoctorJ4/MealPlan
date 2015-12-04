@@ -1,8 +1,6 @@
 package doctorj.mealplan;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,27 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class MealPlanEditActivity extends ActionBarActivity {
-    RecipeHelper db;
+    DatabaseRecipeHelper db;
     MealPlanHelper MPdb;
     List<Recipe> recipes;
     int editLevel = 0;
@@ -43,7 +28,7 @@ public class MealPlanEditActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_sparse);
-        db = new RecipeHelper(this);
+        db = new DatabaseRecipeHelper(this);
         MPdb = new MealPlanHelper(this);
         recipes = new ArrayList<>();
         Bundle extras = getIntent().getExtras();

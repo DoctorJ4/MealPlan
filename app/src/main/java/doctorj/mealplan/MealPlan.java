@@ -54,7 +54,7 @@ public class MealPlan{
     }
 
     //CREATE PLAN FORM
-    public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear,  RecipeHelper db, List<String> categories)
+    public MealPlan(int id, String name, int startMonth, int startDay, int startYear, int endMonth, int endDay, int endYear,  DatabaseRecipeHelper db, List<String> categories)
     {
         /*******************TEST DATA *****************/
         //this.year = 2015;
@@ -75,13 +75,13 @@ public class MealPlan{
         this.monthString = CAL.getMonthString(this.monthBegin);
         this.planLength = CAL.getDaysBetweenDates(startMonth, startDay, startYear, endMonth, endDay, endYear);
         this.recipes = new ArrayList<>();
-        //RecipeHelper db = new RecipeHelper(this);
+        //DatabaseRecipeHelper db = new DatabaseRecipeHelper(this);
         buildRandomPlan(db, categories);
         buildSchedule();
     }
 
     /*GENERATE RANDOM PLAN
-    public MealPlan(int id, String name, String startD, String endD, int length,  RecipeHelper db)
+    public MealPlan(int id, String name, String startD, String endD, int length,  DatabaseRecipeHelper db)
     {
         //*******************TEST DATA *****************
         //this.year = 2015;
@@ -101,7 +101,7 @@ public class MealPlan{
         sendIngredientsToGL();
     }*/
     /* Generate new mealplan
-    public MealPlan(String name, int month, int days, RecipeHelper db)
+    public MealPlan(String name, int month, int days, DatabaseRecipeHelper db)
     {
         //*******************TEST DATA *****************
         //this.year = 2015;
@@ -121,7 +121,7 @@ public class MealPlan{
         sendIngredientsToGL();
     }*/
 
-    private void buildRandomPlan(RecipeHelper db, List<String> categories)
+    private void buildRandomPlan(DatabaseRecipeHelper db, List<String> categories)
     {
         Recipe tempRecipe;
         for(int i = 0; i < this.planLength; i++)
