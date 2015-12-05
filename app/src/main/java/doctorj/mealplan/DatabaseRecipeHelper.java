@@ -156,7 +156,7 @@ public class DatabaseRecipeHelper extends SQLiteOpenHelper {
 
         if(c.moveToPosition(rand.nextInt(c.getCount())))
         {
-            String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
+            String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_RECIPE_ID + "=" + c.getInt(0);
             Cursor i = db.rawQuery(getIngredientsQuery, null);
             //ingredients = new ArrayList<>();
             if(i.moveToFirst())
