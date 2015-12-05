@@ -1,11 +1,15 @@
 package doctorj.mealplan;
 
+import android.util.Log;
+
+import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Jesse on 12/4/2015.
  */
-class DatabaseRecipeBookDefines {
+abstract class DatabaseRecipeBookDefines {
     protected final String TABLE_RECIPES = DatabaseDefines.TABLE_RECIPES;
     protected final String TABLE_INGREDIENTS = DatabaseDefines.TABLE_INGREDIENTS;
     protected final String COLUMN_RECIPE_ID = DatabaseDefines.COLUMN_RECIPE_ID;
@@ -18,8 +22,10 @@ class DatabaseRecipeBookDefines {
     protected final String COLUMN_FAVORITE = DatabaseDefines.COLUMN_FAVORITE;
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    protected List<String> MyList;
-    protected List<String> MyIngredientsList;
+    protected List<DatabaseRecipeCreateObject> MyList;
+    protected List<Ingredient> MyIngredientsList;
+    protected List <Ingredient> getMyIngredientsList(){return this.MyIngredientsList;}
+    protected List <DatabaseRecipeCreateObject> getMyList(){return this.MyList;}
     protected final char ds = 0x00B0; //degree symbol
 
     //region CULTURE MEAL TYPE CATEGORIES
@@ -73,7 +79,7 @@ class DatabaseRecipeBookDefines {
     protected final String choppedPickles = "Chopped pickles";
     protected final String frozenCorn = "Frozen Corn";
     protected final String blackBeans = "Black Beans";
-    protected final String jalapeno = "Jalapeño(es)";
+    protected final String jalapeno = "Jalapeno(es)";
     //endregion
     //region bread
     protected final String bread = "Bread";
@@ -128,11 +134,9 @@ class DatabaseRecipeBookDefines {
     //endregion
     //endregion
 
-
     protected String SQLRecipeInsert(int id, String name, int portion, String directions, String category, int favorite)
     {
         String insertRecipeSQL = "INSERT INTO " + TABLE_RECIPES + " ("+
-                COLUMN_RECIPE_ID + ", " +
                 COLUMN_NAME + ", " +
                 COLUMN_PORTIONS + ", " +
                 COLUMN_DIRECTIONS + ", " +
@@ -141,8 +145,7 @@ class DatabaseRecipeBookDefines {
         String endSQL = ");";
         String insert;
         insert = new String (
-                insertRecipeSQL +
-                        Integer.toString(id) + ", '" +
+                insertRecipeSQL + "'" +
                         name + "', " +
                         Integer.toString(portion) + ", '" +
                         directions + "', '" +
@@ -160,14 +163,19 @@ class DatabaseRecipeBookDefines {
                 COLUMN_AMOUNT + ", " +
                 COLUMN_MRULE + ") VALUES (";
         String endSQL = "');";
-        String insert;
-        insert = new String (insertIngredientSQL + Integer.toString(id) + ", '" + name + "', "
+        String insert = (insertIngredientSQL + Integer.toString(id) + ", '" + name + "', "
                 + Double.toString(amount) + ", '" + mRule + endSQL);
-
         return insert;
     }
 
-    protected List <String> getMyIngredientsList(){return this.MyIngredientsList;}
-    protected List <String> getMyList(){return this.MyList;}
+    protected void AddIngToList(String name, double amount, String measurement){
+        MyIngredientsList.add(new Ingredient(name, amount, measurement));
+        Log.d("MyRecipeList", "HERE!!");
+    }
+
+    protected void AddIngListToRecipe(List<Ingredient> list){
+        MyList.get(MyList.size() - 1).ingredients = MyIngredientsList;
+        MyIngredientsList = new ArrayList<>();
+    }
 
 }

@@ -1,5 +1,6 @@
 package doctorj.mealplan;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -36,27 +37,26 @@ public class DatabaseRecipeHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_BOOK_DETAILS_TABLE = "CREATE TABLE " + TABLE_RECIPE_BOOKS + " (" +
-                COLUMN_BOOK_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
-                COLUMN_NAME + " TEXT (1) NOT NULL;";
+        //String CREATE_BOOK_DETAILS_TABLE = "CREATE TABLE " + TABLE_RECIPE_BOOKS + " (" +
+        //        COLUMN_BOOK_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
+        //        COLUMN_NAME + " TEXT (1) NOT NULL;";
         String CREATE_RECIPES_TABLE = "CREATE TABLE " + TABLE_RECIPES + " (" +
-                COLUMN_RECIPE_ID + " INT (0) NOT NULL PRIMARY KEY UNIQUE, " +
-                COLUMN_BOOK_ID + " INTEGER (0) REFERENCES " + TABLE_RECIPE_BOOKS + " (" + COLUMN_BOOK_ID + "), "+
+                COLUMN_RECIPE_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                //COLUMN_BOOK_ID + " INTEGER (0) REFERENCES " + TABLE_RECIPE_BOOKS + " (" + COLUMN_BOOK_ID + "), "+
                 COLUMN_NAME + " TEXT (1) NOT NULL, " +
                 COLUMN_PORTIONS + " number (1) DEFAULT (2), " +
                 COLUMN_DIRECTIONS + " STRING (0), " +
                 COLUMN_CATEGORY + " STRING (0), "+
                 COLUMN_FAVORITE + " INT DEFAULT (0));";
         String CREATE_INGREDIENTS_TABLE = "CREATE TABLE " + TABLE_INGREDIENTS + " ("+
-                COLUMN_RECIPE_ID + " INTEGER (0) REFERENCES recipes (ID), "+
+                COLUMN_RECIPE_ID + " INTEGER REFERENCES recipes (ID), "+
                 COLUMN_NAME +" TEXT (1) NOT NULL, " +
                 COLUMN_AMOUNT + " REAL, " +
                 COLUMN_MRULE +" TEXT)";
-        db.execSQL(CREATE_BOOK_DETAILS_TABLE);
+        //db.execSQL(CREATE_BOOK_DETAILS_TABLE);
         db.execSQL(CREATE_RECIPES_TABLE);
         db.execSQL(CREATE_INGREDIENTS_TABLE);
         fillTables(db);
-
     }
 
     @Override
@@ -74,14 +74,30 @@ public class DatabaseRecipeHelper extends SQLiteOpenHelper {
 
     public void fillTables(SQLiteDatabase db)
     {
-        List<String> FTS; //FILL_TABLE_STATEMENTS
+        List<DatabaseRecipeCreateObject> FTS; //FILL_TABLE_STATEMENTS
         MyRecipeList RL = new MyRecipeList();
+        ContentValues values;
+        long idNum = 0;
         FTS = RL.getMyList();
-        for(int i = 0; i < FTS.size(); i++)
-            db.execSQL(FTS.get(i));
-        FTS = RL.getMyIngredientsList();
-        for(int i = 0; i < FTS.size(); i++)
-            db.execSQL(FTS.get(i));
+        for(int i = 0; i < FTS.size(); i++) {
+            values = new ContentValues();
+            values.put(DatabaseDefines.COLUMN_NAME, FTS.get(i).name);
+            values.put(DatabaseDefines.COLUMN_PORTIONS, FTS.get(i).portions);
+            values.put(DatabaseDefines.COLUMN_DIRECTIONS, FTS.get(i).directions);
+            values.put(DatabaseDefines.COLUMN_CATEGORY, FTS.get(i).category);
+            values.put(DatabaseDefines.COLUMN_FAVORITE, FTS.get(i).favorite);
+            idNum = db.insert(TABLE_RECIPES, null, values);
+            Log.d("DBhelper", "1HERE!!" + idNum);
+            for(int j = 0; j < FTS.get(i).ingredients.size(); j++) {
+                values = new ContentValues();
+                values.put(COLUMN_RECIPE_ID, idNum);
+                values.put(COLUMN_NAME, FTS.get(i).ingredients.get(j).getName());
+                values.put(COLUMN_AMOUNT, FTS.get(i).ingredients.get(j).getAmount());
+                values.put(COLUMN_MRULE, FTS.get(i).ingredients.get(j).getMeasurement());
+                long test = db.insert(TABLE_INGREDIENTS, null, values);
+                Log.d("DBhelper", "2HERE!! " + idNum + " - " +test );
+            }
+        }
     }
 
     public void addRecipe(String name){// TODO just do a execSQL statement for recipe table
@@ -191,7 +207,7 @@ public class DatabaseRecipeHelper extends SQLiteOpenHelper {
 
         catch(Exception ex)
         {
-            Log.d("DatabaseRecipeHelper: Broke", String.valueOf(ex));
+            Log.d("RecipeHelper: Broke", String.valueOf(ex));
         }
         return recipe;
     }
@@ -235,7 +251,7 @@ public class DatabaseRecipeHelper extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             do {
-                String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE ID=" + c.getInt(0);
+                String getIngredientsQuery = "SELECT * FROM " + TABLE_INGREDIENTS + " WHERE " + COLUMN_RECIPE_ID + "=" + c.getInt(0);
                 Cursor i = db.rawQuery(getIngredientsQuery, null);
                 ingredients = new ArrayList<>();
                 if(i.moveToFirst())
